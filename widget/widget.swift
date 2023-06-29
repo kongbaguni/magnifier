@@ -51,14 +51,14 @@ struct widgetEntryView : View {
             if let img = entry.image {
                 Image(uiImage: img)
                     .resizable()
-                    .scaledToFit()
-                    .frame(width: UIScreen.main.bounds.width,height: UIScreen.main.bounds.width)
+                    .scaledToFill()
                     .border(.brown,width: 1)
             }
-            Text("돋보기")
+            else {
+                Text("돋보기")
+            }
         }.onAppear{
             WidgetCenter.shared.reloadAllTimelines()
-
         }
     }
     
