@@ -21,7 +21,7 @@ struct Provider: IntentTimelineProvider {
 
     func getTimeline(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
         var entries: [SimpleEntry] = []
-
+        
         // Generate a timeline consisting of five entries an hour apart, starting from the current date.
         let currentDate = Date()
         for hourOffset in 0 ..< 5 {
@@ -51,15 +51,13 @@ struct widgetEntryView : View {
             if let img = entry.image {
                 Image(uiImage: img)
                     .resizable()
+                    .scaledToFit()
                     .frame(width: UIScreen.main.bounds.width,height: UIScreen.main.bounds.width)
                     .border(.brown,width: 1)
             }
             Text("돋보기")
         }.onAppear{
-            NotificationCenter.default.addObserver(forName: UIApplication.didEnterBackgroundNotification, object: nil, queue: nil) { noti in
-                WidgetCenter.shared.reloadAllTimelines()
-                
-            }
+            WidgetCenter.shared.reloadAllTimelines()
 
         }
     }

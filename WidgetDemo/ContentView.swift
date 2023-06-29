@@ -50,7 +50,7 @@ struct ContentView: View {
                 if let img = image {
                     Image(uiImage: img)
                         .resizable()
-                        .frame(width: 100, height: 100)
+                        .frame(width: img.size.width / 10, height: img.size.height / 10)
                 }
                 HStack {
                     Button {

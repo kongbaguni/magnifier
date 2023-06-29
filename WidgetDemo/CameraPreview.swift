@@ -91,7 +91,8 @@ class CameraPreviewView: UIView {
             s.previewLayer.connection?.videoOrientation = .portrait
             s.layer.masksToBounds = true;
             s.layer.addSublayer(self!.previewLayer)
-
+            let gesture = UIPinchGestureRecognizer(target: s, action: #selector(s.pinchGesture(sender:)))
+            s.addGestureRecognizer(gesture)
         }
         //        screenRect = UIScreen.main.bounds
         
@@ -117,9 +118,15 @@ class CameraPreviewView: UIView {
             }
         }
         
-       
         self.zoomScale = videoDevice.videoZoomFactor
         "zoomscale : \(self.zoomScale)".sendLog()
+        self.updateZoomScale()
+    
+    }
+    
+    @objc func pinchGesture(sender:UIPinchGestureRecognizer) {
+        print(sender.scale)
+        self.zoomScale = sender.scale;
         self.updateZoomScale()
     }
     
