@@ -23,6 +23,16 @@
 		1B8FDABA2A4BB552007BE5E5 /* CameraPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8FDAB92A4BB552007BE5E5 /* CameraPreview.swift */; };
 		1B8FDABD2A4BF5F1007BE5E5 /* LimitedArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8FDABC2A4BF5F1007BE5E5 /* LimitedArray.swift */; };
 		1B8FDABF2A4C04DC007BE5E5 /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8FDABE2A4C04DC007BE5E5 /* String+Extensions.swift */; };
+		1B8FDAC22A4C1CDC007BE5E5 /* Notification.Names.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8FDAC12A4C1CDC007BE5E5 /* Notification.Names.swift */; };
+		1B8FDAC52A4C1EE5007BE5E5 /* Consts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8FDAC42A4C1EE5007BE5E5 /* Consts.swift */; };
+		1B8FDAC62A4C1EE9007BE5E5 /* Consts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8FDAC42A4C1EE5007BE5E5 /* Consts.swift */; };
+		1B8FDACB2A4C223F007BE5E5 /* AppGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8FDACA2A4C223F007BE5E5 /* AppGroup.swift */; };
+		1B8FDACC2A4C2271007BE5E5 /* AppGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8FDACA2A4C223F007BE5E5 /* AppGroup.swift */; };
+		1B8FDACE2A4C25A1007BE5E5 /* UIImage+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8FDACD2A4C25A1007BE5E5 /* UIImage+Extensions.swift */; };
+		1B8FDACF2A4C25CD007BE5E5 /* UIImage+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8FDACD2A4C25A1007BE5E5 /* UIImage+Extensions.swift */; };
+		1B8FDAD22A4C2644007BE5E5 /* Notification.Names.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8FDAC12A4C1CDC007BE5E5 /* Notification.Names.swift */; };
+		1B8FDAD42A4D0454007BE5E5 /* CGSize+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8FDAD32A4D0454007BE5E5 /* CGSize+Extensions.swift */; };
+		1B8FDAD52A4D0652007BE5E5 /* CGSize+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8FDAD32A4D0454007BE5E5 /* CGSize+Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,6 +77,13 @@
 		1B8FDAB92A4BB552007BE5E5 /* CameraPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPreview.swift; sourceTree = "<group>"; };
 		1B8FDABC2A4BF5F1007BE5E5 /* LimitedArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LimitedArray.swift; sourceTree = "<group>"; };
 		1B8FDABE2A4C04DC007BE5E5 /* String+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
+		1B8FDAC02A4C189B007BE5E5 /* WidgetDemo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WidgetDemo.entitlements; sourceTree = "<group>"; };
+		1B8FDAC12A4C1CDC007BE5E5 /* Notification.Names.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.Names.swift; sourceTree = "<group>"; };
+		1B8FDAC42A4C1EE5007BE5E5 /* Consts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Consts.swift; sourceTree = "<group>"; };
+		1B8FDAC72A4C1F84007BE5E5 /* widgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = widgetExtension.entitlements; sourceTree = "<group>"; };
+		1B8FDACA2A4C223F007BE5E5 /* AppGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppGroup.swift; sourceTree = "<group>"; };
+		1B8FDACD2A4C25A1007BE5E5 /* UIImage+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extensions.swift"; sourceTree = "<group>"; };
+		1B8FDAD32A4D0454007BE5E5 /* CGSize+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGSize+Extensions.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +109,8 @@
 		1B8FDA812A4BB1C0007BE5E5 = {
 			isa = PBXGroup;
 			children = (
+				1B8FDAD02A4C25DD007BE5E5 /* Common */,
+				1B8FDAC72A4C1F84007BE5E5 /* widgetExtension.entitlements */,
 				1B8FDA8C2A4BB1C0007BE5E5 /* WidgetDemo */,
 				1B8FDAA52A4BB1F0007BE5E5 /* widget */,
 				1B8FDAA02A4BB1F0007BE5E5 /* Frameworks */,
@@ -111,13 +130,15 @@
 		1B8FDA8C2A4BB1C0007BE5E5 /* WidgetDemo */ = {
 			isa = PBXGroup;
 			children = (
+				1B8FDABE2A4C04DC007BE5E5 /* String+Extensions.swift */,
+				1B8FDAC02A4C189B007BE5E5 /* WidgetDemo.entitlements */,
 				1B8FDA8D2A4BB1C0007BE5E5 /* WidgetDemoApp.swift */,
 				1B8FDA8F2A4BB1C0007BE5E5 /* ContentView.swift */,
 				1B8FDABC2A4BF5F1007BE5E5 /* LimitedArray.swift */,
 				1B8FDA912A4BB1C1007BE5E5 /* Assets.xcassets */,
 				1B8FDA932A4BB1C1007BE5E5 /* Preview Content */,
 				1B8FDAB92A4BB552007BE5E5 /* CameraPreview.swift */,
-				1B8FDABE2A4C04DC007BE5E5 /* String+Extensions.swift */,
+				1B8FDAC12A4C1CDC007BE5E5 /* Notification.Names.swift */,
 			);
 			path = WidgetDemo;
 			sourceTree = "<group>";
@@ -150,6 +171,17 @@
 				1B8FDAAF2A4BB1F1007BE5E5 /* Info.plist */,
 			);
 			path = widget;
+			sourceTree = "<group>";
+		};
+		1B8FDAD02A4C25DD007BE5E5 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				1B8FDAC42A4C1EE5007BE5E5 /* Consts.swift */,
+				1B8FDACA2A4C223F007BE5E5 /* AppGroup.swift */,
+				1B8FDACD2A4C25A1007BE5E5 /* UIImage+Extensions.swift */,
+				1B8FDAD32A4D0454007BE5E5 /* CGSize+Extensions.swift */,
+			);
+			path = Common;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -253,10 +285,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1B8FDAC22A4C1CDC007BE5E5 /* Notification.Names.swift in Sources */,
+				1B8FDAC52A4C1EE5007BE5E5 /* Consts.swift in Sources */,
 				1B8FDAB12A4BB1F1007BE5E5 /* widget.intentdefinition in Sources */,
 				1B8FDABD2A4BF5F1007BE5E5 /* LimitedArray.swift in Sources */,
+				1B8FDAD42A4D0454007BE5E5 /* CGSize+Extensions.swift in Sources */,
+				1B8FDACB2A4C223F007BE5E5 /* AppGroup.swift in Sources */,
 				1B8FDABA2A4BB552007BE5E5 /* CameraPreview.swift in Sources */,
 				1B8FDA902A4BB1C0007BE5E5 /* ContentView.swift in Sources */,
+				1B8FDACE2A4C25A1007BE5E5 /* UIImage+Extensions.swift in Sources */,
 				1B8FDABF2A4C04DC007BE5E5 /* String+Extensions.swift in Sources */,
 				1B8FDA8E2A4BB1C0007BE5E5 /* WidgetDemoApp.swift in Sources */,
 			);
@@ -266,7 +303,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1B8FDAD22A4C2644007BE5E5 /* Notification.Names.swift in Sources */,
 				1B8FDAB02A4BB1F1007BE5E5 /* widget.intentdefinition in Sources */,
+				1B8FDACC2A4C2271007BE5E5 /* AppGroup.swift in Sources */,
+				1B8FDAC62A4C1EE9007BE5E5 /* Consts.swift in Sources */,
+				1B8FDAD52A4D0652007BE5E5 /* CGSize+Extensions.swift in Sources */,
+				1B8FDACF2A4C25CD007BE5E5 /* UIImage+Extensions.swift in Sources */,
 				1B8FDAAB2A4BB1F0007BE5E5 /* widget.swift in Sources */,
 				1B8FDAA92A4BB1F0007BE5E5 /* widgetLiveActivity.swift in Sources */,
 				1B8FDAA72A4BB1F0007BE5E5 /* widgetBundle.swift in Sources */,
@@ -404,6 +446,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = WidgetDemo/WidgetDemo.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"WidgetDemo/Preview Content\"";
@@ -421,7 +464,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = net.kongbaguni.WidgetDemo;
+				PRODUCT_BUNDLE_IDENTIFIER = net.kongbaguni.readingGlasses;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -435,6 +478,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = WidgetDemo/WidgetDemo.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"WidgetDemo/Preview Content\"";
@@ -452,7 +496,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = net.kongbaguni.WidgetDemo;
+				PRODUCT_BUNDLE_IDENTIFIER = net.kongbaguni.readingGlasses;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -465,6 +509,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = widgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = QU9EPTU238;
@@ -478,7 +523,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = net.kongbaguni.WidgetDemo.widget;
+				PRODUCT_BUNDLE_IDENTIFIER = net.kongbaguni.readingGlasses.widget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -492,6 +537,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = widgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = QU9EPTU238;
@@ -505,7 +551,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = net.kongbaguni.WidgetDemo.widget;
+				PRODUCT_BUNDLE_IDENTIFIER = net.kongbaguni.readingGlasses.widget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;

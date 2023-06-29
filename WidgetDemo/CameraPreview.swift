@@ -1,11 +1,6 @@
 import SwiftUI
 import AVFoundation
-extension Notification.Name {
-    static let carmeraCtlZoom = Notification.Name("carmeraCtlZoom_observer")
-    static let carmeraPreviewLog = Notification.Name("carmeraPreviewLog_observer")
-    static let carmeraTakePhoto = Notification.Name("carmeraTakePhoto_observer")
-    static let carmeraPhotoOutput = Notification.Name("cameraPhotoOutput_observer")
-}
+
 
 struct CameraPreview: UIViewRepresentable {
     func makeUIView(context: Context) -> UIView {
@@ -85,21 +80,21 @@ class CameraPreviewView: UIView {
         guard captureSession.canAddInput(videoDeviceInput) else { return }
         captureSession.addInput(videoDeviceInput)
         // TODO: Add preview layer
-        DispatchQueue.main.async {
-            self.screenRect = self.layer.frame
+        DispatchQueue.main.async {[weak self] in
+            guard let s = self else {
+                return
+            }
+            s.screenRect = s.layer.frame
+            s.previewLayer = AVCaptureVideoPreviewLayer(session: s.captureSession)
+            s.previewLayer.frame = CGRect(x: 0, y: 0, width: s.screenRect.size.width, height: s.screenRect.size.height)
+            s.previewLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill // Fill screen
+            s.previewLayer.connection?.videoOrientation = .portrait
+            s.layer.masksToBounds = true;
+            s.layer.addSublayer(self!.previewLayer)
+
         }
         //        screenRect = UIScreen.main.bounds
         
-        previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
-        previewLayer.frame = CGRect(x: 0, y: 0, width: screenRect.size.width, height: screenRect.size.height)
-        previewLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill // Fill screen
-        
-        previewLayer.connection?.videoOrientation = .portrait
-        // Updates to UI must be on main queue
-        DispatchQueue.main.async { [weak self] in
-            self!.layer.addSublayer(self!.previewLayer)
-        }
-        self.layer.masksToBounds = true;
         
         photoOutput = AVCapturePhotoOutput()
         if let photoOutput = photoOutput {
@@ -183,6 +178,13 @@ extension CameraPreviewView : AVCapturePhotoCaptureDelegate {
         
         NotificationCenter.default.post(name: .carmeraPhotoOutput, object: image)
         "\(#function):\(#line)".sendLog()
+        self.saveImageToAppGroup(image: image)
     }
-    
+}
+
+
+extension CameraPreviewView {
+    func saveImageToAppGroup(image: UIImage) {
+        AppGroup.saveImage(image: image)
+    }
 }

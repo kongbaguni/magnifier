@@ -97,6 +97,9 @@ struct ContentView: View {
         .padding()
         .onAppear{
             self.addObserver();
+            if let img = AppGroup.savedImage {
+                image = img
+            }
         }
     }
 }

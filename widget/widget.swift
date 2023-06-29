@@ -11,11 +11,11 @@ import Intents
 
 struct Provider: IntentTimelineProvider {
     func placeholder(in context: Context) -> SimpleEntry {
-        SimpleEntry(date: Date(), configuration: ConfigurationIntent())
+        SimpleEntry(date: Date(), image:AppGroup.savedImage, configuration: ConfigurationIntent())
     }
 
     func getSnapshot(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (SimpleEntry) -> ()) {
-        let entry = SimpleEntry(date: Date(), configuration: configuration)
+        let entry = SimpleEntry(date: Date(), image:AppGroup.savedImage, configuration: configuration)
         completion(entry)
     }
 
@@ -26,7 +26,9 @@ struct Provider: IntentTimelineProvider {
         let currentDate = Date()
         for hourOffset in 0 ..< 5 {
             let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
-            let entry = SimpleEntry(date: entryDate, configuration: configuration)
+            let image = AppGroup.savedImage
+            
+            let entry = SimpleEntry(date: entryDate,image: image, configuration: configuration)
             entries.append(entry)
         }
 
@@ -37,6 +39,7 @@ struct Provider: IntentTimelineProvider {
 
 struct SimpleEntry: TimelineEntry {
     let date: Date
+    let image: UIImage?
     let configuration: ConfigurationIntent
 }
 
@@ -45,14 +48,22 @@ struct widgetEntryView : View {
 
     var body: some View {
         VStack {
-            Text("camera")
-                .foregroundColor(.primary)
-                .font(.headline)
-                .padding(.top,20)
-            Image("cat")
-                .frame(width: 370)
+            if let img = entry.image {
+                Image(uiImage: img)
+                    .resizable()
+                    .frame(width: UIScreen.main.bounds.width,height: UIScreen.main.bounds.width)
+                    .border(.brown,width: 1)
+            }
+            Text("돋보기")
+        }.onAppear{
+            NotificationCenter.default.addObserver(forName: UIApplication.didEnterBackgroundNotification, object: nil, queue: nil) { noti in
+                WidgetCenter.shared.reloadAllTimelines()
+                
+            }
+
         }
     }
+    
 }
 
 struct widget: Widget {
@@ -69,7 +80,7 @@ struct widget: Widget {
 
 struct widget_Previews: PreviewProvider {
     static var previews: some View {
-        widgetEntryView(entry: SimpleEntry(date: Date(), configuration: ConfigurationIntent()))
-            .previewContext(WidgetPreviewContext(family: .systemSmall))
+        widgetEntryView(entry: SimpleEntry(date: Date(), image: AppGroup.savedImage, configuration: ConfigurationIntent()))
+            .previewContext(WidgetPreviewContext(family: .systemExtraLarge))
     }
 }
