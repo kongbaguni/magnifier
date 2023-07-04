@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-
+import WidgetKit
 
 struct ContentView: View {
     @State var zoom:CGFloat = 1.0
@@ -19,7 +19,7 @@ struct ContentView: View {
             return;
         }
         log.append("addOberver");
-        NotificationCenter.default.addObserver(forName: .carmeraPreviewLog, object: nil, queue: nil) {[self] noti in
+        NotificationCenter.default.addObserver(forName: .carmeraPreviewLog, object: nil, queue: nil) { noti in
             if let notilog = noti.object as? String {
                 log.append(notilog)
             }
@@ -27,8 +27,16 @@ struct ContentView: View {
         
         NotificationCenter.default.addObserver(forName: .carmeraPhotoOutput, object: nil, queue: nil) { noti in
             if let img = noti.object as? UIImage {
-                self.image = img
+                image = img
             }
+        }
+        NotificationCenter.default.addObserver(forName: .carmeraZoomChanged, object: nil, queue: nil) { noti in
+            if let zoomFector = noti.object as? CGFloat {
+                zoom = zoomFector
+            }
+        }
+        NotificationCenter.default.addObserver(forName: UIApplication.didEnterBackgroundNotification, object: nil, queue: nil) { noti in
+            WidgetCenter.shared.reloadAllTimelines()
         }
         isAddedObserver = true;
     }
@@ -52,35 +60,7 @@ struct ContentView: View {
                                 .border(.primary, width: 2)
                         }
                     }
-                    
-                    Button {
-                        zoom += 0.5;
-                        if(zoom > 10) {
-                            zoom = 10;
-                        }
-                        print("확대")
-                        NotificationCenter.default.post(name: .carmeraCtlZoom, object: zoom)
-                    } label: {
-                        Text("확대")
-                            .frame(width:80, height: 80)
-                            .border(.primary,width: 2)
-                    }
-                    .frame(height: 100)
-                    
-                    Button {
-                        zoom -= 0.5;
-                        if(zoom < 0.5) {
-                            zoom = 0.5
-                        };
-                        print("축소")
-                        NotificationCenter.default.post(name: .carmeraCtlZoom, object: zoom)
-                    } label: {
-                         Text("축소")
-                            .frame(width:80, height: 80)
-                            .border(.primary, width: 2)
-                    }
-                    .frame(height: 100)
-                    
+                                   
                     Button {
                         NotificationCenter.default.post(name: .carmeraTakePhoto, object: zoom)
                     } label: {
@@ -89,10 +69,14 @@ struct ContentView: View {
                             .border(.primary, width: 2)
                     }
                     .frame(height: 100)
+                    
+                    Spacer()
 
                 }
 
             }
+            .padding(.leading, 5)
+            .padding(.trailing, 5)
             .padding(.bottom,
                      (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first?.safeAreaInsets.bottom ?? 0)
         }

@@ -109,7 +109,7 @@ class CameraPreviewView: UIView {
                 return;
             }
             let zoomScale = noti.object as? CGFloat ?? 1.0
-            s.zoomScale = zoomScale
+            s.currentZoomFactor = zoomScale
         }
         
         NotificationCenter.default.addObserver(forName: .carmeraTakePhoto, object: nil, queue: nil) { [weak self] noti in
@@ -118,28 +118,64 @@ class CameraPreviewView: UIView {
             }
         }
         
-        self.zoomScale = videoDevice.videoZoomFactor
-        "zoomscale : \(self.zoomScale)".sendLog()
+        self.currentZoomFactor = videoDevice.videoZoomFactor
+        "zoomscale : \(self.currentZoomFactor)".sendLog()
         self.updateZoomScale()
     
     }
-    
-    @objc func pinchGesture(sender:UIPinchGestureRecognizer) {
-        print(sender.scale)
-        self.zoomScale = sender.scale;
-        self.updateZoomScale()
-    }
-    
-    var zoomScale:CGFloat = 1.0 {
+    var initialZoomFactor:CGFloat = 1.0
+    var currentZoomFactor:CGFloat = 1.0 {
         didSet {
-            DispatchQueue.main.async {
-                self.updateZoomScale()
+            if(oldValue != currentZoomFactor) {
+                setZoomFactor(currentZoomFactor)
             }
         }
     }
     
+    @objc func pinchGesture(sender:UIPinchGestureRecognizer) {
+        print(sender.scale)
+//        self.updateZoomScale()
+        switch sender.state {
+        case .began:
+            initialZoomFactor = captureDevice?.videoZoomFactor ?? 1.0
+            currentZoomFactor = initialZoomFactor
+        case .changed:
+            let zoomFector = initialZoomFactor * sender.scale
+//            setZoomFactor(zoomFector)
+            currentZoomFactor = zoomFector
+        default:
+            break
+        }
+    }
+    
+//    var zoomScale:CGFloat = 1.0 {
+//        didSet {
+//            DispatchQueue.main.async {
+//                self.updateZoomScale()
+//            }
+//        }
+//    }
+    
+    func setZoomFactor(_ zoomFactor: CGFloat) {
+        guard let device = captureDevice else {
+            return
+        }
+        
+        do {
+            try device.lockForConfiguration()
+            
+            let zoomFactor = max(1.0, min(zoomFactor, device.activeFormat.videoMaxZoomFactor))
+            device.videoZoomFactor = zoomFactor
+            device.unlockForConfiguration()
+            NotificationCenter.default.post(name: .carmeraZoomChanged, object: zoomFactor)
+        } catch {
+            // 오류 처리
+        }
+    }
+
+    
     private func updateZoomScale() {
-        "\(#line):\(#function) zoom : \(self.zoomScale)".sendLog()
+        "\(#line):\(#function) zoom : \(self.currentZoomFactor)".sendLog()
         guard let captureDevice = AVCaptureDevice.default(.builtInDualWideCamera,for: .video, position: .back) else {
             "\(#function):\(#line)".sendLog()
             return
@@ -150,7 +186,7 @@ class CameraPreviewView: UIView {
             try captureDevice.lockForConfiguration()
             
             let maxZoomFactor = captureDevice.activeFormat.videoMaxZoomFactor
-            let clampedZoomScale = max(1.0, min(zoomScale, maxZoomFactor))
+            let clampedZoomScale = max(1.0, min(currentZoomFactor, maxZoomFactor))
             
             captureDevice.videoZoomFactor = clampedZoomScale
             captureDevice.focusMode = .continuousAutoFocus

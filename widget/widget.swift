@@ -57,8 +57,6 @@ struct widgetEntryView : View {
             else {
                 Text("돋보기")
             }
-        }.onAppear{
-            WidgetCenter.shared.reloadAllTimelines()
         }
     }
     
