@@ -36,23 +36,23 @@ struct ContentView: View {
     var body: some View {
         ZStack {
             CameraPreview()
-                .border(Color.blue,width: 1)
+
             VStack{
-                ScrollView{
-                    ForEach(0..<log.count,id:\.self) { idx in
-                        let str = log[idx]
-                        Text(str)
-                            .foregroundColor(.secondary)
-                    }
-                }.frame(height: 200)
-                
+                Spacer()
                 Text("zoom:\(zoom)")
-                if let img = image {
-                    Image(uiImage: img)
-                        .resizable()
-                        .frame(width: img.size.width / 10, height: img.size.height / 10)
-                }
                 HStack {
+                    Button {
+                        
+                    } label: {
+                        if let img = image {
+                            Image(uiImage: img)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width:80, height: 80)
+                                .border(.primary, width: 2)
+                        }
+                    }
+                    
                     Button {
                         zoom += 0.5;
                         if(zoom > 10) {
@@ -62,7 +62,7 @@ struct ContentView: View {
                         NotificationCenter.default.post(name: .carmeraCtlZoom, object: zoom)
                     } label: {
                         Text("확대")
-                            .padding(30)
+                            .frame(width:80, height: 80)
                             .border(.primary,width: 2)
                     }
                     .frame(height: 100)
@@ -76,7 +76,7 @@ struct ContentView: View {
                         NotificationCenter.default.post(name: .carmeraCtlZoom, object: zoom)
                     } label: {
                          Text("축소")
-                            .padding(30)
+                            .frame(width:80, height: 80)
                             .border(.primary, width: 2)
                     }
                     .frame(height: 100)
@@ -85,7 +85,7 @@ struct ContentView: View {
                         NotificationCenter.default.post(name: .carmeraTakePhoto, object: zoom)
                     } label: {
                          Text("촬영")
-                            .padding(30)
+                            .frame(width:80, height: 80)
                             .border(.primary, width: 2)
                     }
                     .frame(height: 100)
@@ -93,8 +93,10 @@ struct ContentView: View {
                 }
 
             }
+            .padding(.bottom,
+                     (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first?.safeAreaInsets.bottom ?? 0)
         }
-        .padding()
+        .edgesIgnoringSafeArea(.all)
         .onAppear{
             self.addObserver();
             if let img = AppGroup.savedImage {
