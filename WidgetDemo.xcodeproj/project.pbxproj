@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1B383F492A53ECEF003665EA /* ImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B383F482A53ECEE003665EA /* ImageView.swift */; };
 		1B8FDA8E2A4BB1C0007BE5E5 /* WidgetDemoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8FDA8D2A4BB1C0007BE5E5 /* WidgetDemoApp.swift */; };
 		1B8FDA902A4BB1C0007BE5E5 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8FDA8F2A4BB1C0007BE5E5 /* ContentView.swift */; };
 		1B8FDA922A4BB1C1007BE5E5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1B8FDA912A4BB1C1007BE5E5 /* Assets.xcassets */; };
@@ -60,6 +61,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		1B383F482A53ECEE003665EA /* ImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageView.swift; sourceTree = "<group>"; };
 		1B8FDA8A2A4BB1C0007BE5E5 /* WidgetDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WidgetDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1B8FDA8D2A4BB1C0007BE5E5 /* WidgetDemoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetDemoApp.swift; sourceTree = "<group>"; };
 		1B8FDA8F2A4BB1C0007BE5E5 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -138,7 +140,7 @@
 				1B8FDA912A4BB1C1007BE5E5 /* Assets.xcassets */,
 				1B8FDA932A4BB1C1007BE5E5 /* Preview Content */,
 				1B8FDAB92A4BB552007BE5E5 /* CameraPreview.swift */,
-				1B8FDAC12A4C1CDC007BE5E5 /* Notification.Names.swift */,
+				1B383F482A53ECEE003665EA /* ImageView.swift */,
 			);
 			path = WidgetDemo;
 			sourceTree = "<group>";
@@ -176,6 +178,7 @@
 		1B8FDAD02A4C25DD007BE5E5 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				1B8FDAC12A4C1CDC007BE5E5 /* Notification.Names.swift */,
 				1B8FDAC42A4C1EE5007BE5E5 /* Consts.swift */,
 				1B8FDACA2A4C223F007BE5E5 /* AppGroup.swift */,
 				1B8FDACD2A4C25A1007BE5E5 /* UIImage+Extensions.swift */,
@@ -285,6 +288,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1B383F492A53ECEF003665EA /* ImageView.swift in Sources */,
 				1B8FDAC22A4C1CDC007BE5E5 /* Notification.Names.swift in Sources */,
 				1B8FDAC52A4C1EE5007BE5E5 /* Consts.swift in Sources */,
 				1B8FDAB12A4BB1F1007BE5E5 /* widget.intentdefinition in Sources */,

@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 import WidgetKit
+import SwiftUI
 
 struct AppGroup {
     static func saveImage(image:UIImage) {
@@ -19,7 +20,8 @@ struct AppGroup {
                 if let data = img.jpegData(compressionQuality: 0.7) {
                     do {
                         try data.write(to: fileURL)
-//                        WidgetCenter.shared.reloadAllTimelines()
+                        NotificationCenter.default.post(name: .carmeraTakePhotoSaveFinish, object: img)
+                                                
                     } catch {
                         print("이미지 저장 실패: \(error)")
                     }
@@ -27,7 +29,7 @@ struct AppGroup {
             }
         }
     }
-    static var savedImage:UIImage? {
+    static var savedUIImage:UIImage? {
         if let appGroupURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: Consts.AppGroupID) {
             let fileURL = appGroupURL.appendingPathComponent(Consts.SaveTempImageName)
             if let data = try? Data(contentsOf: fileURL) {
@@ -35,5 +37,12 @@ struct AppGroup {
             }
         }
         return nil
+    }
+    
+    static var savedImage:Image {
+        if let uiimage = savedUIImage {
+            return Image(uiImage: uiimage)
+        }
+        return Image("cat")
     }
 }

@@ -11,13 +11,15 @@ import WidgetKit
 struct ContentView: View {
     @State var zoom:CGFloat = 1.0
     @State var log = LimitedArray<String>(limit: 20)
-    @State var isAddedObserver = false
-    @State var image:UIImage? = UIImage(named: "cat")
-    
+    @State var image:Image = Image("cat")
+    @State var isPresentedImageView = false
+
+    @State var isAddObserver = false
     private func addObserver() {
-        if(isAddedObserver) {
-            return;
+        if(isAddObserver) {
+            return
         }
+        isAddObserver = true
         log.append("addOberver");
         NotificationCenter.default.addObserver(forName: .carmeraPreviewLog, object: nil, queue: nil) { noti in
             if let notilog = noti.object as? String {
@@ -27,7 +29,7 @@ struct ContentView: View {
         
         NotificationCenter.default.addObserver(forName: .carmeraPhotoOutput, object: nil, queue: nil) { noti in
             if let img = noti.object as? UIImage {
-                image = img
+                image = Image(uiImage: img)
             }
         }
         NotificationCenter.default.addObserver(forName: .carmeraZoomChanged, object: nil, queue: nil) { noti in
@@ -38,7 +40,15 @@ struct ContentView: View {
         NotificationCenter.default.addObserver(forName: UIApplication.didEnterBackgroundNotification, object: nil, queue: nil) { noti in
             WidgetCenter.shared.reloadAllTimelines()
         }
-        isAddedObserver = true;
+        
+        NotificationCenter.default.addObserver(forName: .carmeraTakePhotoSaveFinish, object: nil, queue: nil) { noti in
+            image = AppGroup.savedImage
+            if let img = noti.object as? UIImage {
+                image = Image(uiImage: img)
+            }
+            isPresentedImageView = true
+            
+        }
     }
     
     var body: some View {
@@ -50,15 +60,14 @@ struct ContentView: View {
                 Text("zoom:\(zoom)")
                 HStack {
                     Button {
-                        
+                        isPresentedImageView = true
                     } label: {
-                        if let img = image {
-                            Image(uiImage: img)
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width:80, height: 80)
-                                .border(.primary, width: 2)
-                        }
+                        image
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width:80, height: 80)
+                            .border(.primary, width: 2)
+                    
                     }
                                    
                     Button {
@@ -71,7 +80,6 @@ struct ContentView: View {
                     .frame(height: 100)
                     
                     Spacer()
-
                 }
 
             }
@@ -82,10 +90,11 @@ struct ContentView: View {
         }
         .edgesIgnoringSafeArea(.all)
         .onAppear{
-            self.addObserver();
-            if let img = AppGroup.savedImage {
-                image = img
-            }
+            addObserver()
+            image = AppGroup.savedImage
+        }
+        .sheet(isPresented: $isPresentedImageView) {
+            ImageView()
         }
     }
 }

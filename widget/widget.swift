@@ -39,7 +39,7 @@ struct Provider: IntentTimelineProvider {
 
 struct SimpleEntry: TimelineEntry {
     let date: Date
-    let image: UIImage?
+    let image: Image?
     let configuration: ConfigurationIntent
 }
 
@@ -49,7 +49,7 @@ struct widgetEntryView : View {
     var body: some View {
         VStack {
             if let img = entry.image {
-                Image(uiImage: img)
+                img
                     .resizable()
                     .scaledToFill()
                     .border(.brown,width: 1)
