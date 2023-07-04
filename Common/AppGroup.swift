@@ -12,7 +12,7 @@ import WidgetKit
 struct AppGroup {
     static func saveImage(image:UIImage) {
         if let appGroupURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: Consts.AppGroupID) {
-            let fileURL = appGroupURL.appendingPathComponent("sharedImage.jpg")
+            let fileURL = appGroupURL.appendingPathComponent(Consts.SaveTempImageName)
             
             if let img = image.resized(to: .init(width: 400, height: 400),contentMode: .scaleAspectFill) {
                 print("\(img.size)")
@@ -29,7 +29,7 @@ struct AppGroup {
     }
     static var savedImage:UIImage? {
         if let appGroupURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: Consts.AppGroupID) {
-            let fileURL = appGroupURL.appendingPathComponent("sharedImage.jpg")
+            let fileURL = appGroupURL.appendingPathComponent(Consts.SaveTempImageName)
             if let data = try? Data(contentsOf: fileURL) {
                 return UIImage(data: data)
             }
