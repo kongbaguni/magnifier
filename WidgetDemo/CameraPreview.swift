@@ -164,7 +164,10 @@ class CameraPreviewView: UIView {
         do {
             try device.lockForConfiguration()
             
-            let zoomFactor = max(1.0, min(zoomFactor, device.activeFormat.videoMaxZoomFactor))
+            var zoomFactor = max(1.0, min(zoomFactor, device.activeFormat.videoMaxZoomFactor))
+            if(zoomFactor > 80) {
+                zoomFactor = 80
+            }
             device.videoZoomFactor = zoomFactor
             device.unlockForConfiguration()
             NotificationCenter.default.post(name: .carmeraZoomChanged, object: zoomFactor)
