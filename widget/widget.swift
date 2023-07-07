@@ -11,7 +11,7 @@ import Intents
 
 struct Provider: IntentTimelineProvider {
     func placeholder(in context: Context) -> SimpleEntry {
-        SimpleEntry(date: Date(), image:AppGroup.savedImage, configuration: ConfigurationIntent())
+        SimpleEntry(date: Date(), image:nil, configuration: ConfigurationIntent())
     }
 
     func getSnapshot(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (SimpleEntry) -> ()) {
@@ -59,6 +59,8 @@ struct widgetEntryView : View {
                     .scaledToFill()
                 
             }
+        }.onAppear {
+            WidgetCenter.shared.reloadAllTimelines()
         }
     }
     
