@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1B05515C2A57C786002904B5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1B8FDA912A4BB1C1007BE5E5 /* Assets.xcassets */; };
 		1B383F492A53ECEF003665EA /* ImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B383F482A53ECEE003665EA /* ImageView.swift */; };
 		1B8FDA8E2A4BB1C0007BE5E5 /* WidgetDemoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8FDA8D2A4BB1C0007BE5E5 /* WidgetDemoApp.swift */; };
 		1B8FDA902A4BB1C0007BE5E5 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8FDA8F2A4BB1C0007BE5E5 /* ContentView.swift */; };
@@ -17,7 +18,6 @@
 		1B8FDAA72A4BB1F0007BE5E5 /* widgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8FDAA62A4BB1F0007BE5E5 /* widgetBundle.swift */; };
 		1B8FDAA92A4BB1F0007BE5E5 /* widgetLiveActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8FDAA82A4BB1F0007BE5E5 /* widgetLiveActivity.swift */; };
 		1B8FDAAB2A4BB1F0007BE5E5 /* widget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8FDAAA2A4BB1F0007BE5E5 /* widget.swift */; };
-		1B8FDAAE2A4BB1F1007BE5E5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1B8FDAAD2A4BB1F1007BE5E5 /* Assets.xcassets */; };
 		1B8FDAB02A4BB1F1007BE5E5 /* widget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 1B8FDAAC2A4BB1F0007BE5E5 /* widget.intentdefinition */; };
 		1B8FDAB12A4BB1F1007BE5E5 /* widget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 1B8FDAAC2A4BB1F0007BE5E5 /* widget.intentdefinition */; };
 		1B8FDAB42A4BB1F1007BE5E5 /* widgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 1B8FDA9F2A4BB1F0007BE5E5 /* widgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -62,7 +62,7 @@
 
 /* Begin PBXFileReference section */
 		1B383F482A53ECEE003665EA /* ImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageView.swift; sourceTree = "<group>"; };
-		1B8FDA8A2A4BB1C0007BE5E5 /* WidgetDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WidgetDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1B8FDA8A2A4BB1C0007BE5E5 /* magnifier.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = magnifier.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1B8FDA8D2A4BB1C0007BE5E5 /* WidgetDemoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetDemoApp.swift; sourceTree = "<group>"; };
 		1B8FDA8F2A4BB1C0007BE5E5 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		1B8FDA912A4BB1C1007BE5E5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -74,7 +74,6 @@
 		1B8FDAA82A4BB1F0007BE5E5 /* widgetLiveActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = widgetLiveActivity.swift; sourceTree = "<group>"; };
 		1B8FDAAA2A4BB1F0007BE5E5 /* widget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = widget.swift; sourceTree = "<group>"; };
 		1B8FDAAC2A4BB1F0007BE5E5 /* widget.intentdefinition */ = {isa = PBXFileReference; lastKnownFileType = file.intentdefinition; path = widget.intentdefinition; sourceTree = "<group>"; };
-		1B8FDAAD2A4BB1F1007BE5E5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1B8FDAAF2A4BB1F1007BE5E5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1B8FDAB92A4BB552007BE5E5 /* CameraPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPreview.swift; sourceTree = "<group>"; };
 		1B8FDABC2A4BF5F1007BE5E5 /* LimitedArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LimitedArray.swift; sourceTree = "<group>"; };
@@ -123,7 +122,7 @@
 		1B8FDA8B2A4BB1C0007BE5E5 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1B8FDA8A2A4BB1C0007BE5E5 /* WidgetDemo.app */,
+				1B8FDA8A2A4BB1C0007BE5E5 /* magnifier.app */,
 				1B8FDA9F2A4BB1F0007BE5E5 /* widgetExtension.appex */,
 			);
 			name = Products;
@@ -137,7 +136,6 @@
 				1B8FDA8D2A4BB1C0007BE5E5 /* WidgetDemoApp.swift */,
 				1B8FDA8F2A4BB1C0007BE5E5 /* ContentView.swift */,
 				1B8FDABC2A4BF5F1007BE5E5 /* LimitedArray.swift */,
-				1B8FDA912A4BB1C1007BE5E5 /* Assets.xcassets */,
 				1B8FDA932A4BB1C1007BE5E5 /* Preview Content */,
 				1B8FDAB92A4BB552007BE5E5 /* CameraPreview.swift */,
 				1B383F482A53ECEE003665EA /* ImageView.swift */,
@@ -169,7 +167,6 @@
 				1B8FDAA82A4BB1F0007BE5E5 /* widgetLiveActivity.swift */,
 				1B8FDAAA2A4BB1F0007BE5E5 /* widget.swift */,
 				1B8FDAAC2A4BB1F0007BE5E5 /* widget.intentdefinition */,
-				1B8FDAAD2A4BB1F1007BE5E5 /* Assets.xcassets */,
 				1B8FDAAF2A4BB1F1007BE5E5 /* Info.plist */,
 			);
 			path = widget;
@@ -178,6 +175,7 @@
 		1B8FDAD02A4C25DD007BE5E5 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				1B8FDA912A4BB1C1007BE5E5 /* Assets.xcassets */,
 				1B8FDAC12A4C1CDC007BE5E5 /* Notification.Names.swift */,
 				1B8FDAC42A4C1EE5007BE5E5 /* Consts.swift */,
 				1B8FDACA2A4C223F007BE5E5 /* AppGroup.swift */,
@@ -190,9 +188,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		1B8FDA892A4BB1C0007BE5E5 /* WidgetDemo */ = {
+		1B8FDA892A4BB1C0007BE5E5 /* magnifier */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1B8FDA982A4BB1C1007BE5E5 /* Build configuration list for PBXNativeTarget "WidgetDemo" */;
+			buildConfigurationList = 1B8FDA982A4BB1C1007BE5E5 /* Build configuration list for PBXNativeTarget "magnifier" */;
 			buildPhases = (
 				1B8FDA862A4BB1C0007BE5E5 /* Sources */,
 				1B8FDA872A4BB1C0007BE5E5 /* Frameworks */,
@@ -204,9 +202,9 @@
 			dependencies = (
 				1B8FDAB32A4BB1F1007BE5E5 /* PBXTargetDependency */,
 			);
-			name = WidgetDemo;
+			name = magnifier;
 			productName = WidgetDemo;
-			productReference = 1B8FDA8A2A4BB1C0007BE5E5 /* WidgetDemo.app */;
+			productReference = 1B8FDA8A2A4BB1C0007BE5E5 /* magnifier.app */;
 			productType = "com.apple.product-type.application";
 		};
 		1B8FDA9E2A4BB1F0007BE5E5 /* widgetExtension */ = {
@@ -244,7 +242,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 1B8FDA852A4BB1C0007BE5E5 /* Build configuration list for PBXProject "WidgetDemo" */;
+			buildConfigurationList = 1B8FDA852A4BB1C0007BE5E5 /* Build configuration list for PBXProject "magnifier" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -257,7 +255,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				1B8FDA892A4BB1C0007BE5E5 /* WidgetDemo */,
+				1B8FDA892A4BB1C0007BE5E5 /* magnifier */,
 				1B8FDA9E2A4BB1F0007BE5E5 /* widgetExtension */,
 			);
 		};
@@ -277,7 +275,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1B8FDAAE2A4BB1F1007BE5E5 /* Assets.xcassets in Resources */,
+				1B05515C2A57C786002904B5 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -567,7 +565,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		1B8FDA852A4BB1C0007BE5E5 /* Build configuration list for PBXProject "WidgetDemo" */ = {
+		1B8FDA852A4BB1C0007BE5E5 /* Build configuration list for PBXProject "magnifier" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1B8FDA962A4BB1C1007BE5E5 /* Debug */,
@@ -576,7 +574,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		1B8FDA982A4BB1C1007BE5E5 /* Build configuration list for PBXNativeTarget "WidgetDemo" */ = {
+		1B8FDA982A4BB1C1007BE5E5 /* Build configuration list for PBXNativeTarget "magnifier" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1B8FDA992A4BB1C1007BE5E5 /* Debug */,
