@@ -55,7 +55,7 @@ struct widgetEntryView : View {
                     .border(.blue,width: 1)
             }
             else {
-                Text("돋보기")
+                Text("app-title")
             }
         }
     }
@@ -63,14 +63,14 @@ struct widgetEntryView : View {
 }
 
 struct widget: Widget {
-    let kind: String = "widget"
+    let kind: String = "app-title"
 
     var body: some WidgetConfiguration {
         IntentConfiguration(kind: kind, intent: ConfigurationIntent.self, provider: Provider()) { entry in
             widgetEntryView(entry: entry)
         }
-        .configurationDisplayName("My Widget")
-        .description("This is an example widget.")
+        .configurationDisplayName("widget-title")
+        .description("widget-description")
     }
 }
 

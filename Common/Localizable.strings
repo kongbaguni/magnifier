@@ -5,3 +5,6 @@
   Created by Changyeol Seo on 2023/07/07.
   
 */
+"app-title" ="돋보기";
+"widget-title" = "돋보기 위젯";
+"widget-description" = "돋보기 로 촬영한 사진을 미리 볼 수 있습니다.";

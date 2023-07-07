@@ -70,6 +70,7 @@
 		1B05515D2A57C970002904B5 /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		1B0551602A57C9A9002904B5 /* InfoPlist.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = InfoPlist.strings; sourceTree = "<group>"; };
 		1B0551632A57CC23002904B5 /* Color+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extensions.swift"; sourceTree = "<group>"; };
+		1B0551662A57D315002904B5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = Info.plist; path = widgetDemo/Info.plist; sourceTree = "<group>"; };
 		1B383F482A53ECEE003665EA /* ImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageView.swift; sourceTree = "<group>"; };
 		1B8FDA8A2A4BB1C0007BE5E5 /* widgetDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = widgetDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1B8FDA8D2A4BB1C0007BE5E5 /* WidgetDemoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetDemoApp.swift; sourceTree = "<group>"; };
@@ -119,6 +120,7 @@
 		1B8FDA812A4BB1C0007BE5E5 = {
 			isa = PBXGroup;
 			children = (
+				1B0551662A57D315002904B5 /* Info.plist */,
 				1B8FDAD02A4C25DD007BE5E5 /* Common */,
 				1B8FDAC72A4C1F84007BE5E5 /* widgetExtension.entitlements */,
 				1B8FDA8C2A4BB1C0007BE5E5 /* WidgetDemo */,
@@ -473,6 +475,7 @@
 				DEVELOPMENT_TEAM = QU9EPTU238;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = widgetDemo/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "take a photo";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -505,6 +508,7 @@
 				DEVELOPMENT_TEAM = QU9EPTU238;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = widgetDemo/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "take a photo";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
