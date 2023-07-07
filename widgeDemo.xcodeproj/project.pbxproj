@@ -71,7 +71,7 @@
 		1B0551602A57C9A9002904B5 /* InfoPlist.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = InfoPlist.strings; sourceTree = "<group>"; };
 		1B0551632A57CC23002904B5 /* Color+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extensions.swift"; sourceTree = "<group>"; };
 		1B383F482A53ECEE003665EA /* ImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageView.swift; sourceTree = "<group>"; };
-		1B8FDA8A2A4BB1C0007BE5E5 /* magnifier.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = magnifier.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1B8FDA8A2A4BB1C0007BE5E5 /* widgeDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = widgeDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1B8FDA8D2A4BB1C0007BE5E5 /* WidgetDemoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetDemoApp.swift; sourceTree = "<group>"; };
 		1B8FDA8F2A4BB1C0007BE5E5 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		1B8FDA912A4BB1C1007BE5E5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -131,7 +131,7 @@
 		1B8FDA8B2A4BB1C0007BE5E5 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1B8FDA8A2A4BB1C0007BE5E5 /* magnifier.app */,
+				1B8FDA8A2A4BB1C0007BE5E5 /* widgeDemo.app */,
 				1B8FDA9F2A4BB1F0007BE5E5 /* widgetExtension.appex */,
 			);
 			name = Products;
@@ -200,9 +200,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		1B8FDA892A4BB1C0007BE5E5 /* magnifier */ = {
+		1B8FDA892A4BB1C0007BE5E5 /* widgeDemo */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1B8FDA982A4BB1C1007BE5E5 /* Build configuration list for PBXNativeTarget "magnifier" */;
+			buildConfigurationList = 1B8FDA982A4BB1C1007BE5E5 /* Build configuration list for PBXNativeTarget "widgeDemo" */;
 			buildPhases = (
 				1B8FDA862A4BB1C0007BE5E5 /* Sources */,
 				1B8FDA872A4BB1C0007BE5E5 /* Frameworks */,
@@ -214,9 +214,9 @@
 			dependencies = (
 				1B8FDAB32A4BB1F1007BE5E5 /* PBXTargetDependency */,
 			);
-			name = magnifier;
+			name = widgeDemo;
 			productName = WidgetDemo;
-			productReference = 1B8FDA8A2A4BB1C0007BE5E5 /* magnifier.app */;
+			productReference = 1B8FDA8A2A4BB1C0007BE5E5 /* widgeDemo.app */;
 			productType = "com.apple.product-type.application";
 		};
 		1B8FDA9E2A4BB1F0007BE5E5 /* widgetExtension */ = {
@@ -254,7 +254,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 1B8FDA852A4BB1C0007BE5E5 /* Build configuration list for PBXProject "magnifier" */;
+			buildConfigurationList = 1B8FDA852A4BB1C0007BE5E5 /* Build configuration list for PBXProject "widgeDemo" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -267,7 +267,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				1B8FDA892A4BB1C0007BE5E5 /* magnifier */,
+				1B8FDA892A4BB1C0007BE5E5 /* widgeDemo */,
 				1B8FDA9E2A4BB1F0007BE5E5 /* widgetExtension */,
 			);
 		};
@@ -583,7 +583,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		1B8FDA852A4BB1C0007BE5E5 /* Build configuration list for PBXProject "magnifier" */ = {
+		1B8FDA852A4BB1C0007BE5E5 /* Build configuration list for PBXProject "widgeDemo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1B8FDA962A4BB1C1007BE5E5 /* Debug */,
@@ -592,7 +592,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		1B8FDA982A4BB1C1007BE5E5 /* Build configuration list for PBXNativeTarget "magnifier" */ = {
+		1B8FDA982A4BB1C1007BE5E5 /* Build configuration list for PBXNativeTarget "widgeDemo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1B8FDA992A4BB1C1007BE5E5 /* Debug */,
