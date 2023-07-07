@@ -39,10 +39,10 @@ struct AppGroup {
         return nil
     }
     
-    static var savedImage:Image {
+    static var savedImage:Image? {
         if let uiimage = savedUIImage {
             return Image(uiImage: uiimage)
         }
-        return Image("cat")
+        return nil
     }
 }

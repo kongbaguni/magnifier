@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ImageView: View {
-    @State var image:Image = AppGroup.savedImage
+    @State var image:Image = AppGroup.savedImage ?? Image("cat")
     var body: some View {
         image
             .resizable()

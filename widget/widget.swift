@@ -52,10 +52,12 @@ struct widgetEntryView : View {
                 img
                     .resizable()
                     .scaledToFill()
-                    .border(.blue,width: 1)
             }
             else {
-                Text("app-title")
+                Image("cat")
+                    .resizable()
+                    .scaledToFill()
+                
             }
         }
     }

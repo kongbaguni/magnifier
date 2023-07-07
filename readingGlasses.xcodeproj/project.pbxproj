@@ -72,7 +72,7 @@
 		1B0551632A57CC23002904B5 /* Color+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extensions.swift"; sourceTree = "<group>"; };
 		1B0551662A57D315002904B5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = Info.plist; path = widgetDemo/Info.plist; sourceTree = "<group>"; };
 		1B383F482A53ECEE003665EA /* ImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageView.swift; sourceTree = "<group>"; };
-		1B8FDA8A2A4BB1C0007BE5E5 /* widgetDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = widgetDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1B8FDA8A2A4BB1C0007BE5E5 /* readingGlasses.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = readingGlasses.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1B8FDA8D2A4BB1C0007BE5E5 /* WidgetDemoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetDemoApp.swift; sourceTree = "<group>"; };
 		1B8FDA8F2A4BB1C0007BE5E5 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		1B8FDA912A4BB1C1007BE5E5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -133,7 +133,7 @@
 		1B8FDA8B2A4BB1C0007BE5E5 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1B8FDA8A2A4BB1C0007BE5E5 /* widgetDemo.app */,
+				1B8FDA8A2A4BB1C0007BE5E5 /* readingGlasses.app */,
 				1B8FDA9F2A4BB1F0007BE5E5 /* widgetExtension.appex */,
 			);
 			name = Products;
@@ -202,9 +202,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		1B8FDA892A4BB1C0007BE5E5 /* widgetDemo */ = {
+		1B8FDA892A4BB1C0007BE5E5 /* readingGlasses */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1B8FDA982A4BB1C1007BE5E5 /* Build configuration list for PBXNativeTarget "widgetDemo" */;
+			buildConfigurationList = 1B8FDA982A4BB1C1007BE5E5 /* Build configuration list for PBXNativeTarget "readingGlasses" */;
 			buildPhases = (
 				1B8FDA862A4BB1C0007BE5E5 /* Sources */,
 				1B8FDA872A4BB1C0007BE5E5 /* Frameworks */,
@@ -216,9 +216,9 @@
 			dependencies = (
 				1B8FDAB32A4BB1F1007BE5E5 /* PBXTargetDependency */,
 			);
-			name = widgetDemo;
+			name = readingGlasses;
 			productName = WidgetDemo;
-			productReference = 1B8FDA8A2A4BB1C0007BE5E5 /* widgetDemo.app */;
+			productReference = 1B8FDA8A2A4BB1C0007BE5E5 /* readingGlasses.app */;
 			productType = "com.apple.product-type.application";
 		};
 		1B8FDA9E2A4BB1F0007BE5E5 /* widgetExtension */ = {
@@ -256,7 +256,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 1B8FDA852A4BB1C0007BE5E5 /* Build configuration list for PBXProject "widgetDemo" */;
+			buildConfigurationList = 1B8FDA852A4BB1C0007BE5E5 /* Build configuration list for PBXProject "readingGlasses" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -269,7 +269,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				1B8FDA892A4BB1C0007BE5E5 /* widgetDemo */,
+				1B8FDA892A4BB1C0007BE5E5 /* readingGlasses */,
 				1B8FDA9E2A4BB1F0007BE5E5 /* widgetExtension */,
 			);
 		};
@@ -587,7 +587,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		1B8FDA852A4BB1C0007BE5E5 /* Build configuration list for PBXProject "widgetDemo" */ = {
+		1B8FDA852A4BB1C0007BE5E5 /* Build configuration list for PBXProject "readingGlasses" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1B8FDA962A4BB1C1007BE5E5 /* Debug */,
@@ -596,7 +596,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		1B8FDA982A4BB1C1007BE5E5 /* Build configuration list for PBXNativeTarget "widgetDemo" */ = {
+		1B8FDA982A4BB1C1007BE5E5 /* Build configuration list for PBXNativeTarget "readingGlasses" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1B8FDA992A4BB1C1007BE5E5 /* Debug */,

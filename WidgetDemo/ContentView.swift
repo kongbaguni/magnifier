@@ -42,7 +42,7 @@ struct ContentView: View {
         }
         
         NotificationCenter.default.addObserver(forName: .carmeraTakePhotoSaveFinish, object: nil, queue: nil) { noti in
-            image = AppGroup.savedImage
+            image = AppGroup.savedImage ?? Image("cat")
             if let img = noti.object as? UIImage {
                 image = Image(uiImage: img)
             }
@@ -91,7 +91,7 @@ struct ContentView: View {
         .edgesIgnoringSafeArea(.all)
         .onAppear{
             addObserver()
-            image = AppGroup.savedImage
+            image = AppGroup.savedImage ?? Image("cat")
         }
         .sheet(isPresented: $isPresentedImageView) {
             ImageView()
