@@ -54,12 +54,15 @@ struct widgetEntryView : View {
                     .scaledToFill()
             }
             else {
+                
                 Image("cat")
                     .resizable()
                     .scaledToFill()
                 
             }
-        }.onAppear {
+        }
+        
+        .onAppear {
             WidgetCenter.shared.reloadAllTimelines()
         }
     }
