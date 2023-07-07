@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		1B05515C2A57C786002904B5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1B8FDA912A4BB1C1007BE5E5 /* Assets.xcassets */; };
+		1B05515E2A57C970002904B5 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1B05515D2A57C970002904B5 /* Localizable.strings */; };
+		1B05515F2A57C970002904B5 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1B05515D2A57C970002904B5 /* Localizable.strings */; };
+		1B0551612A57C9A9002904B5 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1B0551602A57C9A9002904B5 /* InfoPlist.strings */; };
+		1B0551622A57C9A9002904B5 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1B0551602A57C9A9002904B5 /* InfoPlist.strings */; };
 		1B383F492A53ECEF003665EA /* ImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B383F482A53ECEE003665EA /* ImageView.swift */; };
 		1B8FDA8E2A4BB1C0007BE5E5 /* WidgetDemoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8FDA8D2A4BB1C0007BE5E5 /* WidgetDemoApp.swift */; };
 		1B8FDA902A4BB1C0007BE5E5 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8FDA8F2A4BB1C0007BE5E5 /* ContentView.swift */; };
@@ -61,6 +65,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		1B05515D2A57C970002904B5 /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
+		1B0551602A57C9A9002904B5 /* InfoPlist.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = InfoPlist.strings; sourceTree = "<group>"; };
 		1B383F482A53ECEE003665EA /* ImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageView.swift; sourceTree = "<group>"; };
 		1B8FDA8A2A4BB1C0007BE5E5 /* magnifier.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = magnifier.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1B8FDA8D2A4BB1C0007BE5E5 /* WidgetDemoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetDemoApp.swift; sourceTree = "<group>"; };
@@ -181,6 +187,8 @@
 				1B8FDACA2A4C223F007BE5E5 /* AppGroup.swift */,
 				1B8FDACD2A4C25A1007BE5E5 /* UIImage+Extensions.swift */,
 				1B8FDAD32A4D0454007BE5E5 /* CGSize+Extensions.swift */,
+				1B05515D2A57C970002904B5 /* Localizable.strings */,
+				1B0551602A57C9A9002904B5 /* InfoPlist.strings */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -267,6 +275,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				1B8FDA952A4BB1C1007BE5E5 /* Preview Assets.xcassets in Resources */,
+				1B0551612A57C9A9002904B5 /* InfoPlist.strings in Resources */,
+				1B05515E2A57C970002904B5 /* Localizable.strings in Resources */,
 				1B8FDA922A4BB1C1007BE5E5 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -276,6 +286,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				1B05515C2A57C786002904B5 /* Assets.xcassets in Resources */,
+				1B0551622A57C9A9002904B5 /* InfoPlist.strings in Resources */,
+				1B05515F2A57C970002904B5 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -378,7 +390,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -432,7 +444,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -517,7 +529,7 @@
 				DEVELOPMENT_TEAM = QU9EPTU238;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = widget/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = widget;
+				INFOPLIST_KEY_CFBundleDisplayName = "$(PRODUCT_NAME)";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -545,7 +557,7 @@
 				DEVELOPMENT_TEAM = QU9EPTU238;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = widget/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = widget;
+				INFOPLIST_KEY_CFBundleDisplayName = "$(PRODUCT_NAME)";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

@@ -52,7 +52,7 @@ struct widgetEntryView : View {
                 img
                     .resizable()
                     .scaledToFill()
-                    .border(.brown,width: 1)
+                    .border(.blue,width: 1)
             }
             else {
                 Text("돋보기")
@@ -77,6 +77,6 @@ struct widget: Widget {
 struct widget_Previews: PreviewProvider {
     static var previews: some View {
         widgetEntryView(entry: SimpleEntry(date: Date(), image: AppGroup.savedImage, configuration: ConfigurationIntent()))
-            .previewContext(WidgetPreviewContext(family: .systemExtraLarge))
+            .previewContext(WidgetPreviewContext(family: .systemSmall))
     }
 }
