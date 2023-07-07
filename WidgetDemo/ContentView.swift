@@ -66,7 +66,7 @@ struct ContentView: View {
                             .resizable()
                             .scaledToFit()
                             .frame(width:80, height: 80)
-                            .border(.primary, width: 2)
+                            .border(Color.white, width: 2)
                     
                     }
                                    
@@ -75,7 +75,7 @@ struct ContentView: View {
                     } label: {
                          Text("촬영")
                             .frame(width:80, height: 80)
-                            .border(.primary, width: 2)
+                            .border(Color.white, width: 2)
                     }
                     .frame(height: 100)
                     
