@@ -57,29 +57,33 @@ struct ContentView: View {
 
             VStack{
                 Spacer()
-                Text("zoom:\(zoom)")
+                Text("zoom : \(String(format: "%.2f",zoom))")
+                    .shadow(radius: 10)
                 HStack {
-                    Button {
+                    ButtonView(action: {
                         isPresentedImageView = true
-                    } label: {
-                        image
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width:80, height: 80)
-                            .border(Color.white, width: 2)
-                    
-                    }
-                                   
-                    Button {
-                        NotificationCenter.default.post(name: .carmeraTakePhoto, object: zoom)
-                    } label: {
-                         Text("촬영")
-                            .frame(width:80, height: 80)
-                            .border(Color.white, width: 2)
-                    }
-                    .frame(height: 100)
-                    
+
+                    }, titleImage: image, titleText: nil)
+//                    ToggleSliderButton(
+//                        titleOn: Image(systemName: "plusminus.circle.fill"),
+//                        titleOff: Image(systemName: "plusminus.circle"),
+//                        onToggleBtn: { isOn in
+//                            NotificationCenter.default.post(name: .carmeraSettingChange, object: nil, userInfo:
+//                                ["isOnExposureManual":isOn]
+//                            )
+//                            print(isOn)
+//                        
+//                    }, onChangeSlider: { value in
+//                        print(value)
+//                        NotificationCenter.default.post(name: .carmeraSettingChange, object:nil, userInfo:
+//                            ["exposureManualValue":value]
+//                        )
+//                        
+//                    })
                     Spacer()
+                    ButtonView(action: {
+                        NotificationCenter.default.post(name: .carmeraTakePhoto, object: zoom)
+                    }, titleImage: Image("carmera"), titleText: nil)
                 }
 
             }

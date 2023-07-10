@@ -14,6 +14,8 @@
 		1B0551622A57C9A9002904B5 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1B0551602A57C9A9002904B5 /* InfoPlist.strings */; };
 		1B0551642A57CC23002904B5 /* Color+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B0551632A57CC23002904B5 /* Color+Extensions.swift */; };
 		1B0551652A57CC23002904B5 /* Color+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B0551632A57CC23002904B5 /* Color+Extensions.swift */; };
+		1B1A81D02A5BD27F0098BDCE /* ButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B1A81CF2A5BD27F0098BDCE /* ButtonView.swift */; };
+		1B1A81D22A5BDAE70098BDCE /* ToggleSliderButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B1A81D12A5BDAE70098BDCE /* ToggleSliderButton.swift */; };
 		1B383F492A53ECEF003665EA /* ImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B383F482A53ECEE003665EA /* ImageView.swift */; };
 		1B8FDA8E2A4BB1C0007BE5E5 /* WidgetDemoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8FDA8D2A4BB1C0007BE5E5 /* WidgetDemoApp.swift */; };
 		1B8FDA902A4BB1C0007BE5E5 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8FDA8F2A4BB1C0007BE5E5 /* ContentView.swift */; };
@@ -71,6 +73,8 @@
 		1B0551602A57C9A9002904B5 /* InfoPlist.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = InfoPlist.strings; sourceTree = "<group>"; };
 		1B0551632A57CC23002904B5 /* Color+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extensions.swift"; sourceTree = "<group>"; };
 		1B0551662A57D315002904B5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = Info.plist; path = widgetDemo/Info.plist; sourceTree = "<group>"; };
+		1B1A81CF2A5BD27F0098BDCE /* ButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonView.swift; sourceTree = "<group>"; };
+		1B1A81D12A5BDAE70098BDCE /* ToggleSliderButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToggleSliderButton.swift; sourceTree = "<group>"; };
 		1B383F482A53ECEE003665EA /* ImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageView.swift; sourceTree = "<group>"; };
 		1B8FDA8A2A4BB1C0007BE5E5 /* readingGlasses.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = readingGlasses.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1B8FDA8D2A4BB1C0007BE5E5 /* WidgetDemoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetDemoApp.swift; sourceTree = "<group>"; };
@@ -150,6 +154,8 @@
 				1B8FDA932A4BB1C1007BE5E5 /* Preview Content */,
 				1B8FDAB92A4BB552007BE5E5 /* CameraPreview.swift */,
 				1B383F482A53ECEE003665EA /* ImageView.swift */,
+				1B1A81CF2A5BD27F0098BDCE /* ButtonView.swift */,
+				1B1A81D12A5BDAE70098BDCE /* ToggleSliderButton.swift */,
 			);
 			path = WidgetDemo;
 			sourceTree = "<group>";
@@ -310,6 +316,8 @@
 				1B8FDAB12A4BB1F1007BE5E5 /* widget.intentdefinition in Sources */,
 				1B8FDABD2A4BF5F1007BE5E5 /* LimitedArray.swift in Sources */,
 				1B8FDAD42A4D0454007BE5E5 /* CGSize+Extensions.swift in Sources */,
+				1B1A81D22A5BDAE70098BDCE /* ToggleSliderButton.swift in Sources */,
+				1B1A81D02A5BD27F0098BDCE /* ButtonView.swift in Sources */,
 				1B8FDACB2A4C223F007BE5E5 /* AppGroup.swift in Sources */,
 				1B0551642A57CC23002904B5 /* Color+Extensions.swift in Sources */,
 				1B8FDABA2A4BB552007BE5E5 /* CameraPreview.swift in Sources */,

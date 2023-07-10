@@ -40,6 +40,59 @@ class CameraPreviewView: UIView {
             self.setupCaptureSession()
             self.captureSession.startRunning()
         }
+        
+        NotificationCenter.default.addObserver(forName: .carmeraSettingChange, object: nil, queue: nil) {[weak self] noti in
+            if let info = noti.userInfo {
+                if let isOn = info["isOnExposureManual"] as? Bool {
+                    self?.setExposureMode(isManual: isOn)
+                }
+                if let value = info["exposureManualValue"] as? Double {
+                    
+                    self?.setExposureValue(value: Int64(value * 10))
+                }
+            }
+        }
+    }
+    
+    func setExposureMode(isManual:Bool) {
+        guard let videoDevice = captureDevice else {
+            return
+        }
+        do {
+            try videoDevice.lockForConfiguration()
+            
+            if videoDevice.isExposureModeSupported(.custom) {
+                videoDevice.exposureMode = isManual ? .custom : .autoExpose
+            }
+            else {
+                videoDevice.exposureMode = isManual ? .continuousAutoExposure : .autoExpose
+            }
+            videoDevice.unlockForConfiguration()
+            
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+    
+    func setExposureValue(value:Int64) {
+        guard let videoDevice = captureDevice else {
+            return
+        }
+
+        do {
+            try videoDevice.lockForConfiguration()
+            let exposureDuration = CMTimeMake(value: value, timescale: 1000) // 노출 시간 설정 (1/1000초)
+            if videoDevice.isExposureModeSupported(.custom) {
+                videoDevice.setExposureModeCustom(duration: exposureDuration, iso: videoDevice.iso) { time in
+                    
+                }
+                videoDevice.unlockForConfiguration()
+            }
+            
+        } catch {
+            
+        }
+        
     }
     
     private func checkPermission() {
