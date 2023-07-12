@@ -90,27 +90,31 @@ struct ContentView: View {
     }
     
     var body: some View {
-        ZStack {
-            if isHaveCarmeraPermission {
-                CameraPreview()
-            }
-            else {
-                Button {
-                    UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
-                } label: {
-                    Text("camera access denined")
+        GeometryReader { proxy in
+            ZStack {
+                if isHaveCarmeraPermission {
+                    CameraPreview()
+                    .frame(width: proxy.size.width, height: proxy.size.height)
+//                    .fixedSize()
                 }
-
+                else {
+                    Button {
+                        UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
+                    } label: {
+                        Text("camera access denined")
+                    }
+                    
+                }
+                
+                VStack{
+                    Spacer()
+                    controlPannel
+                }
+                .padding(.leading, 5)
+                .padding(.trailing, 5)
+                .padding(.bottom,
+                         (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first?.safeAreaInsets.bottom ?? 0)
             }
-
-            VStack{
-                Spacer()
-                controlPannel
-            }
-            .padding(.leading, 5)
-            .padding(.trailing, 5)
-            .padding(.bottom,
-                     (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first?.safeAreaInsets.bottom ?? 0)
         }
         .edgesIgnoringSafeArea(.all)
         .onAppear{

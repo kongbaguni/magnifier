@@ -4,32 +4,60 @@ import AVFoundation
 
 struct CameraPreview: UIViewRepresentable {
     func makeUIView(context: Context) -> UIView {
-        return CameraPreviewView()
+        let view = CameraPreviewView(frame: UIScreen.main.bounds)
+        return view
     }
     
     func updateUIView(_ uiView: UIView, context: Context) {
-        // No update necessary
+        print("\(#function) \(#line)")
+        
+//        if let c = uiView as? CameraPreviewView {
+//            c.setPreviewLayerSize(rect: uiView.frame)
+//            print("Camera preview size : \(uiView.frame)")
+//        }
     }
 }
 
 class CameraPreviewView: UIView {
     private var permissionGranted = false // Flag for permission
-    private let captureSession = AVCaptureSession()
+    private let captureSession:AVCaptureSession = AVCaptureSession()
     private let sessionQueue = DispatchQueue(label: "sessionQueue")
-    private var previewLayer = AVCaptureVideoPreviewLayer()
+    var previewLayer = AVCaptureVideoPreviewLayer()
     var captureDevice : AVCaptureDevice? = nil
     var photoOutput: AVCapturePhotoOutput? = nil
     
     var screenRect: CGRect! = nil // For view dimensions
     
-    override init(frame: CGRect) {
+    override init(frame:CGRect) {
         super.init(frame: frame)
         setupCamera()
     }
     
     required init?(coder: NSCoder) {
-        super.init(coder: coder)
-        setupCamera()
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        previewLayer.frame = self.frame
+        var newOrientation:AVCaptureVideoOrientation {
+            switch UIDevice.current.orientation {
+            case .portrait:
+                return .portrait
+            case .portraitUpsideDown:
+                return .portraitUpsideDown
+            case .landscapeLeft:
+                return .landscapeRight
+            case .landscapeRight:
+                return .landscapeLeft
+            default:
+                return .portrait
+            }
+        }
+        if(newOrientation != previewLayer.connection?.videoOrientation) {
+            previewLayer.connection?.videoOrientation = newOrientation
+        }
+        
     }
     
     private func setupCamera() {
@@ -134,13 +162,10 @@ class CameraPreviewView: UIView {
         "\(#function) \(#line)".sendLog()
         
         guard let videoDevice = currentVideoDevice else {
-            abort()
-//            return
+            return
         }
         guard let videoDeviceInput = try? AVCaptureDeviceInput(device: videoDevice) else {
-//            return
-            abort()
-            
+            return
         }
         
         self.captureDevice = videoDevice
@@ -155,15 +180,13 @@ class CameraPreviewView: UIView {
             s.screenRect = s.layer.frame
             s.previewLayer = AVCaptureVideoPreviewLayer(session: s.captureSession)
             s.previewLayer.frame = CGRect(x: 0, y: 0, width: s.screenRect.size.width, height: s.screenRect.size.height)
-            s.previewLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill // Fill screen
+            s.previewLayer.videoGravity = .resizeAspectFill // Fill screen
             s.previewLayer.connection?.videoOrientation = .portrait
             s.layer.masksToBounds = true;
-            s.layer.addSublayer(self!.previewLayer)
+            s.layer.addSublayer(s.previewLayer)
             let gesture = UIPinchGestureRecognizer(target: s, action: #selector(s.pinchGesture(sender:)))
             s.addGestureRecognizer(gesture)
         }
-        //        screenRect = UIScreen.main.bounds
-        
         
         photoOutput = AVCapturePhotoOutput()
         if let photoOutput = photoOutput {
