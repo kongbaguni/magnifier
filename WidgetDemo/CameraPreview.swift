@@ -121,12 +121,27 @@ class CameraPreviewView: UIView {
             self.sessionQueue.resume()
         }
     }
+    private var currentVideoDevice:AVCaptureDevice? {
+        return AVCaptureDevice.default(.builtInTripleCamera, for: .video, position: .back) ??
+        AVCaptureDevice.default(.builtInDualCamera, for: .video, position: .back) ??
+        AVCaptureDevice.default(.builtInDualWideCamera, for: .video, position: .back) ??
+        AVCaptureDevice.default(.builtInUltraWideCamera, for: .video, position: .back) ??
+        AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back)
+    }
     
     private func setupCaptureSession() {
         // Access camera
         "\(#function) \(#line)".sendLog()
-        guard let videoDevice = AVCaptureDevice.default(.builtInDualWideCamera,for: .video, position: .back) else { return }
-        guard let videoDeviceInput = try? AVCaptureDeviceInput(device: videoDevice) else { return }
+        
+        guard let videoDevice = currentVideoDevice else {
+            abort()
+//            return
+        }
+        guard let videoDeviceInput = try? AVCaptureDeviceInput(device: videoDevice) else {
+//            return
+            abort()
+            
+        }
         
         self.captureDevice = videoDevice
         

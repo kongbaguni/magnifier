@@ -7,6 +7,7 @@
 
 import SwiftUI
 import WidgetKit
+import AVKit
 
 struct ContentView: View {
     @State var zoom:CGFloat = 1.0
@@ -15,6 +16,7 @@ struct ContentView: View {
     @State var isPresentedImageView = false
 
     @State var isAddObserver = false
+    @State var isHaveCarmeraPermission = false
     private func addObserver() {
         if(isAddObserver) {
             return
@@ -50,42 +52,60 @@ struct ContentView: View {
             
         }
     }
-    
-    var body: some View {
-        ZStack {
-            CameraPreview()
 
-            VStack{
+    var controlPannel : some View {
+        Group {
+            Text("zoom : \(String(format: "%.2f",zoom))")
+                .foregroundColor(.white)
+                .shadow(radius: 20)
+            HStack {
+                ButtonView(action: {
+                    isPresentedImageView = true
+                    
+                }, titleImage: image, titleText: nil)
+                //                    ToggleSliderButton(
+                //                        titleOn: Image(systemName: "plusminus.circle.fill"),
+                //                        titleOff: Image(systemName: "plusminus.circle"),
+                //                        onToggleBtn: { isOn in
+                //                            NotificationCenter.default.post(name: .carmeraSettingChange, object: nil, userInfo:
+                //                                ["isOnExposureManual":isOn]
+                //                            )
+                //                            print(isOn)
+                //
+                //                    }, onChangeSlider: { value in
+                //                        print(value)
+                //                        NotificationCenter.default.post(name: .carmeraSettingChange, object:nil, userInfo:
+                //                            ["exposureManualValue":value]
+                //                        )
+                //
+                //                    })
                 Spacer()
-                Text("zoom : \(String(format: "%.2f",zoom))")
-                    .shadow(radius: 10)
-                HStack {
-                    ButtonView(action: {
-                        isPresentedImageView = true
-
-                    }, titleImage: image, titleText: nil)
-//                    ToggleSliderButton(
-//                        titleOn: Image(systemName: "plusminus.circle.fill"),
-//                        titleOff: Image(systemName: "plusminus.circle"),
-//                        onToggleBtn: { isOn in
-//                            NotificationCenter.default.post(name: .carmeraSettingChange, object: nil, userInfo:
-//                                ["isOnExposureManual":isOn]
-//                            )
-//                            print(isOn)
-//                        
-//                    }, onChangeSlider: { value in
-//                        print(value)
-//                        NotificationCenter.default.post(name: .carmeraSettingChange, object:nil, userInfo:
-//                            ["exposureManualValue":value]
-//                        )
-//                        
-//                    })
-                    Spacer()
+                if isHaveCarmeraPermission {
                     ButtonView(action: {
                         NotificationCenter.default.post(name: .carmeraTakePhoto, object: zoom)
                     }, titleImage: Image("carmera"), titleText: nil)
                 }
+            }
+        }
+    }
+    
+    var body: some View {
+        ZStack {
+            if isHaveCarmeraPermission {
+                CameraPreview()
+            }
+            else {
+                Button {
+                    UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
+                } label: {
+                    Text("camera access denined")
+                }
 
+            }
+
+            VStack{
+                Spacer()
+                controlPannel
             }
             .padding(.leading, 5)
             .padding(.trailing, 5)
@@ -96,6 +116,7 @@ struct ContentView: View {
         .onAppear{
             addObserver()
             image = AppGroup.savedImage ?? Image("cat")
+            isHaveCarmeraPermission = AVCaptureDevice.authorizationStatus(for: .video) == .authorized
         }
         .sheet(isPresented: $isPresentedImageView) {
             ImageView()
