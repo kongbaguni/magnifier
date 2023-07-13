@@ -7,3 +7,5 @@
 */
 "CFBundleName" = "magnifying glass";
 "CFBundleDisplayName" = "magnifying glass";
+"NSCameraUsageDescription" = "The camera is used for the magnifying glass app.";
+
