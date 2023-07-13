@@ -42,6 +42,7 @@
 		1B8FDAD22A4C2644007BE5E5 /* Notification.Names.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8FDAC12A4C1CDC007BE5E5 /* Notification.Names.swift */; };
 		1B8FDAD42A4D0454007BE5E5 /* CGSize+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8FDAD32A4D0454007BE5E5 /* CGSize+Extensions.swift */; };
 		1B8FDAD52A4D0652007BE5E5 /* CGSize+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8FDAD32A4D0454007BE5E5 /* CGSize+Extensions.swift */; };
+		8DE0A9632A5FB05200D4B058 /* CameraAccesDeninedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DE0A9622A5FB05200D4B058 /* CameraAccesDeninedView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -99,6 +100,7 @@
 		1B8FDACA2A4C223F007BE5E5 /* AppGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppGroup.swift; sourceTree = "<group>"; };
 		1B8FDACD2A4C25A1007BE5E5 /* UIImage+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extensions.swift"; sourceTree = "<group>"; };
 		1B8FDAD32A4D0454007BE5E5 /* CGSize+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGSize+Extensions.swift"; sourceTree = "<group>"; };
+		8DE0A9622A5FB05200D4B058 /* CameraAccesDeninedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraAccesDeninedView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -156,6 +158,7 @@
 				1B383F482A53ECEE003665EA /* ImageView.swift */,
 				1B1A81CF2A5BD27F0098BDCE /* ButtonView.swift */,
 				1B1A81D12A5BDAE70098BDCE /* ToggleSliderButton.swift */,
+				8DE0A9622A5FB05200D4B058 /* CameraAccesDeninedView.swift */,
 			);
 			path = WidgetDemo;
 			sourceTree = "<group>";
@@ -311,6 +314,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1B383F492A53ECEF003665EA /* ImageView.swift in Sources */,
+				8DE0A9632A5FB05200D4B058 /* CameraAccesDeninedView.swift in Sources */,
 				1B8FDAC22A4C1CDC007BE5E5 /* Notification.Names.swift in Sources */,
 				1B8FDAC52A4C1EE5007BE5E5 /* Consts.swift in Sources */,
 				1B8FDAB12A4BB1F1007BE5E5 /* widget.intentdefinition in Sources */,

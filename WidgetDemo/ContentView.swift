@@ -98,12 +98,7 @@ struct ContentView: View {
 //                    .fixedSize()
                 }
                 else {
-                    Button {
-                        UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
-                    } label: {
-                        Text("camera access denined")
-                    }
-                    
+                   CameraAccesDeninedView()                    
                 }
                 
                 VStack{
