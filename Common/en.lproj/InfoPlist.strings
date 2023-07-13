@@ -1,0 +1,9 @@
+/* 
+  InfoPlist.strings
+  magnifier
+
+  Created by Changyeol Seo on 2023/07/07.
+  
+*/
+"CFBundleName" = "magnifying glass";
+"CFBundleDisplayName" = "magnifying glass";

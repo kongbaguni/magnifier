@@ -1,0 +1,13 @@
+/* 
+  Localizable.strings
+  magnifier
+
+  Created by Changyeol Seo on 2023/07/07.
+  
+*/
+"app-title" ="magnifying glass";
+"widget-title" = "magnifier Widget";
+"widget-description" = "You can preview pictures taken with Magnifying Glass.";
+"Camera Access Denind Title" = "Access Rights";
+"Camera Access Denine desc" = "You do not have permission to access the camera.\nPlease set camera access permission.";
+"Go to Setting" = "Go to Setting";
