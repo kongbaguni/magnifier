@@ -16,7 +16,7 @@ struct ContentView: View {
     @State var isPresentedImageView = false
 
     @State var isAddObserver = false
-    @State var isHaveCarmeraPermission = false
+    @State var isHaveCarmeraPermission = true
     private func addObserver() {
         if(isAddObserver) {
             return
@@ -98,7 +98,7 @@ struct ContentView: View {
 //                    .fixedSize()
                 }
                 else {
-                    CameraAccesDeninedView(isAllow: $isHaveCarmeraPermission, authStatus: AVCaptureDevice.authorizationStatus(for: .video))
+                    CameraAccesDeninedView()
                 }
                 
                 VStack{
@@ -115,13 +115,9 @@ struct ContentView: View {
         .onAppear{
             addObserver()
             image = AppGroup.savedImage ?? Image("cat")
-            isHaveCarmeraPermission = AVCaptureDevice.authorizationStatus(for: .video) == .authorized
+            let status = AVCaptureDevice.authorizationStatus(for: .video)
+            isHaveCarmeraPermission = status != .denied && status != .restricted
             
-            if isHaveCarmeraPermission == false {
-                AVCaptureDevice.requestAccess(for: .video) { _ in
-                    isHaveCarmeraPermission = AVCaptureDevice.authorizationStatus(for: .video) == .authorized
-                }
-            }
         }
         .sheet(isPresented: $isPresentedImageView) {
             ImageView()

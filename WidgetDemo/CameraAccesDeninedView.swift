@@ -9,8 +9,6 @@ import SwiftUI
 import AVKit
 
 struct CameraAccesDeninedView: View {
-    @Binding var isAllow:Bool
-    let authStatus:AVAuthorizationStatus
     var body: some View {
         VStack {
             Text("Camera Access Denind Title")
@@ -18,24 +16,20 @@ struct CameraAccesDeninedView: View {
                 .padding(.bottom, 30)
             Text("Camera Access Denine desc")
                 .font(.caption)
-            HStack {
-                if authStatus == .notDetermined {
-                    Button {
-                        AVCaptureDevice.requestAccess(for: .video) { _ in
-                            isAllow = AVCaptureDevice.authorizationStatus(for: .video) == .authorized
-                        }
-                    } label : {
-                        Text("Request Camera Access")
-                    }
-                }
-                Button {
-                    UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
-                } label: {
-                    Text("Go to Setting")
-                }
+            Button {
+                UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
+            } label: {
+                Text("Go to Setting")
             }
-            .padding(.top, 30)
+            .padding(.top, 20)
         }
         
+    }
+}
+
+struct CameraAccesDeninedView_Previews: PreviewProvider {
+    @State var isAllow = false
+    static var previews: some View {
+        CameraAccesDeninedView()
     }
 }
