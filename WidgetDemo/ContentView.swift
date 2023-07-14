@@ -65,8 +65,7 @@ struct ContentView: View {
                     isPresentedImageView = true
                     
                 }, titleImage: image, titleText: nil)
-                Spacer()
-                BannerAdView(sizeType: .GADAdSizeBanner, padding: .zero)
+//                Spacer()
                 //                    ToggleSliderButton(
                 //                        titleOn: Image(systemName: "plusminus.circle.fill"),
                 //                        titleOff: Image(systemName: "plusminus.circle"),
@@ -104,7 +103,10 @@ struct ContentView: View {
                 else {
                     CameraAccesDeninedView()
                 }
-                
+                VStack {
+                    BannerAdView(sizeType: .GADAdSizeBanner, padding: .zero)
+                    Spacer()
+                }
                 VStack{
                     Spacer()
                     controlPannel
