@@ -11,6 +11,7 @@ import AVKit
 import GoogleMobileAds
 
 struct ContentView: View {
+    let ad = GoogleAd()
     @State var zoom:CGFloat = 1.0
     @State var log = LimitedArray<String>(limit: 20)
     @State var image:Image = Image("cat")
@@ -62,7 +63,10 @@ struct ContentView: View {
                 .shadow(radius: 20)
             HStack {
                 ButtonView(action: {
-                    isPresentedImageView = true
+                    ad.showAd { _, _ in
+                        isPresentedImageView = true
+                    }
+                    
                     
                 }, titleImage: image, titleText: nil)
 //                Spacer()
@@ -106,7 +110,7 @@ struct ContentView: View {
                 VStack {
                     BannerAdView(sizeType: .GADAdSizeBanner, padding: .zero)
                         .border(Color.black, width: 2)
-                        .padding(.top, .safeAreaInsetTop)                        
+                        .padding(.top, .safeAreaInsetTop)
                     Spacer()
                 }
                 VStack{
