@@ -8,6 +8,7 @@
 import SwiftUI
 import WidgetKit
 import AVKit
+import GoogleMobileAds
 
 struct ContentView: View {
     @State var zoom:CGFloat = 1.0
@@ -23,6 +24,7 @@ struct ContentView: View {
         }
         isAddObserver = true
         log.append("addOberver");
+        GADMobileAds.sharedInstance().start(completionHandler: nil)
         NotificationCenter.default.addObserver(forName: .carmeraPreviewLog, object: nil, queue: nil) { noti in
             if let notilog = noti.object as? String {
                 log.append(notilog)
@@ -63,6 +65,8 @@ struct ContentView: View {
                     isPresentedImageView = true
                     
                 }, titleImage: image, titleText: nil)
+                Spacer()
+                BannerAdView(sizeType: .GADAdSizeBanner, padding: .zero)
                 //                    ToggleSliderButton(
                 //                        titleOn: Image(systemName: "plusminus.circle.fill"),
                 //                        titleOff: Image(systemName: "plusminus.circle"),
