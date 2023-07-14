@@ -105,6 +105,8 @@ struct ContentView: View {
                 }
                 VStack {
                     BannerAdView(sizeType: .GADAdSizeBanner, padding: .zero)
+                        .border(Color.black, width: 2)
+                        .padding(.top, .safeAreaInsetTop)                        
                     Spacer()
                 }
                 VStack{
@@ -113,8 +115,7 @@ struct ContentView: View {
                 }
                 .padding(.leading, 5)
                 .padding(.trailing, 5)
-                .padding(.bottom,
-                         (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first?.safeAreaInsets.bottom ?? 0)
+                .padding(.bottom, .safeAreaInsetBottom)
             }
         }
         .edgesIgnoringSafeArea(.all)
