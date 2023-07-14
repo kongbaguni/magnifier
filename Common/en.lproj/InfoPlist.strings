@@ -8,4 +8,4 @@
 "CFBundleName" = "magnifying glass";
 "CFBundleDisplayName" = "magnifying glass";
 "NSCameraUsageDescription" = "The camera is used for the magnifying glass app.";
-
+"NSUserTrackingUsageDescription" = "This identifier will be used to deliver personalized ads to you.";

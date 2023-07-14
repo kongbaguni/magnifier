@@ -8,3 +8,4 @@
 "CFBundleName" = "돋보기";
 "CFBundleDisplayName" = "돋보기";
 "NSCameraUsageDescription" = "카메라는 돋보기 앱의 활용을 위해 사용됩니다.";
+"NSUserTrackingUsageDescription" = "이 식별자는 개인화된 광고를 제공하는 데 사용됩니다.";
