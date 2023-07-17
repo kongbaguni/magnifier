@@ -44,6 +44,7 @@
 		8D6E29EC2A612D120028396A /* BannerAdView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D6E29EA2A612D120028396A /* BannerAdView.swift */; };
 		8D6E29EE2A612DF60028396A /* Userdefault+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D6E29ED2A612DF60028396A /* Userdefault+Extensions.swift */; };
 		8D6E29F02A612E270028396A /* UIApplication+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D6E29EF2A612E270028396A /* UIApplication+Extensions.swift */; };
+		8DC4B3422A64FEB300E4A561 /* ActivityIndicatorView in Frameworks */ = {isa = PBXBuildFile; productRef = 8DC4B3412A64FEB300E4A561 /* ActivityIndicatorView */; };
 		8DE0A9632A5FB05200D4B058 /* CameraAccesDeninedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DE0A9622A5FB05200D4B058 /* CameraAccesDeninedView.swift */; };
 		8DE0A9642A5FB76B00D4B058 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8DE0A9672A5FB76B00D4B058 /* Localizable.strings */; };
 		8DE0A9652A5FB76B00D4B058 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8DE0A9672A5FB76B00D4B058 /* Localizable.strings */; };
@@ -121,6 +122,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8DC4B3422A64FEB300E4A561 /* ActivityIndicatorView in Frameworks */,
 				8D6E29E82A612CB10028396A /* GoogleMobileAds in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -255,6 +257,7 @@
 			name = readingGlasses;
 			packageProductDependencies = (
 				8D6E29E72A612CB10028396A /* GoogleMobileAds */,
+				8DC4B3412A64FEB300E4A561 /* ActivityIndicatorView */,
 			);
 			productName = WidgetDemo;
 			productReference = 1B8FDA8A2A4BB1C0007BE5E5 /* readingGlasses.app */;
@@ -307,6 +310,7 @@
 			mainGroup = 1B8FDA812A4BB1C0007BE5E5;
 			packageReferences = (
 				8D6E29E62A612CB10028396A /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */,
+				8DC4B3402A64FEB300E4A561 /* XCRemoteSwiftPackageReference "ActivityIndicatorView" */,
 			);
 			productRefGroup = 1B8FDA8B2A4BB1C0007BE5E5 /* Products */;
 			projectDirPath = "";
@@ -558,7 +562,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 1.0.2;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = net.kongbaguni.readingGlasses;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -592,7 +596,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 1.0.2;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = net.kongbaguni.readingGlasses;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -620,7 +624,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 1.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = net.kongbaguni.readingGlasses.widget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -648,7 +652,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 1.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = net.kongbaguni.readingGlasses.widget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -699,6 +703,14 @@
 				minimumVersion = 9.0.0;
 			};
 		};
+		8DC4B3402A64FEB300E4A561 /* XCRemoteSwiftPackageReference "ActivityIndicatorView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/exyte/ActivityIndicatorView.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -706,6 +718,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 8D6E29E62A612CB10028396A /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */;
 			productName = GoogleMobileAds;
+		};
+		8DC4B3412A64FEB300E4A561 /* ActivityIndicatorView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8DC4B3402A64FEB300E4A561 /* XCRemoteSwiftPackageReference "ActivityIndicatorView" */;
+			productName = ActivityIndicatorView;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

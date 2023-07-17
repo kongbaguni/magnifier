@@ -7,6 +7,7 @@
 
 import SwiftUI
 import GoogleMobileAds
+import ActivityIndicatorView
 
 struct BannerAdView: View {
     public enum SizeType {
@@ -44,27 +45,30 @@ struct BannerAdView: View {
         }
     }
     
-    @State var bannerView:GADBannerView? = nil
-    let gad = GoogleAd()
-    var body: some View {
-        VStack {
-            if let view = bannerView {
-                GoogleAdBannerView(bannerView: view)
-                    .frame(width: bannerSize.width, height: bannerSize.height, alignment: .center)
-                    .padding(.top,padding.top)
-                    .padding(.bottom,padding.bottom)
-                    .padding(.leading, padding.left)
-                    .padding(.trailing, padding.right)
-            } else {
-                Button {
-                    initAdView()
-                } label: {
-                    Text("loading...")
-                        .frame(width:bannerSize.width,height:bannerSize.height,alignment: .center)
+    @State var bannerView:GADBannerView? = nil {
+        didSet {
+            if bannerView != nil {
+                DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(7)) {
+                    loading = false
                 }
-
             }
         }
+    }
+    @State var loading:Bool = true
+    let gad = GoogleAd()
+    var body: some View {
+        ZStack {
+            ActivityIndicatorView(isVisible: $loading, type: .default()).frame(width: 40, height: 40)
+            if let view = bannerView {
+                GoogleAdBannerView(bannerView: view)
+            }
+        }
+        .frame(width: bannerSize.width, height: bannerSize.height, alignment: .center)
+        .padding(.top,padding.top)
+        .padding(.bottom,padding.bottom)
+        .padding(.leading, padding.left)
+        .padding(.trailing, padding.right)
+        .background(Color.gray)
         .onAppear {
             initAdView()
         }
@@ -100,3 +104,4 @@ struct BannerAdView: View {
         }
     }
 }
+
