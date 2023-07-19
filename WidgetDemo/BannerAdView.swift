@@ -45,15 +45,8 @@ struct BannerAdView: View {
         }
     }
     
-    @State var bannerView:GADBannerView? = nil {
-        didSet {
-            if bannerView != nil {
-                DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(7)) {
-                    loading = false
-                }
-            }
-        }
-    }
+    let bannerView:GADBannerView?
+    
     @State var loading:Bool = true
     let gad = GoogleAd()
     var body: some View {
@@ -69,39 +62,30 @@ struct BannerAdView: View {
         .padding(.leading, padding.left)
         .padding(.trailing, padding.right)
         .background(Color.gray)
-        .onAppear {
-            initAdView()
-        }
         
     }
     
-    private func initAdView() {
-        guard bannerView == nil else {
-            return
-        }
-        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) {
-            GoogleAd().requestTrackingAuthorization {
-                DispatchQueue.main.async {
-                    var bView:GADBannerView? {
-                        switch sizeType {
-                        case .GADAdSizeBanner:
-                            return GADBannerView(adSize : GADAdSizeBanner)
-                        case .GADAdSizeLargeBanner:
-                            return GADBannerView(adSize : GADAdSizeLargeBanner)
-                        case .GADAdSizeMediumRectangle:
-                            return GADBannerView(adSize : GADAdSizeMediumRectangle)
-                        case .GADAdSizeFullBanner:
-                            return GADBannerView(adSize : GADAdSizeFullBanner)
-                        case .GADAdSizeLeaderboard:
-                            return GADBannerView(adSize : GADAdSizeLeaderboard)
-                        case .GADAdSizeSkyscraper:
-                            return GADBannerView(adSize : GADAdSizeSkyscraper)
-                        }
-                    }
-                    bannerView = bView
-                }
+    init(sizeType:SizeType, padding:UIEdgeInsets = .zero) {
+        self.sizeType = sizeType
+        self.padding = padding
+        
+        var bView:GADBannerView? {
+            switch sizeType {
+            case .GADAdSizeBanner:
+                return GADBannerView(adSize : GADAdSizeBanner)
+            case .GADAdSizeLargeBanner:
+                return GADBannerView(adSize : GADAdSizeLargeBanner)
+            case .GADAdSizeMediumRectangle:
+                return GADBannerView(adSize : GADAdSizeMediumRectangle)
+            case .GADAdSizeFullBanner:
+                return GADBannerView(adSize : GADAdSizeFullBanner)
+            case .GADAdSizeLeaderboard:
+                return GADBannerView(adSize : GADAdSizeLeaderboard)
+            case .GADAdSizeSkyscraper:
+                return GADBannerView(adSize : GADAdSizeSkyscraper)
             }
         }
+        bannerView = bView
     }
 }
 
