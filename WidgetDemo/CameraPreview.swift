@@ -154,7 +154,8 @@ class CameraPreviewView: UIView {
         AVCaptureDevice.default(.builtInDualCamera, for: .video, position: .back) ??
         AVCaptureDevice.default(.builtInDualWideCamera, for: .video, position: .back) ??
         AVCaptureDevice.default(.builtInUltraWideCamera, for: .video, position: .back) ??
-        AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back)
+        AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back) ??
+        AVCaptureDevice.default(.builtInTelephotoCamera, for: .video, position: .back) 
     }
     
     private func setupCaptureSession() {
@@ -183,6 +184,7 @@ class CameraPreviewView: UIView {
             s.previewLayer.videoGravity = .resizeAspectFill // Fill screen
             s.previewLayer.connection?.videoOrientation = .portrait
             s.layer.masksToBounds = true;
+            s.autoresizingMask = [.flexibleWidth, .flexibleHeight]
             s.layer.addSublayer(s.previewLayer)
             let gesture = UIPinchGestureRecognizer(target: s, action: #selector(s.pinchGesture(sender:)))
             s.addGestureRecognizer(gesture)
