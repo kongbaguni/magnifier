@@ -9,19 +9,20 @@ import Foundation
 import UIKit
 
 extension UIApplication {
-    class var keyWindowScene:UIWindowScene? {
-        return UIApplication.shared.connectedScenes.first as? UIWindowScene
+   
+    var rootViewController:UIViewController? {
+        let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene
+        return scene?.windows.last?.rootViewController
     }
     
-    class var keyWindow:UIWindow? {
-        keyWindowScene?.windows.first(where: {$0.isKeyWindow})
-    }    
-    
-    class var topViewController:UIViewController? {
-        var vc = UIApplication.keyWindow?.rootViewController
-        while vc?.presentingViewController != nil {
-            vc = vc?.presentingViewController
+    var lastViewController:UIViewController? {
+        var vc = rootViewController
+        if let ovc = vc {
+            while ovc.presentedViewController != nil {
+                vc = ovc.presentedViewController
+            }
         }
         return vc
     }
+
 }

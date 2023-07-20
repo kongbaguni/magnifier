@@ -66,7 +66,7 @@ class GoogleAd : NSObject {
             }
             UserDefaults.standard.lastAdWatchTime = Date()
                         
-            if let vc = UIApplication.topViewController {
+            if let vc = UIApplication.shared.lastViewController {
                 self?.interstitial?.present(fromRootViewController: vc, userDidEarnRewardHandler: {
                     
                 })
@@ -104,7 +104,7 @@ struct GoogleAdBannerView: UIViewRepresentable {
     let bannerView:GADBannerView
     func makeUIView(context: Context) -> GADBannerView {
         bannerView.adUnitID = bannerGaId
-        bannerView.rootViewController = UIApplication.topViewController
+        bannerView.rootViewController = UIApplication.shared.lastViewController
         return bannerView
     }
   

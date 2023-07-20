@@ -1,7 +1,6 @@
 import SwiftUI
 import AVFoundation
 
-
 struct CameraPreview: UIViewRepresentable {
     func makeUIView(context: Context) -> UIView {
         let view = CameraPreviewView(frame: UIScreen.main.bounds)
@@ -147,6 +146,7 @@ class CameraPreviewView: UIView {
         AVCaptureDevice.requestAccess(for: .video) { [unowned self] granted in
             self.permissionGranted = granted
             self.sessionQueue.resume()
+            NotificationCenter.default.post(name: .cameraRequestPermissionGetResult, object: granted)
         }
     }
     private var currentVideoDevice:AVCaptureDevice? {

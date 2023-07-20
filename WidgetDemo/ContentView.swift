@@ -9,66 +9,25 @@ import SwiftUI
 import WidgetKit
 import AVKit
 import GoogleMobileAds
-import UserMessagingPlatform
 
 struct ContentView: View {
     init() {
-        GoogleAd().requestTrackingAuthorization {[self] in
-            ump()
-        }
-    }
-    func ump() {
-        func loadForm() {
-          // Loads a consent form. Must be called on the main thread.
-            UMPConsentForm.load { form, loadError in
-                if loadError != nil {
-                  // Handle the error
-                } else {
-                    // Present the form. You can also hold on to the reference to present
-                    // later.
-                    if UMPConsentInformation.sharedInstance.consentStatus == UMPConsentStatus.required {
-                        form?.present(
-                            from: UIApplication.topViewController!,
-                            completionHandler: { dismissError in
-                                if UMPConsentInformation.sharedInstance.consentStatus == UMPConsentStatus.obtained {
-                                    // App can start requesting ads.
-                                }
-                                // Handle dismissal by reloading form.
-                                loadForm();
-                            })
-                    } else {
-                        // Keep the form available for changes to user consent.
-                    }
-                    
-                }
+        NotificationCenter.default.addObserver(forName: .cameraRequestPermissionGetResult, object: nil, queue: nil) {[self] noti in
+            DispatchQueue.main.async {
+                let status = AVCaptureDevice.authorizationStatus(for: .video)
+                
+                isHaveCarmeraPermission = status == .authorized
+                print(status)
+                print("camera status : \(status)" )
+                
+            }
 
+            GoogleAdPrompt.promptWithDelay {
             }
         }
-        // Create a UMPRequestParameters object.
-        let parameters = UMPRequestParameters()
-        // Set tag for under age of consent. Here false means users are not under age.
-        parameters.tagForUnderAgeOfConsent = false
-        #if DEBUG
-        let debugSettings = UMPDebugSettings()
-//        debugSettings.testDeviceIdentifiers = ["78ce88aff302a5f4dfa5226a766c0b5a"]
-        debugSettings.geography = UMPDebugGeography.EEA
-        parameters.debugSettings = debugSettings
-        #endif
-        UMPConsentInformation.sharedInstance.requestConsentInfoUpdate(
-            with: parameters,
-            completionHandler: { error in
-                if error != nil {
-                    // Handle the error.
-                    print(error!.localizedDescription)
-                } else {
-                    let formStatus = UMPConsentInformation.sharedInstance.formStatus
-                    if formStatus == UMPFormStatus.available {
-                      loadForm()
-                    }
-
-                }
-            })
+        
     }
+    
     let ad = GoogleAd()
     @State var zoom:CGFloat = 1.0
     @State var log = LimitedArray<String>(limit: 20)
@@ -76,7 +35,7 @@ struct ContentView: View {
     @State var isPresentedImageView = false
 
     @State var isAddObserver = false
-    @State var isHaveCarmeraPermission = true
+    @State var isHaveCarmeraPermission = false
     private func addObserver() {
         if(isAddObserver) {
             return
@@ -127,23 +86,6 @@ struct ContentView: View {
                     
                     
                 }, titleImage: image, titleText: nil)
-//                Spacer()
-                //                    ToggleSliderButton(
-                //                        titleOn: Image(systemName: "plusminus.circle.fill"),
-                //                        titleOff: Image(systemName: "plusminus.circle"),
-                //                        onToggleBtn: { isOn in
-                //                            NotificationCenter.default.post(name: .carmeraSettingChange, object: nil, userInfo:
-                //                                ["isOnExposureManual":isOn]
-                //                            )
-                //                            print(isOn)
-                //
-                //                    }, onChangeSlider: { value in
-                //                        print(value)
-                //                        NotificationCenter.default.post(name: .carmeraSettingChange, object:nil, userInfo:
-                //                            ["exposureManualValue":value]
-                //                        )
-                //
-                //                    })
                 Spacer()
                 if isHaveCarmeraPermission {
                     ButtonView(action: {
@@ -157,12 +99,9 @@ struct ContentView: View {
     var body: some View {
         GeometryReader { proxy in
             ZStack {
-                if isHaveCarmeraPermission {
-                    CameraPreview()
-                    .frame(width: proxy.size.width, height: proxy.size.height)
-//                    .fixedSize()
-                }
-                else {
+                CameraPreview()
+                .frame(width: proxy.size.width, height: proxy.size.height)
+                if isHaveCarmeraPermission == false {
                     CameraAccesDeninedView()
                 }
                 VStack {
@@ -185,7 +124,7 @@ struct ContentView: View {
             addObserver()
             image = AppGroup.savedImage ?? Image("cat")
             let status = AVCaptureDevice.authorizationStatus(for: .video)
-            isHaveCarmeraPermission = status != .denied && status != .restricted
+            isHaveCarmeraPermission = status == .authorized
             
         }
         .sheet(isPresented: $isPresentedImageView) {
