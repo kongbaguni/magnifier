@@ -47,7 +47,12 @@ class GoogleAd : NSObject {
     
     var callback:(_ isSucess:Bool, _ time:TimeInterval?)->Void = { _,_ in}
     
+    var requestAd = false
     func showAd(complete:@escaping(_ isSucess:Bool, _ time:TimeInterval?)->Void) {
+        if requestAd {
+            return
+        }
+        requestAd = true
         let now = Date()
         if let lastTime = UserDefaults.standard.lastAdWatchTime {
             let interval = now.timeIntervalSince1970 - lastTime.timeIntervalSince1970
@@ -64,6 +69,7 @@ class GoogleAd : NSObject {
                 }
                 return
             }
+            self?.requestAd = false 
             UserDefaults.standard.lastAdWatchTime = Date()
                         
             if let vc = UIApplication.shared.lastViewController {
