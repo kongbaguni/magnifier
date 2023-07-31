@@ -45,7 +45,6 @@ struct ContentView: View {
                     .resizable()
                     .scaledToFit()
                     .frame(width:30)
-                    .renderingMode(.template)
                     .foregroundColor(.white)
                     .padding(5)
                 Text("\(String(format: "%.2f",zoom))")
