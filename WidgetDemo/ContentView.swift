@@ -34,44 +34,7 @@ struct ContentView: View {
     @State var image:Image = Image("cat")
     @State var isPresentedImageView = false
 
-    @State var isAddObserver = false
     @State var isHaveCarmeraPermission = false
-    private func addObserver() {
-        if(isAddObserver) {
-            return
-        }
-        isAddObserver = true
-        log.append("addOberver");
-        GADMobileAds.sharedInstance().start(completionHandler: nil)
-        NotificationCenter.default.addObserver(forName: .carmeraPreviewLog, object: nil, queue: nil) { noti in
-            if let notilog = noti.object as? String {
-                log.append(notilog)
-            }
-        }
-        
-        NotificationCenter.default.addObserver(forName: .carmeraPhotoOutput, object: nil, queue: nil) { noti in
-            if let img = noti.object as? UIImage {
-                image = Image(uiImage: img)
-            }
-        }
-        NotificationCenter.default.addObserver(forName: .carmeraZoomChanged, object: nil, queue: nil) { noti in
-            if let zoomFector = noti.object as? CGFloat {
-                zoom = zoomFector
-            }
-        }
-        NotificationCenter.default.addObserver(forName: UIApplication.didEnterBackgroundNotification, object: nil, queue: nil) { noti in
-            WidgetCenter.shared.reloadAllTimelines()
-        }
-        
-        NotificationCenter.default.addObserver(forName: .carmeraTakePhotoSaveFinish, object: nil, queue: nil) { noti in
-            image = AppGroup.savedImage ?? Image("cat")
-            if let img = noti.object as? UIImage {
-                image = Image(uiImage: img)
-            }
-            isPresentedImageView = true
-            
-        }
-    }
 
     var controlPannel : some View {
         Group {
@@ -94,6 +57,32 @@ struct ContentView: View {
                 }
             }
         }
+        .onReceive(NotificationCenter.default.publisher(for: .carmeraPreviewLog)) { noti in
+            if let notilog = noti.object as? String {
+                log.append(notilog)
+            }
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .carmeraTakePhotoSaveFinish)) { noti in
+            image = AppGroup.savedImage ?? Image("cat")
+            if let img = noti.object as? UIImage {
+                image = Image(uiImage: img)
+            }
+            isPresentedImageView = true
+        }
+        .onReceive(NotificationCenter.default.publisher(for: UIApplication.didEnterBackgroundNotification)) { noti in
+            WidgetCenter.shared.reloadAllTimelines()
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .carmeraZoomChanged)) { noti in
+            if let zoomFector = noti.object as? CGFloat {
+                zoom = zoomFector
+            }
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .carmeraPhotoOutput)) { noti in
+            if let img = noti.object as? UIImage {
+                image = Image(uiImage: img)
+            }
+        }
+        
     }
     
     var body: some View {
@@ -121,7 +110,7 @@ struct ContentView: View {
         }
         .edgesIgnoringSafeArea(.all)
         .onAppear{
-            addObserver()
+            GADMobileAds.sharedInstance().start(completionHandler: nil)
             image = AppGroup.savedImage ?? Image("cat")
             let status = AVCaptureDevice.authorizationStatus(for: .video)
             isHaveCarmeraPermission = status == .authorized
