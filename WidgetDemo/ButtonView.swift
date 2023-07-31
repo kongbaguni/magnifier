@@ -26,9 +26,12 @@ struct ButtonView: View {
                 }
             }
         }
+        .padding(10)
         .frame(width: 80,height: 100)
         .background(Color.yellow)
-        .clipShape(Capsule())
+        .cornerRadius(20)
+        .overlay(RoundedRectangle(cornerRadius: 20, style: .circular).stroke(Color.black, lineWidth:2))
+        .shadow(radius: 15,x:5,y:5)
 
     }
 }

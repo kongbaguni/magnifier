@@ -41,18 +41,18 @@ struct ContentView: View {
     var controlPannel : some View {
         Group {
             HStack {
-                Image("magnifyingglass.circle")
+                Image(systemName:"magnifyingglass")
                     .resizable()
                     .scaledToFit()
                     .frame(width:30)
                     .foregroundColor(.white)
                     .padding(5)
-                Text("\(String(format: "%.2f",zoom))")
+                Text("\(String(format: "%.2f",zoom))x")
             }
-            .padding(20)
+            .padding(10)
             .background(Color.black.opacity(0.8))
             .foregroundColor(.white)
-            .cornerRadius(10)
+            .cornerRadius(20)
             .shadow(radius: 20)
 
             HStack {
