@@ -37,7 +37,7 @@ struct ContentView: View {
     @State var isHaveCarmeraPermission = false
 
     @State var borderColor:Color = .clear
-    
+    @State var longPressBeganDate:Date? = nil
     var controlPannel : some View {
         Group {
             Text("zoom : \(String(format: "%.2f",zoom))")
@@ -115,11 +115,21 @@ struct ContentView: View {
             .onChanged({ change in
                 print("long press change \(change)")
                 borderColor = .blue
+                longPressBeganDate = Date()
+                DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2)) {
+                    if let d = longPressBeganDate {
+                        if Date().timeIntervalSince1970 - d.timeIntervalSince1970 >= 2 {
+                            borderColor = .clear
+                        }
+                    }
+                    
+                }
             })
             .onEnded({ end in
                 NotificationCenter.default.post(name: .carmeraTakePhoto, object: zoom)
                 print("long press gesture")
                 borderColor = .clear
+                longPressBeganDate = nil
         }))
 
         .edgesIgnoringSafeArea(.all)
