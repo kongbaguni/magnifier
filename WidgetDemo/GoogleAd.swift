@@ -62,14 +62,16 @@ class GoogleAd : NSObject {
             }
         }
         callback = complete
+        
         loadAd { [weak self] isSucess in
+            self?.requestAd = false
             if isSucess == false {
                 DispatchQueue.main.async {
                     complete(true,nil)
                 }
+                 
                 return
             }
-            self?.requestAd = false 
             UserDefaults.standard.lastAdWatchTime = Date()
                         
             if let vc = UIApplication.shared.lastViewController {
@@ -79,6 +81,7 @@ class GoogleAd : NSObject {
             }
         }
     }
+    
 }
 
 extension GoogleAd : GADFullScreenContentDelegate {

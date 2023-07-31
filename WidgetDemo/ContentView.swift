@@ -11,30 +11,13 @@ import AVKit
 import GoogleMobileAds
 
 struct ContentView: View {
-    init() {
-        NotificationCenter.default.addObserver(forName: .cameraRequestPermissionGetResult, object: nil, queue: nil) {[self] noti in
-            DispatchQueue.main.async {
-                let status = AVCaptureDevice.authorizationStatus(for: .video)
-                
-                isHaveCarmeraPermission = status == .authorized
-                print(status)
-                print("camera status : \(status)" )
-                
-            }
-
-            GoogleAdPrompt.promptWithDelay {
-            }
-        }
-        
-    }
-    
     let ad = GoogleAd()
     @State var zoom:CGFloat = 1.0
     @State var log = LimitedArray<String>(limit: 20)
     @State var image:Image = Image("cat")
     @State var isPresentedImageView = false
 
-    @State var isHaveCarmeraPermission = false
+    @State var isHaveCarmeraPermission = true
 
     @State var borderColor:Color = .clear
     @State var longPressBeganDate:Date? = nil
@@ -67,6 +50,14 @@ struct ContentView: View {
                         NotificationCenter.default.post(name: .carmeraTakePhoto, object: zoom)
                     }, titleImage: Image("carmera"), titleText: nil)
                 }
+            }
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .cameraRequestPermissionGetResult)) { noti in
+            DispatchQueue.main.async {
+                let status = AVCaptureDevice.authorizationStatus(for: .video)
+                isHaveCarmeraPermission = status == .authorized
+                print(status)
+                print("camera status : \(status)" )
             }
         }
         .onReceive(NotificationCenter.default.publisher(for: .carmeraPreviewLog)) { noti in
@@ -124,11 +115,13 @@ struct ContentView: View {
 
         .edgesIgnoringSafeArea(.all)
         .onAppear{
-            GADMobileAds.sharedInstance().start(completionHandler: nil)
-            image = AppGroup.savedImage ?? Image("cat")
             let status = AVCaptureDevice.authorizationStatus(for: .video)
             isHaveCarmeraPermission = status == .authorized
-            
+
+            GADMobileAds.sharedInstance().start(completionHandler: nil)
+            image = AppGroup.savedImage ?? Image("cat")
+            GoogleAdPrompt.promptWithDelay {
+            }
         }
         .sheet(isPresented: $isPresentedImageView) {
             ImageView()

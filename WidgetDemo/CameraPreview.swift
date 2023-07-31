@@ -146,7 +146,9 @@ class CameraPreviewView: UIView {
         AVCaptureDevice.requestAccess(for: .video) { [unowned self] granted in
             self.permissionGranted = granted
             self.sessionQueue.resume()
-            NotificationCenter.default.post(name: .cameraRequestPermissionGetResult, object: granted)
+            DispatchQueue.main.async {
+                NotificationCenter.default.post(name: .cameraRequestPermissionGetResult, object: granted)
+            }
         }
     }
     private var currentVideoDevice:AVCaptureDevice? {

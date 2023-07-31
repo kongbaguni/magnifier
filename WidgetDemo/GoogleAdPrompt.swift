@@ -14,6 +14,7 @@ import AVKit
 fileprivate func requestTrackingAuthorization(complete:@escaping()->Void) {
     ATTrackingManager.requestTrackingAuthorization { status in
         print("google ad tracking status : \(status)")
+        complete()
     }
 }
 
@@ -37,6 +38,8 @@ fileprivate func userMessagePlatformPrompt(complete:@escaping()->Void) {
                             loadForm();
                         })
                     return
+                } else {
+                    complete()
                 }
                 
             }
@@ -88,7 +91,7 @@ fileprivate func avRequest(complete:@escaping()->Void) {
 struct GoogleAdPrompt {
     static func promptWithDelay(complete:@escaping()->Void) {
         // contentView.init 등에서 호출할 때 1초 딜레이를 주어야 알람창이 뜬다.
-        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2)) {
             requestTrackingAuthorization {
                 userMessagePlatformPrompt {
                 }
