@@ -36,6 +36,8 @@ struct ContentView: View {
 
     @State var isHaveCarmeraPermission = false
 
+    @State var borderColor:Color = .clear
+    
     var controlPannel : some View {
         Group {
             Text("zoom : \(String(format: "%.2f",zoom))")
@@ -90,6 +92,7 @@ struct ContentView: View {
             ZStack {
                 CameraPreview()
                 .frame(width: proxy.size.width, height: proxy.size.height)
+                .border(borderColor, width: 5)
                 if isHaveCarmeraPermission == false {
                     CameraAccesDeninedView()
                 }
@@ -108,6 +111,17 @@ struct ContentView: View {
                 .padding(.bottom, .safeAreaInsetBottom)
             }
         }
+        .gesture(LongPressGesture(minimumDuration: 2)
+            .onChanged({ change in
+                print("long press change \(change)")
+                borderColor = .blue
+            })
+            .onEnded({ end in
+                NotificationCenter.default.post(name: .carmeraTakePhoto, object: zoom)
+                print("long press gesture")
+                borderColor = .clear
+        }))
+
         .edgesIgnoringSafeArea(.all)
         .onAppear{
             GADMobileAds.sharedInstance().start(completionHandler: nil)
