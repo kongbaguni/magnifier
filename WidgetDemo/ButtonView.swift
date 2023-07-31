@@ -17,9 +17,15 @@ struct ButtonView: View {
         } label: {
             VStack {
                 if let img = titleImage {
-                    img
-                        .resizable()
-                        .scaledToFit()
+                    if titleText == nil {
+                        img
+                            .resizable()
+                            .scaledToFill()
+                    } else {
+                        img
+                            .resizable()
+                            .scaledToFit()
+                    }
                 }
                 if let txt = titleText {
                     txt
@@ -42,6 +48,6 @@ struct ButtonView_Previews: PreviewProvider {
             action: {
             },
             titleImage: Image("carmera"),
-            titleText: Text("text"))
+            titleText:nil)
     }
 }
