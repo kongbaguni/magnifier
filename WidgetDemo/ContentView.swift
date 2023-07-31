@@ -40,16 +40,27 @@ struct ContentView: View {
     @State var longPressBeganDate:Date? = nil
     var controlPannel : some View {
         Group {
-            Text("zoom : \(String(format: "%.2f",zoom))")
-                .foregroundColor(.white)
-                .shadow(radius: 20)
+            HStack {
+                Image("magnifyingglass.circle")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width:30)
+                    .renderingMode(.template)
+                    .foregroundColor(.white)
+                    .padding(5)
+                Text("\(String(format: "%.2f",zoom))")
+            }
+            .padding(20)
+            .background(Color.black.opacity(0.8))
+            .foregroundColor(.white)
+            .cornerRadius(10)
+            .shadow(radius: 20)
+
             HStack {
                 ButtonView(action: {
                     ad.showAd { _, _ in
                         isPresentedImageView = true
                     }
-                    
-                    
                 }, titleImage: image, titleText: nil)
                 Spacer()
                 if isHaveCarmeraPermission {
@@ -122,7 +133,6 @@ struct ContentView: View {
                             borderColor = .clear
                         }
                     }
-                    
                 }
             })
             .onEnded({ end in
