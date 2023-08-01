@@ -9,6 +9,7 @@ import SwiftUI
 import WidgetKit
 import AVKit
 import GoogleMobileAds
+import ActivityIndicatorView
 
 struct ContentView: View {
     let ad = GoogleAd()
@@ -21,6 +22,7 @@ struct ContentView: View {
 
     @State var borderColor:Color = .clear
     @State var longPressBeganDate:Date? = nil
+    @State var isLoading = false
     var controlPannel : some View {
         Group {
             HStack {
@@ -40,6 +42,9 @@ struct ContentView: View {
 
             HStack {
                 ButtonView(action: {
+                    if isLoading {
+                        return
+                    }
                     ad.showAd { _, _ in
                         isPresentedImageView = true
                     }
@@ -85,6 +90,12 @@ struct ContentView: View {
                 image = Image(uiImage: img)
             }
         }
+        .onReceive(NotificationCenter.default.publisher(for: .adLoadingStart)) { noti in
+            isLoading = true
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .adLoadingFinish)) { noti in
+            isLoading = false
+        }
         
     }
     
@@ -110,6 +121,20 @@ struct ContentView: View {
                 .padding(.leading, 5)
                 .padding(.trailing, 5)
                 .padding(.bottom, .safeAreaInsetBottom)
+                if isLoading {
+                    VStack {
+                        Spacer()
+                        HStack {
+                            Spacer()
+                            ActivityIndicatorView(isVisible: $isLoading, type: .default())
+                                .frame(width:50, height:50)
+                                .foregroundColor(.white)
+                            Spacer()
+                        }
+                        Spacer()
+                    }
+                    .background(Color.black.opacity(0.8))
+                }
             }
         }
 

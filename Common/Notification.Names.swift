@@ -16,5 +16,8 @@ extension Notification.Name {
     static let carmeraTakePhotoSaveFinish = Notification.Name("carmeraTakePhotoSaveFinish_observer")
     static let carmeraSettingChange = Notification.Name("carmeraSettingChange_observer")
     static let cameraRequestPermissionGetResult = Notification.Name("CameraRequestPermissionGetResult_observer")
+    
+    static let adLoadingStart = Notification.Name("adLoadingStart_observer")
+    static let adLoadingFinish = Notification.Name("adLoadingFinish_observer")
 
 }
