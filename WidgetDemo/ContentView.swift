@@ -58,7 +58,7 @@ struct ContentView: View {
                     Text("\(adWatchPoint)").font(.caption).bold().foregroundColor(.yellow)
                 }
                 .padding(5)
-                .background(Color.gray.opacity(0.5))
+                .background(Color.black.opacity(0.5))
                 .cornerRadius(10)
             }
 
