@@ -12,6 +12,10 @@ import GoogleMobileAds
 import ActivityIndicatorView
 
 struct ContentView: View {
+    enum AdAlertAfterAction {
+        case imageView
+        case takePicture
+    }
     let ad = GoogleAd()
     @AppStorage("adWatchPoint") var adWatchPoint = 0
     @State var zoom:CGFloat = 1.0
@@ -25,8 +29,10 @@ struct ContentView: View {
     @State var longPressBeganDate:Date? = nil
     @State var isLoading = false
     @State var adAlertConfirm = false
+    @State var adAlertAfterAction:AdAlertAfterAction? = nil
     var controlPannel : some View {
         Group {
+            
             HStack {
                 Image(systemName:"magnifyingglass")
                     .resizable()
@@ -41,34 +47,44 @@ struct ContentView: View {
             .foregroundColor(.white)
             .cornerRadius(20)
             .shadow(radius: 20)
+            
+            HStack {
+                Text("Point").font(.caption).foregroundColor(.white)
+                Text(":")
+                Text("\(adWatchPoint)").font(.caption).bold().foregroundColor(.yellow)
+            }
+            .padding(5)
+            .background(Color.gray.opacity(0.8))
+            .cornerRadius(20)
+
 
             HStack {
-                VStack {
-                    HStack {
-                        Text("Point").font(.caption).foregroundColor(.white)
-                        Text(":")
-                        Text("\(adWatchPoint)").font(.caption).bold().foregroundColor(.yellow)
+                ButtonView(action: {
+                    if isLoading {
+                        return
                     }
-                    .padding(20)
-                    .background(Color.gray.opacity(0.8))
-                    .cornerRadius(10)
+                    if adWatchPoint >= 10 {
+                        isPresentedImageView = true
+                        adWatchPoint -= 10
+                    }
+                    else {
+                        adAlertConfirm = true
+                        adAlertAfterAction = .imageView
+                    }
+                }, titleImage: image, titleText: nil)
+                Spacer()
+                if isHaveCarmeraPermission {
                     ButtonView(action: {
                         if isLoading {
                             return
                         }
-                        if adWatchPoint > 0 {
-                            isPresentedImageView = true
+                        if adWatchPoint >= 1 {
+                            NotificationCenter.default.post(name: .carmeraTakePhoto, object: zoom)
                             adWatchPoint -= 1
-                        }
-                        else {
+                        } else {
                             adAlertConfirm = true
+                            adAlertAfterAction = .takePicture
                         }
-                    }, titleImage: image, titleText: nil)
-                }
-                Spacer()
-                if isHaveCarmeraPermission {
-                    ButtonView(action: {
-                        NotificationCenter.default.post(name: .carmeraTakePhoto, object: zoom)
                     }, titleImage: Image("carmera"), titleText: nil)
                 }
             }
@@ -171,9 +187,16 @@ struct ContentView: View {
             Alert(title: Text("adAlertConfirm_title"),
                   primaryButton: .default(Text("confirm"), action: {
                 ad.showAd { _, _ in
-                    adWatchPoint += 10
-                    isPresentedImageView = true
-                    adWatchPoint -= 1
+                    adWatchPoint += 100
+                    switch adAlertAfterAction {
+                        case .imageView:
+                            isPresentedImageView = true
+                            adWatchPoint -= 10
+                        case .takePicture:
+                            NotificationCenter.default.post(name: .carmeraTakePhoto, object: zoom)
+                            adWatchPoint -= 1
+                    }
+                    
                 }
             }), secondaryButton: .cancel())
         }
