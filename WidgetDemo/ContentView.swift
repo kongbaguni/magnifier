@@ -13,6 +13,7 @@ import ActivityIndicatorView
 
 struct ContentView: View {
     let ad = GoogleAd()
+    @AppStorage("adWatchPoint") var adWatchPoint = 0
     @State var zoom:CGFloat = 1.0
     @State var log = LimitedArray<String>(limit: 20)
     @State var image:Image = Image("cat")
@@ -23,6 +24,7 @@ struct ContentView: View {
     @State var borderColor:Color = .clear
     @State var longPressBeganDate:Date? = nil
     @State var isLoading = false
+    @State var adAlertConfirm = false
     var controlPannel : some View {
         Group {
             HStack {
@@ -41,14 +43,27 @@ struct ContentView: View {
             .shadow(radius: 20)
 
             HStack {
-                ButtonView(action: {
-                    if isLoading {
-                        return
+                VStack {
+                    HStack {
+                        Text("Point:").font(.caption).foregroundColor(.white)
+                        Text("\(adWatchPoint)").font(.caption).bold().foregroundColor(.yellow)
                     }
-                    ad.showAd { _, _ in
-                        isPresentedImageView = true
-                    }
-                }, titleImage: image, titleText: nil)
+                    .padding(20)
+                    .background(Color.gray.opacity(0.8))
+                    .cornerRadius(10)
+                    ButtonView(action: {
+                        if isLoading {
+                            return
+                        }
+                        adWatchPoint -= 1
+                        if adWatchPoint > 0 {
+                            isPresentedImageView = true
+                        }
+                        else {
+                            adAlertConfirm = true
+                        }
+                    }, titleImage: image, titleText: nil)
+                }
                 Spacer()
                 if isHaveCarmeraPermission {
                     ButtonView(action: {
@@ -150,6 +165,15 @@ struct ContentView: View {
         }
         .sheet(isPresented: $isPresentedImageView) {
             ImageView()
+        }
+        .alert(isPresented: $adAlertConfirm) {
+            Alert(title: Text("adAlertConfirm_title"),
+                  primaryButton: .default(Text("confirm"), action: {
+                ad.showAd { _, _ in
+                    adWatchPoint += 10
+                    isPresentedImageView = true
+                }
+            }), secondaryButton: .cancel())
         }
     }
 }
