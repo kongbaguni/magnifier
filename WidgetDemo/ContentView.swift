@@ -195,6 +195,8 @@ struct ContentView: View {
                         case .takePicture:
                             NotificationCenter.default.post(name: .carmeraTakePhoto, object: zoom)
                             adWatchPoint -= 1
+                        case .none:
+                            break
                     }
                     
                 }
