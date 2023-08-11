@@ -170,7 +170,7 @@ struct ContentView: View {
             Alert(title: Text("adAlertConfirm_title"),
                   primaryButton: .default(Text("confirm"), action: {
                 ad.showAd { _, _ in
-                    adWatchPoint += 10
+                    adWatchPoint += 50
                     isPresentedImageView = true
                 }
             }), secondaryButton: .cancel())
