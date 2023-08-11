@@ -48,14 +48,19 @@ struct ContentView: View {
             .cornerRadius(20)
             .shadow(radius: 20)
             
-            HStack {
-                Text("Point").font(.caption).foregroundColor(.white)
-                Text(":")
-                Text("\(adWatchPoint)").font(.caption).bold().foregroundColor(.yellow)
+            Button {
+                adAlertConfirm = true
+                adAlertAfterAction = nil
+            } label : {
+                HStack {
+                    Text("Point").font(.caption).foregroundColor(.white)
+                    Text(":").font(.caption).foregroundColor(.orange)
+                    Text("\(adWatchPoint)").font(.caption).bold().foregroundColor(.yellow)
+                }
+                .padding(5)
+                .background(Color.gray.opacity(0.5))
+                .cornerRadius(10)
             }
-            .padding(5)
-            .background(Color.gray.opacity(0.8))
-            .cornerRadius(20)
 
 
             HStack {
