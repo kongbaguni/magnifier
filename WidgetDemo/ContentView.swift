@@ -54,7 +54,7 @@ struct ContentView: View {
             } label : {
                 HStack {
                     Text("Point").font(.caption).foregroundColor(.white)
-                    Text(":").font(.caption).foregroundColor(.orange)
+                    Text(":").font(.caption).foregroundColor(.white)
                     Text("\(adWatchPoint)").font(.caption).bold().foregroundColor(.yellow)
                 }
                 .padding(5)
