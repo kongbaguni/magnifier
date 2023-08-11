@@ -55,9 +55,9 @@ struct ContentView: View {
                         if isLoading {
                             return
                         }
-                        adWatchPoint -= 1
                         if adWatchPoint > 0 {
                             isPresentedImageView = true
+                            adWatchPoint -= 1
                         }
                         else {
                             adAlertConfirm = true
@@ -172,6 +172,7 @@ struct ContentView: View {
                 ad.showAd { _, _ in
                     adWatchPoint += 50
                     isPresentedImageView = true
+                    adWatchPoint -= 1
                 }
             }), secondaryButton: .cancel())
         }
