@@ -17,7 +17,7 @@ struct ContentView: View {
         case takePicture
     }
     let ad = GoogleAd()
-    @AppStorage("adWatchPoint") var adWatchPoint = 0
+    @AppStorage("adWatchPoint") var adWatchPoint = 100
     @State var zoom:CGFloat = 1.0
     @State var log = LimitedArray<String>(limit: 20)
     @State var image:Image = Image("cat")
@@ -29,6 +29,7 @@ struct ContentView: View {
     @State var longPressBeganDate:Date? = nil
     @State var isLoading = false
     @State var adAlertConfirm = false
+    @State var adAlertMsg:Text = Text("")
     @State var adAlertAfterAction:AdAlertAfterAction? = nil
     var controlPannel : some View {
         Group {
@@ -50,6 +51,7 @@ struct ContentView: View {
             
             Button {
                 adAlertConfirm = true
+                adAlertMsg = Text("adAlertConfirm_title")
                 adAlertAfterAction = nil
             } label : {
                 HStack {
@@ -74,6 +76,7 @@ struct ContentView: View {
                     }
                     else {
                         adAlertConfirm = true
+                        adAlertMsg = Text("low point warning")
                         adAlertAfterAction = .imageView
                     }
                 }, titleImage: image, titleText: nil)
@@ -88,6 +91,7 @@ struct ContentView: View {
                             adWatchPoint -= 1
                         } else {
                             adAlertConfirm = true
+                            adAlertMsg = Text("low point warning")
                             adAlertAfterAction = .takePicture
                         }
                     }, titleImage: Image("carmera"), titleText: nil)
@@ -189,7 +193,7 @@ struct ContentView: View {
             ImageView()
         }
         .alert(isPresented: $adAlertConfirm) {
-            Alert(title: Text("adAlertConfirm_title"),
+            Alert(title: adAlertMsg,
                   primaryButton: .default(Text("confirm"), action: {
                 ad.showAd { _, _ in
                     adWatchPoint += 100
