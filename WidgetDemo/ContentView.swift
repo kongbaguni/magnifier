@@ -80,7 +80,7 @@ struct ContentView: View {
                     else {
                         adAlertConfirm = true
                         adAlertTitle = Text("low point warning title")
-                        adAlertMsg = Text("low point warning desc")
+                        adAlertMsg = Text("low point warning desc 10")
                         adAlertAfterAction = .imageView
                     }
                 }, titleImage: image, titleText: nil)
@@ -96,7 +96,7 @@ struct ContentView: View {
                         } else {
                             adAlertConfirm = true
                             adAlertTitle = Text("low point warning title")
-                            adAlertMsg = Text("low point warning desc")
+                            adAlertMsg = Text("low point warning desc 1")
                             adAlertAfterAction = .takePicture
                         }
                     }, titleImage: Image("carmera"), titleText: nil)

@@ -14,4 +14,6 @@
 "adAlertConfirm_title" = "point charge";
 "adAlertConfirm_title" = "Watch ads and get 100 points";
 "low point warning title" = "running out of points.";
-"low point warning desc" = " Watch ads and get 100 points";
+"low point warning desc 1" = "Watch ads and get 100 points\nThis action costs 1 points.";
+"low point warning desc 10" = "Watch ads and get 100 points\nThis action costs 10 points.";
+
