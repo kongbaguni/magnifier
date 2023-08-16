@@ -29,7 +29,9 @@ struct ContentView: View {
     @State var longPressBeganDate:Date? = nil
     @State var isLoading = false
     @State var adAlertConfirm = false
+    @State var adAlertTitle:Text = Text("")
     @State var adAlertMsg:Text = Text("")
+    @State var adAlertDesc:Text? = nil
     @State var adAlertAfterAction:AdAlertAfterAction? = nil
     var controlPannel : some View {
         Group {
@@ -51,7 +53,8 @@ struct ContentView: View {
             
             Button {
                 adAlertConfirm = true
-                adAlertMsg = Text("adAlertConfirm_title")
+                adAlertTitle = Text("adAlertConfirm_title")
+                adAlertMsg = Text("adAlertConfirm_msg")
                 adAlertAfterAction = nil
             } label : {
                 HStack {
@@ -76,7 +79,8 @@ struct ContentView: View {
                     }
                     else {
                         adAlertConfirm = true
-                        adAlertMsg = Text("low point warning")
+                        adAlertTitle = Text("low point warning title")
+                        adAlertMsg = Text("low point warning desc")
                         adAlertAfterAction = .imageView
                     }
                 }, titleImage: image, titleText: nil)
@@ -91,7 +95,8 @@ struct ContentView: View {
                             adWatchPoint -= 1
                         } else {
                             adAlertConfirm = true
-                            adAlertMsg = Text("low point warning")
+                            adAlertTitle = Text("low point warning title")
+                            adAlertMsg = Text("low point warning desc")
                             adAlertAfterAction = .takePicture
                         }
                     }, titleImage: Image("carmera"), titleText: nil)
@@ -193,7 +198,9 @@ struct ContentView: View {
             ImageView()
         }
         .alert(isPresented: $adAlertConfirm) {
-            Alert(title: adAlertMsg,
+            
+            Alert(title: adAlertTitle,
+                  message: adAlertMsg,
                   primaryButton: .default(Text("confirm"), action: {
                 ad.showAd { _, _ in
                     adWatchPoint += 100

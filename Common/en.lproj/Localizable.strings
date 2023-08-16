@@ -11,5 +11,7 @@
 "Camera Access Denind Title" = "Access Rights";
 "Camera Access Denine desc" = "You do not have permission to access the camera.\nPlease set camera access permission.";
 "Go to Setting" = "Go to Setting";
-"adAlertConfirm_title" = "Watch ads and earn points.";
-"low point warning" = "running out of points. You can earn points by watching ads.";
+"adAlertConfirm_title" = "point charge";
+"adAlertConfirm_title" = "Watch ads and get 100 points";
+"low point warning title" = "running out of points.";
+"low point warning desc" = " Watch ads and get 100 points";
