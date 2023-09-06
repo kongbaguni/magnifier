@@ -51,17 +51,27 @@ struct BannerAdView: View {
     let gad = GoogleAd()
     var body: some View {
         ZStack {
-            ActivityIndicatorView(isVisible: $loading, type: .default()).frame(width: 40, height: 40)
             if let view = bannerView {
                 GoogleAdBannerView(bannerView: view)
             }
+            ActivityIndicatorView(isVisible: $loading, type: .gradient([.red,.orange,.yellow,.gray,.blue,.purple]))
+                .frame(width: 30, height: 30)
+                .shadow(color:.primary, radius: 20)
         }
         .frame(width: bannerSize.width, height: bannerSize.height, alignment: .center)
         .padding(.top,padding.top)
         .padding(.bottom,padding.bottom)
         .padding(.leading, padding.left)
         .padding(.trailing, padding.right)
-        .background(Color.gray)
+        .onReceive(NotificationCenter.default.publisher(for: .adBannerLoadingStart)) { noti in
+            loading = true
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .adBannerLoadingFinish)) { noti in
+            loading = false
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .adBannerLoadingFail)) { noti in
+            loading = false
+        }
         
     }
     

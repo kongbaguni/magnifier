@@ -97,6 +97,7 @@ extension GoogleAd : GADFullScreenContentDelegate {
 
 struct GoogleAdBannerView: UIViewRepresentable {
     let bannerView:GADBannerView
+    let delegate = GoogleAdBannerViewDelegate()
     func makeUIView(context: Context) -> GADBannerView {
         bannerView.adUnitID = bannerGaId
         bannerView.rootViewController = UIApplication.shared.lastViewController
@@ -105,5 +106,34 @@ struct GoogleAdBannerView: UIViewRepresentable {
   
     func updateUIView(_ uiView: GADBannerView, context: Context) {
         uiView.load(GADRequest())
+        print("GADBannerViewDelegate \(#function) \(#line)")
+        NotificationCenter.default.post(name: .adBannerLoadingStart, object: nil)
+        uiView.delegate = delegate
+    }
+}
+
+class GoogleAdBannerViewDelegate : NSObject, GADBannerViewDelegate {
+    func bannerViewDidReceiveAd(_ bannerView: GADBannerView) {
+        print("GADBannerViewDelegate \(#function) \(#line)")
+        NotificationCenter.default.post(name: .adBannerLoadingFinish, object: nil)
+    }
+//    func bannerViewDidRecordClick(_ bannerView: GADBannerView) {
+//
+//    }
+//    func bannerViewDidDismissScreen(_ bannerView: GADBannerView) {
+//
+//    }
+//    func bannerViewWillDismissScreen(_ bannerView: GADBannerView) {
+//
+//    }
+//    func bannerViewWillPresentScreen(_ bannerView: GADBannerView) {
+//
+//    }
+//    func bannerViewDidRecordImpression(_ bannerView: GADBannerView) {
+//
+//    }
+    func bannerView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: Error) {
+        print("GADBannerViewDelegate \(#function) \(#line)")
+        NotificationCenter.default.post(name: .adBannerLoadingFail, object: error)
     }
 }
