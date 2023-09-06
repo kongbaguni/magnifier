@@ -59,6 +59,7 @@ struct BannerAdView: View {
                 .shadow(color:.primary, radius: 20)
         }
         .frame(width: bannerSize.width, height: bannerSize.height, alignment: .center)
+        .background(Color.primary.opacity(0.2))
         .padding(.top,padding.top)
         .padding(.bottom,padding.bottom)
         .padding(.leading, padding.left)
