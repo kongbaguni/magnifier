@@ -45,15 +45,12 @@ struct BannerAdView: View {
         }
     }
     
-    let bannerView:GADBannerView?
-    
     @State var loading:Bool = true
+    
     let gad = GoogleAd()
     var body: some View {
         ZStack {
-            if let view = bannerView {
-                GoogleAdBannerView(bannerView: view)
-            }
+            GoogleAdBannerView(type: sizeType)
             ActivityIndicatorView(isVisible: $loading, type: .gradient([.red,.orange,.yellow,.gray,.blue,.purple]))
                 .frame(width: 30, height: 30)
                 .shadow(color:.primary, radius: 20)
@@ -79,9 +76,12 @@ struct BannerAdView: View {
     init(sizeType:SizeType, padding:UIEdgeInsets = .zero) {
         self.sizeType = sizeType
         self.padding = padding
-        
-        var bView:GADBannerView? {
-            switch sizeType {
+    }
+}
+
+extension GADBannerView {
+    static func makeView(sizeType:BannerAdView.SizeType)->GADBannerView {
+        switch sizeType {
             case .GADAdSizeBanner:
                 return GADBannerView(adSize : GADAdSizeBanner)
             case .GADAdSizeLargeBanner:
@@ -94,9 +94,6 @@ struct BannerAdView: View {
                 return GADBannerView(adSize : GADAdSizeLeaderboard)
             case .GADAdSizeSkyscraper:
                 return GADBannerView(adSize : GADAdSizeSkyscraper)
-            }
         }
-        bannerView = bView
     }
 }
-

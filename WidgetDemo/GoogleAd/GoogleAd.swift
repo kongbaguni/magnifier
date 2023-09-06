@@ -96,9 +96,11 @@ extension GoogleAd : GADFullScreenContentDelegate {
 }
 
 struct GoogleAdBannerView: UIViewRepresentable {
-    let bannerView:GADBannerView
+    let type:BannerAdView.SizeType
     let delegate = GoogleAdBannerViewDelegate()
+    @State var isRegObserver = false
     func makeUIView(context: Context) -> GADBannerView {
+        let bannerView:GADBannerView = .makeView(sizeType: type)
         bannerView.adUnitID = bannerGaId
         bannerView.rootViewController = UIApplication.shared.lastViewController
         return bannerView
@@ -109,6 +111,14 @@ struct GoogleAdBannerView: UIViewRepresentable {
         print("GADBannerViewDelegate \(#function) \(#line)")
         NotificationCenter.default.post(name: .adBannerLoadingStart, object: nil)
         uiView.delegate = delegate
+        if isRegObserver == false  {
+            NotificationCenter.default.addObserver(forName: .adBannerLoadingFail, object: nil, queue: nil) { noti in
+                DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(10)) {
+                    uiView.load(GADRequest())
+                }
+            }
+            isRegObserver = true
+        }
     }
 }
 
