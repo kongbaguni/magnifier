@@ -115,7 +115,12 @@ struct GoogleAdBannerView: UIViewRepresentable {
             NotificationCenter.default.addObserver(forName: .adBannerLoadingFail, object: nil, queue: nil) { noti in
                 DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(10)) {
                     uiView.load(GADRequest())
+                    NotificationCenter.default.post(name: .adBannerLoadingStart, object: nil)
                 }
+            }
+            NotificationCenter.default.addObserver(forName: UIApplication.willEnterForegroundNotification, object: nil, queue: nil) { noti in
+                uiView.load(GADRequest())
+                NotificationCenter.default.post(name: .adBannerLoadingStart, object: nil)
             }
             isRegObserver = true
         }
