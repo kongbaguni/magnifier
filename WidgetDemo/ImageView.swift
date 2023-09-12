@@ -13,7 +13,7 @@ struct ImageView: View {
     @State var activityItem:ActivityItem? = nil
     
     var imageView : some View {
-        PinchZoomImageView(image: image)
+        PinchZoomPanImageView(image: image)
     }
     
     var body: some View {

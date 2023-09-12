@@ -47,7 +47,7 @@
 		8D6E29EC2A612D120028396A /* BannerAdView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D6E29EA2A612D120028396A /* BannerAdView.swift */; };
 		8D6E29EE2A612DF60028396A /* Userdefault+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D6E29ED2A612DF60028396A /* Userdefault+Extensions.swift */; };
 		8D6E29F02A612E270028396A /* UIApplication+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D6E29EF2A612E270028396A /* UIApplication+Extensions.swift */; };
-		8D80D8552AB02F510002D66A /* PinchZoomImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D80D8542AB02F510002D66A /* PinchZoomImageView.swift */; };
+		8D80D8552AB02F510002D66A /* PinchZoomPanImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D80D8542AB02F510002D66A /* PinchZoomPanImageView.swift */; };
 		8DC4B3422A64FEB300E4A561 /* ActivityIndicatorView in Frameworks */ = {isa = PBXBuildFile; productRef = 8DC4B3412A64FEB300E4A561 /* ActivityIndicatorView */; };
 		8DE0A9632A5FB05200D4B058 /* CameraAccesDeninedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DE0A9622A5FB05200D4B058 /* CameraAccesDeninedView.swift */; };
 		8DE0A9642A5FB76B00D4B058 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8DE0A9672A5FB76B00D4B058 /* Localizable.strings */; };
@@ -116,7 +116,7 @@
 		8D6E29EA2A612D120028396A /* BannerAdView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BannerAdView.swift; sourceTree = "<group>"; };
 		8D6E29ED2A612DF60028396A /* Userdefault+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Userdefault+Extensions.swift"; sourceTree = "<group>"; };
 		8D6E29EF2A612E270028396A /* UIApplication+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIApplication+Extensions.swift"; sourceTree = "<group>"; };
-		8D80D8542AB02F510002D66A /* PinchZoomImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinchZoomImageView.swift; sourceTree = "<group>"; };
+		8D80D8542AB02F510002D66A /* PinchZoomPanImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinchZoomPanImageView.swift; sourceTree = "<group>"; };
 		8DE0A9622A5FB05200D4B058 /* CameraAccesDeninedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraAccesDeninedView.swift; sourceTree = "<group>"; };
 		8DE0A9662A5FB76B00D4B058 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		8DE0A9682A5FB76E00D4B058 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -185,7 +185,7 @@
 				1B1A81CF2A5BD27F0098BDCE /* ButtonView.swift */,
 				1B1A81D12A5BDAE70098BDCE /* ToggleSliderButton.swift */,
 				8DE0A9622A5FB05200D4B058 /* CameraAccesDeninedView.swift */,
-				8D80D8542AB02F510002D66A /* PinchZoomImageView.swift */,
+				8D80D8542AB02F510002D66A /* PinchZoomPanImageView.swift */,
 			);
 			path = WidgetDemo;
 			sourceTree = "<group>";
@@ -372,7 +372,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8D80D8552AB02F510002D66A /* PinchZoomImageView.swift in Sources */,
+				8D80D8552AB02F510002D66A /* PinchZoomPanImageView.swift in Sources */,
 				1B383F492A53ECEF003665EA /* ImageView.swift in Sources */,
 				8DE0A9632A5FB05200D4B058 /* CameraAccesDeninedView.swift in Sources */,
 				1B8FDAC22A4C1CDC007BE5E5 /* Notification.Names.swift in Sources */,
