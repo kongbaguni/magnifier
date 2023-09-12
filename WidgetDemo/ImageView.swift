@@ -33,9 +33,10 @@ struct ImageView: View {
                                 .padding(.init(top: 5, leading: 10, bottom: 10, trailing: 10))
                                 .overlay {
                                     Circle()
-                                        .foregroundColor(.yellow)
-                                        .opacity(0.5)
+                                        .stroke(lineWidth: 2.5)
+                                        .foregroundColor(.white)
                                 }
+                                .shadow(radius: 20)
                         }
 
                     }
