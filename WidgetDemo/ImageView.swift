@@ -14,6 +14,7 @@ struct ImageView: View {
     
     var imageView : some View {
         image.resizable().scaledToFill().clipped()
+            .ignoresSafeArea()
     }
     
     var body: some View {
@@ -28,6 +29,13 @@ struct ImageView: View {
                             }
                         } label: {
                             Image(systemName: "square.and.arrow.up")
+                                .foregroundColor(.white)
+                                .padding(.init(top: 5, leading: 10, bottom: 10, trailing: 10))
+                                .overlay {
+                                    Circle()
+                                        .foregroundColor(.yellow)
+                                        .opacity(0.5)
+                                }
                         }
 
                     }
