@@ -13,16 +13,15 @@ struct ImageView: View {
     @State var activityItem:ActivityItem? = nil
     
     var imageView : some View {
-        PinchZoomPanImageView(image: image)
+//        PinchZoomPanImageView(image: image)
+        image.resizable().scaledToFill().clipped()
     }
     
     var body: some View {
         NavigationView {
             if #available(iOS 16.0, *) {
                 NavigationStack {
-                    GeometryReader { proxy in
-                        imageView
-                    }
+                    imageView
                     .navigationTitle("share")
                     .toolbar {
                         Button {
