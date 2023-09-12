@@ -26,7 +26,7 @@ struct ImageView: View {
                     .navigationTitle("share")
                     .toolbar {
                         Button {
-                            if let data = image.getUIImage(newSize: .init(width:1280, height: 1280))?.jpegData(compressionQuality: 7) {
+                            if let data = image.getUIImage(newSize: UIScreen.main.bounds.size)?.jpegData(compressionQuality: 7) {
                                 activityItem = .init(itemsArray: [data])
                             }
                         } label: {

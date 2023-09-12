@@ -11,8 +11,9 @@ extension Image {
     @MainActor
     func getUIImage(newSize: CGSize) -> UIImage? {
         let image = resizable()
-            .frame(width: newSize.width, height: newSize.height)
-            .scaledToFit()
+            .scaledToFill()
+            .frame(width: newSize.width, height: newSize.height)            
+            .clipped()
         if #available(iOS 16.0, *) {
             return ImageRenderer(content: image).uiImage
         } else {
