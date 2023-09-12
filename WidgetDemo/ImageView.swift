@@ -13,7 +13,6 @@ struct ImageView: View {
     @State var activityItem:ActivityItem? = nil
     
     var imageView : some View {
-//        PinchZoomPanImageView(image: image)
         image.resizable().scaledToFill().clipped()
     }
     
@@ -22,7 +21,6 @@ struct ImageView: View {
             if #available(iOS 16.0, *) {
                 NavigationStack {
                     imageView
-                    .navigationTitle("share")
                     .toolbar {
                         Button {
                             if let data = image.getUIImage(newSize: UIScreen.main.bounds.size)?.jpegData(compressionQuality: 7) {
