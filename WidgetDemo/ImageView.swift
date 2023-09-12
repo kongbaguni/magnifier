@@ -6,14 +6,43 @@
 //
 
 import SwiftUI
+import ActivityView
 
 struct ImageView: View {
     @State var image:Image = AppGroup.savedImage ?? Image("cat")
-    var body: some View {
+    @State var activityItem:ActivityItem? = nil
+    
+    var imageView : some View {
         image
             .resizable()
             .scaledToFill()
             .edgesIgnoringSafeArea(.all)
+    }
+    
+    var body: some View {
+        NavigationView {
+            if #available(iOS 16.0, *) {
+                NavigationStack {
+                    GeometryReader { proxy in
+                        imageView
+                    }
+                    .navigationTitle("share")
+                    .toolbar {
+                        Button {
+                            if let data = image.getUIImage(newSize: .init(width:1280, height: 1280))?.jpegData(compressionQuality: 7) {
+                                activityItem = .init(itemsArray: [data])
+                            }
+                        } label: {
+                            Image(systemName: "square.and.arrow.up")
+                        }
+
+                    }
+                }
+            } else {
+                imageView
+            }
+        }
+        .activitySheet($activityItem)
     }
 }
 
