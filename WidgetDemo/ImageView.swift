@@ -13,10 +13,7 @@ struct ImageView: View {
     @State var activityItem:ActivityItem? = nil
     
     var imageView : some View {
-        image
-            .resizable()
-            .scaledToFill()
-            .edgesIgnoringSafeArea(.all)
+        PinchZoomImageView(image: image)
     }
     
     var body: some View {
