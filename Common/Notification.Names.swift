@@ -10,6 +10,8 @@ import Foundation
 extension Notification.Name {
     static let carmeraCtlZoom = Notification.Name("carmeraCtlZoom_observer")
     static let carmeraZoomChanged = Notification.Name("carmeraZoomChanged_observer")
+    static let carmeraZoomChangedWithZoomController = Notification.Name("carmeraZoomChangedWithZoomController_observer")
+    
     static let carmeraPreviewLog = Notification.Name("carmeraPreviewLog_observer")
     static let carmeraTakePhoto = Notification.Name("carmeraTakePhoto_observer")
     static let carmeraPhotoOutput = Notification.Name("cameraPhotoOutput_observer")

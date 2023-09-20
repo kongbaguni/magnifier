@@ -79,6 +79,12 @@ class CameraPreviewView: UIView {
                 }
             }
         }
+        NotificationCenter.default.addObserver(forName: .carmeraZoomChangedWithZoomController, object: nil, queue: nil) { [weak self] noti in
+            if let zoom = noti.object as? CGFloat {
+                self?.setZoomFactor(zoom)
+            }
+            
+        }
     }
     
     func setExposureMode(isManual:Bool) {

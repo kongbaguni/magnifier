@@ -12,6 +12,8 @@
 		1B0551652A57CC23002904B5 /* Color+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B0551632A57CC23002904B5 /* Color+Extensions.swift */; };
 		1B1A81D02A5BD27F0098BDCE /* ButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B1A81CF2A5BD27F0098BDCE /* ButtonView.swift */; };
 		1B1A81D22A5BDAE70098BDCE /* ToggleSliderButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B1A81D12A5BDAE70098BDCE /* ToggleSliderButton.swift */; };
+		1B2A947E2ABACF4800EC83A3 /* ZoomControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B2A947D2ABACF4800EC83A3 /* ZoomControlView.swift */; };
+		1B2A94802ABAD62300EC83A3 /* CGPoint+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B2A947F2ABAD62300EC83A3 /* CGPoint+Extensions.swift */; };
 		1B383F492A53ECEF003665EA /* ImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B383F482A53ECEE003665EA /* ImageView.swift */; };
 		1B5476342A68C823003D5DD7 /* GoogleAdPrompt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B5476332A68C823003D5DD7 /* GoogleAdPrompt.swift */; };
 		1B8FDA8E2A4BB1C0007BE5E5 /* WidgetDemoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8FDA8D2A4BB1C0007BE5E5 /* WidgetDemoApp.swift */; };
@@ -85,6 +87,8 @@
 		1B0551662A57D315002904B5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = Info.plist; path = widgetDemo/Info.plist; sourceTree = "<group>"; };
 		1B1A81CF2A5BD27F0098BDCE /* ButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonView.swift; sourceTree = "<group>"; };
 		1B1A81D12A5BDAE70098BDCE /* ToggleSliderButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToggleSliderButton.swift; sourceTree = "<group>"; };
+		1B2A947D2ABACF4800EC83A3 /* ZoomControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomControlView.swift; sourceTree = "<group>"; };
+		1B2A947F2ABAD62300EC83A3 /* CGPoint+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGPoint+Extensions.swift"; sourceTree = "<group>"; };
 		1B383F482A53ECEE003665EA /* ImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageView.swift; sourceTree = "<group>"; };
 		1B5476332A68C823003D5DD7 /* GoogleAdPrompt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoogleAdPrompt.swift; sourceTree = "<group>"; };
 		1B8FDA8A2A4BB1C0007BE5E5 /* readingGlasses.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = readingGlasses.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -178,6 +182,7 @@
 				1B8FDA8D2A4BB1C0007BE5E5 /* WidgetDemoApp.swift */,
 				8D3D9F892A85B0DE00DC9897 /* GoogleAd */,
 				1B8FDA8F2A4BB1C0007BE5E5 /* ContentView.swift */,
+				1B2A947D2ABACF4800EC83A3 /* ZoomControlView.swift */,
 				1B8FDABC2A4BF5F1007BE5E5 /* LimitedArray.swift */,
 				1B8FDA932A4BB1C1007BE5E5 /* Preview Content */,
 				1B8FDAB92A4BB552007BE5E5 /* CameraPreview.swift */,
@@ -252,6 +257,7 @@
 				8D6E29ED2A612DF60028396A /* Userdefault+Extensions.swift */,
 				8D6D673C2A613AE700AA1765 /* CGFloat+Extensions.swift */,
 				8D0F13462AB01F3B00245240 /* Image+Extensions.swift */,
+				1B2A947F2ABAD62300EC83A3 /* CGPoint+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -376,11 +382,13 @@
 				1B383F492A53ECEF003665EA /* ImageView.swift in Sources */,
 				8DE0A9632A5FB05200D4B058 /* CameraAccesDeninedView.swift in Sources */,
 				1B8FDAC22A4C1CDC007BE5E5 /* Notification.Names.swift in Sources */,
+				1B2A94802ABAD62300EC83A3 /* CGPoint+Extensions.swift in Sources */,
 				1B8FDAC52A4C1EE5007BE5E5 /* Consts.swift in Sources */,
 				1B8FDAB12A4BB1F1007BE5E5 /* widget.intentdefinition in Sources */,
 				1B5476342A68C823003D5DD7 /* GoogleAdPrompt.swift in Sources */,
 				1B8FDABD2A4BF5F1007BE5E5 /* LimitedArray.swift in Sources */,
 				1B8FDAD42A4D0454007BE5E5 /* CGSize+Extensions.swift in Sources */,
+				1B2A947E2ABACF4800EC83A3 /* ZoomControlView.swift in Sources */,
 				1B1A81D22A5BDAE70098BDCE /* ToggleSliderButton.swift in Sources */,
 				1B1A81D02A5BD27F0098BDCE /* ButtonView.swift in Sources */,
 				1B8FDACB2A4C223F007BE5E5 /* AppGroup.swift in Sources */,

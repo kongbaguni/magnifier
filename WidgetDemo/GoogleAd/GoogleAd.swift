@@ -122,7 +122,9 @@ struct GoogleAdBannerView: UIViewRepresentable {
                 uiView.load(GADRequest())
                 NotificationCenter.default.post(name: .adBannerLoadingStart, object: nil)
             }
-            isRegObserver = true
+            DispatchQueue.main.async {
+                isRegObserver = true
+            }            
         }
     }
 }

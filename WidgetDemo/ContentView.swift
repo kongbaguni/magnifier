@@ -35,21 +35,7 @@ struct ContentView: View {
     @State var adAlertAfterAction:AdAlertAfterAction? = nil
     var controlPannel : some View {
         Group {
-            
-            HStack {
-                Image(systemName:"magnifyingglass")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width:30)
-                    .foregroundColor(.white)
-                    .padding(5)
-                Text("\(String(format: "%.2f",zoom))x")
-            }
-            .padding(10)
-            .background(Color.black.opacity(0.8))
-            .foregroundColor(.white)
-            .cornerRadius(20)
-            .shadow(radius: 20)
+            ZoomControlView(zoom: $zoom)
             
             Button {
                 adAlertConfirm = true
@@ -154,6 +140,7 @@ struct ContentView: View {
                 if isHaveCarmeraPermission == false {
                     CameraAccesDeninedView()
                 }
+                
                 VStack {
                     BannerAdView(sizeType: .GADAdSizeBanner, padding: .zero)
                         .border(Color.black, width: 2)
@@ -221,8 +208,6 @@ struct ContentView: View {
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
-    }
+#Preview {
+    ContentView()
 }
