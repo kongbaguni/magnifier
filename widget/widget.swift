@@ -46,25 +46,67 @@ struct SimpleEntry: TimelineEntry {
 struct widgetEntryView : View {
     var entry: Provider.Entry
 
-    var body: some View {
+    var backgroundView : some View {
         VStack {
             if let img = entry.image {
                 img
                     .resizable()
                     .scaledToFill()
+                    .ignoresSafeArea()
+                    .cornerRadius(10)
             }
             else {
-                
                 Image("cat")
                     .resizable()
                     .scaledToFill()
+                    .border(Color("WidgetBackground"), width: 2)
+                    .ignoresSafeArea()
                 
             }
         }
-        
-        .onAppear {
-            WidgetCenter.shared.reloadAllTimelines()
+        .opacity(0.3)
+        .background(Color("WidgetBackground"))
+    }
+    
+    var imageView : some View {
+        VStack {
+            if let img = entry.image {
+                if #available(iOSApplicationExtension 15.0, *) {
+                    img
+                        .resizable()
+                        .scaledToFit()
+                        .ignoresSafeArea()
+                        .cornerRadius(10)
+                        .overlay {
+                            RoundedRectangle(cornerRadius: 10)
+                                .stroke(lineWidth: 2)
+                        }
+                }
+                else {
+                    img
+                        .resizable()
+                        .scaledToFit()
+                        .ignoresSafeArea()
+                        .cornerRadius(10)
+                }
+            }
+            else {
+                Image("cat")
+                    .resizable()
+                    .scaledToFit()
+                    .border(Color("WidgetBackground"), width: 2)
+                    .ignoresSafeArea()
+                
+            }
         }
+    }
+    var body: some View {
+        imageView
+            .shadow(radius: 20)
+            .onAppear {
+                WidgetCenter.shared.reloadAllTimelines()
+            }
+            .widgetBackground(backgroundView: backgroundView)
     }
     
 }
@@ -84,6 +126,6 @@ struct widget: Widget {
 struct widget_Previews: PreviewProvider {
     static var previews: some View {
         widgetEntryView(entry: SimpleEntry(date: Date(), image: AppGroup.savedImage, configuration: ConfigurationIntent()))
-            .previewContext(WidgetPreviewContext(family: .systemSmall))
+            .previewContext(WidgetPreviewContext(family: .systemLarge))
     }
 }

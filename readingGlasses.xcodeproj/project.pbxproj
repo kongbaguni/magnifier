@@ -14,6 +14,7 @@
 		1B1A81D22A5BDAE70098BDCE /* ToggleSliderButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B1A81D12A5BDAE70098BDCE /* ToggleSliderButton.swift */; };
 		1B2A947E2ABACF4800EC83A3 /* ZoomControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B2A947D2ABACF4800EC83A3 /* ZoomControlView.swift */; };
 		1B2A94802ABAD62300EC83A3 /* CGPoint+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B2A947F2ABAD62300EC83A3 /* CGPoint+Extensions.swift */; };
+		1B2A94852ABC06A500EC83A3 /* View+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B2A94832ABC068800EC83A3 /* View+Extensions.swift */; };
 		1B383F492A53ECEF003665EA /* ImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B383F482A53ECEE003665EA /* ImageView.swift */; };
 		1B5476342A68C823003D5DD7 /* GoogleAdPrompt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B5476332A68C823003D5DD7 /* GoogleAdPrompt.swift */; };
 		1B8FDA8E2A4BB1C0007BE5E5 /* WidgetDemoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B8FDA8D2A4BB1C0007BE5E5 /* WidgetDemoApp.swift */; };
@@ -89,6 +90,7 @@
 		1B1A81D12A5BDAE70098BDCE /* ToggleSliderButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToggleSliderButton.swift; sourceTree = "<group>"; };
 		1B2A947D2ABACF4800EC83A3 /* ZoomControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomControlView.swift; sourceTree = "<group>"; };
 		1B2A947F2ABAD62300EC83A3 /* CGPoint+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGPoint+Extensions.swift"; sourceTree = "<group>"; };
+		1B2A94832ABC068800EC83A3 /* View+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extensions.swift"; sourceTree = "<group>"; };
 		1B383F482A53ECEE003665EA /* ImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageView.swift; sourceTree = "<group>"; };
 		1B5476332A68C823003D5DD7 /* GoogleAdPrompt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoogleAdPrompt.swift; sourceTree = "<group>"; };
 		1B8FDA8A2A4BB1C0007BE5E5 /* readingGlasses.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = readingGlasses.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -220,6 +222,7 @@
 				1B8FDAAA2A4BB1F0007BE5E5 /* widget.swift */,
 				1B8FDAAC2A4BB1F0007BE5E5 /* widget.intentdefinition */,
 				1B8FDAAF2A4BB1F1007BE5E5 /* Info.plist */,
+				1B2A94832ABC068800EC83A3 /* View+Extensions.swift */,
 			);
 			path = widget;
 			sourceTree = "<group>";
@@ -413,6 +416,7 @@
 			files = (
 				1B8FDAD22A4C2644007BE5E5 /* Notification.Names.swift in Sources */,
 				1B8FDAB02A4BB1F1007BE5E5 /* widget.intentdefinition in Sources */,
+				1B2A94852ABC06A500EC83A3 /* View+Extensions.swift in Sources */,
 				1B8FDACC2A4C2271007BE5E5 /* AppGroup.swift in Sources */,
 				1B8FDAC62A4C1EE9007BE5E5 /* Consts.swift in Sources */,
 				1B8FDAD52A4D0652007BE5E5 /* CGSize+Extensions.swift in Sources */,
