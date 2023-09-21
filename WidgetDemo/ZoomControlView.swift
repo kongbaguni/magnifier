@@ -14,7 +14,13 @@ struct ZoomControlView: View {
         }
     }
     @State var barHeight:CGFloat = 0
-    @State var isControl:Bool = false
+    @State var isControl:Bool = false {
+        didSet {
+            if oldValue != isControl {
+                setBarHeight()
+            }
+        }
+    }
     @State var startLocation:CGPoint? = nil
     @State var moveLocation:CGPoint = .zero {
         didSet {
@@ -115,6 +121,9 @@ struct ZoomControlView: View {
                 }
         )
         .onAppear {
+            setBarHeight()
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .carmeraZoomChanged)) { noti in
             setBarHeight()
         }
     }
