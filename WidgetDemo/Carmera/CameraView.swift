@@ -46,9 +46,9 @@ struct CameraView : View {
     @State var focus:Float = 0.0
     @State var zoom:Float = 1.0
     
-    @State var whiteBalance_red:Float = 1.5
-    @State var whiteBalance_green:Float = 1.0
-    @State var whiteBalance_blue:Float = 3.0
+    @AppStorage("whiteBalance_red") var whiteBalance_red:Double = 1.5
+    @AppStorage("whiteBalance_green") var whiteBalance_green:Double = 1.0
+    @AppStorage("whiteBalance_blue") var whiteBalance_blue:Double = 3.0
     @State var images:[Image] = [] {
         didSet {
             animate.toggle()
@@ -58,10 +58,12 @@ struct CameraView : View {
     
     @State var animate:Bool = false
     @AppStorage("isExtend") var isExtend:Bool = true
-    func saveImage(image:Image) {
+    func saveImage(image:Image, present:Bool) {
         if let img = image.getUIImage(newSize: .init(width:300 * 5, height:400 * 5)) {
             AppGroup.saveImage(image: img)
-            presentImage = true
+            if present {
+                presentImage = true
+            }
         }
     }
     
@@ -70,7 +72,7 @@ struct CameraView : View {
             HStack {
                 ForEach(0..<images.count, id:\.self) { idx in
                     Button {
-                        saveImage(image: images[idx])
+                        saveImage(image: images[idx], present: true)
                     } label: {
                         images[idx]
                             .resizable()
@@ -81,6 +83,8 @@ struct CameraView : View {
                                 RoundedRectangle(cornerRadius: 5)
                                     .fill(.white)
                             }
+                            .shadow(radius: 5)
+                            .padding(10)
                     }
                 }
             }
@@ -133,9 +137,9 @@ struct CameraView : View {
                         .onChange(of: whiteBalance_red) { newValue in
                             NotificationCenter.default.post(name: .cameraSettingChange, object: nil, userInfo: [
                                 "whiteBalence" : [
-                                    "red" : whiteBalance_red,
-                                    "green" : whiteBalance_green,
-                                    "blue" : whiteBalance_blue
+                                    "red" : Float(whiteBalance_red),
+                                    "green" : Float(whiteBalance_green),
+                                    "blue" : Float(whiteBalance_blue)
                                 ]
                             ])
                         }
@@ -147,9 +151,9 @@ struct CameraView : View {
                         .onChange(of: whiteBalance_green) { newValue in
                             NotificationCenter.default.post(name: .cameraSettingChange, object: nil, userInfo: [
                                 "whiteBalence" : [
-                                    "red" : whiteBalance_red,
-                                    "green" : whiteBalance_green,
-                                    "blue" : whiteBalance_blue
+                                    "red" : Float(whiteBalance_red),
+                                    "green" : Float(whiteBalance_green),
+                                    "blue" : Float(whiteBalance_blue)
                                 ]
                             ])
                         }
@@ -161,9 +165,9 @@ struct CameraView : View {
                         .onChange(of: whiteBalance_blue) { newValue in
                             NotificationCenter.default.post(name: .cameraSettingChange, object: nil, userInfo: [
                                 "whiteBalence" : [
-                                    "red" : whiteBalance_red,
-                                    "green" : whiteBalance_green,
-                                    "blue" : whiteBalance_blue
+                                    "red" : Float(whiteBalance_red),
+                                    "green" : Float(whiteBalance_green),
+                                    "blue" : Float(whiteBalance_blue)
                                 ]
                             ])
                         }
@@ -184,6 +188,7 @@ struct CameraView : View {
                 VStack {
                     _CameraView { image in
                         images.append(.init(uiImage: image))
+                        saveImage(image: .init(uiImage: image), present: false)
                     }
                     .frame(width: w, height: h)
                     .background(Color.gray)
