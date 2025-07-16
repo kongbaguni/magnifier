@@ -59,7 +59,7 @@ struct CameraView : View {
     @State var animate:Bool = false
     @AppStorage("isExtend") var isExtend:Bool = true
     func saveImage(image:Image, present:Bool) {
-        if let img = image.getUIImage(newSize: .init(width:300 * 5, height:400 * 5)) {
+        if let img = image.getUIImage(newSize: .init(width:300 * 3, height:400 * 3)) {
             AppGroup.saveImage(image: img)
             if present {
                 presentImage = true
@@ -178,6 +178,15 @@ struct CameraView : View {
     }
     var carmeraPreview: some View {
         ZStack {
+            VStack {
+                Spacer().frame(height:.safeAreaInsetTop + 1)
+                BannerAdView(sizeType: .AdSizeBanner, padding: .zero)
+                    .background(.clear)
+                    .border(.primary)
+                Spacer()
+            }
+            .zIndex(10)
+            
             GeometryReader { geo in
                 var w:CGFloat {
                     geo.size.width
@@ -186,6 +195,7 @@ struct CameraView : View {
                     geo.size.width / 3 * 4
                 }
                 VStack {
+
                     _CameraView { image in
                         images.append(.init(uiImage: image))
                         saveImage(image: .init(uiImage: image), present: false)
@@ -211,11 +221,6 @@ struct CameraView : View {
                         
                         sliders
                     }.padding(20)
-                        
-                    BannerAdView(sizeType: .AdSizeLargeBanner, padding: .zero)
-                        .padding(.bottom, .safeAreaInsetBottom)
-                        .background(.clear)
-                    
                 }
             }
            
