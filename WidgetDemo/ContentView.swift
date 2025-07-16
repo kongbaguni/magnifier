@@ -37,15 +37,17 @@ struct ContentView: View {
     var body: some View {
         GeometryReader { proxy in
             ZStack {
-                CameraView(onCapture: { image in
-                    self.image = Image(uiImage: image)
-                })
-                .frame(width: proxy.size.width, height: proxy.size.height)
-                .border(borderColor, width: 5)
                 if isHaveCarmeraPermission == false {
                     CameraAccesDeninedView()
+                        .frame(width:proxy.size.width, height: proxy.size.height)
                 }
-                
+                else {
+                    CameraView(onCapture: { image in
+                        self.image = Image(uiImage: image)
+                    })
+                    .frame(width: proxy.size.width, height: proxy.size.height)
+                    .border(borderColor, width: 5)
+                }
                 VStack {
                     Spacer()
                 }
@@ -76,6 +78,10 @@ struct ContentView: View {
             GoogleAdPrompt.promptWithDelay {
             }
         }
+        .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification), perform: { output in
+            let status = AVCaptureDevice.authorizationStatus(for: .video)
+            isHaveCarmeraPermission = status == .authorized
+        })
         .sheet(isPresented: $isPresentedImageView) {
             ImageView()
         }
