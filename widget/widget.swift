@@ -46,60 +46,33 @@ struct SimpleEntry: TimelineEntry {
 struct widgetEntryView : View {
     var entry: Provider.Entry
 
+    var currentImage: Image {
+        entry.image ?? Image("cat")
+    }
+    
     var backgroundView : some View {
-        VStack {
-            if let img = entry.image {
-                img
-                    .resizable()
-                    .scaledToFill()
-                    .ignoresSafeArea()
-                    .cornerRadius(10)
-            }
-            else {
-                Image("cat")
-                    .resizable()
-                    .scaledToFill()
-                    .border(Color("WidgetBackground"), width: 2)
-                    .ignoresSafeArea()
-                
-            }
-        }
-        .opacity(0.3)
-        .background(Color("WidgetBackground"))
+        currentImage
+            .resizable()
+            .scaledToFill()
+            .opacity(0.3)
+            .background(Color("WidgetBackground"))
     }
     
     var imageView : some View {
         VStack {
-            if let img = entry.image {
-                if #available(iOSApplicationExtension 15.0, *) {
-                    img
-                        .resizable()
-                        .scaledToFit()
-                        .ignoresSafeArea()
-                        .cornerRadius(10)
-                        .overlay {
-                            RoundedRectangle(cornerRadius: 10)
-                                .stroke(lineWidth: 2)
-                        }
+            currentImage
+                .resizable()
+                .scaledToFit()
+                .ignoresSafeArea()
+                .overlay {
+                    RoundedRectangle(cornerRadius: 10)
+                        .stroke(lineWidth: 2)
                 }
-                else {
-                    img
-                        .resizable()
-                        .scaledToFit()
-                        .ignoresSafeArea()
-                        .cornerRadius(10)
-                }
-            }
-            else {
-                Image("cat")
-                    .resizable()
-                    .scaledToFit()
-                    .border(Color("WidgetBackground"), width: 2)
-                    .ignoresSafeArea()
-                
-            }
+                .cornerRadius(10)
+            
         }
     }
+    
     var body: some View {
         imageView
             .shadow(radius: 20)
@@ -126,6 +99,6 @@ struct widget: Widget {
 struct widget_Previews: PreviewProvider {
     static var previews: some View {
         widgetEntryView(entry: SimpleEntry(date: Date(), image: AppGroup.savedImage, configuration: ConfigurationIntent()))
-            .previewContext(WidgetPreviewContext(family: .systemLarge))
+            .previewContext(WidgetPreviewContext(family: .systemSmall))
     }
 }
