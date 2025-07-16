@@ -9,8 +9,6 @@ import Foundation
 import UIKit
 import UserMessagingPlatform
 import AppTrackingTransparency
-import AVKit
-
 fileprivate func requestTrackingAuthorization(complete:@escaping()->Void) {
     ATTrackingManager.requestTrackingAuthorization { status in
         print("google ad tracking status : \(status)")
@@ -20,82 +18,78 @@ fileprivate func requestTrackingAuthorization(complete:@escaping()->Void) {
 
 fileprivate func userMessagePlatformPrompt(complete:@escaping()->Void) {
     func loadForm() {
+        guard let lvc = UIApplication.shared.lastViewController else {
+            DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) {
+                loadForm()
+            }
+            return
+        }
+        
       // Loads a consent form. Must be called on the main thread.
-        UMPConsentForm.load { form, loadError in
+        ConsentForm.load { form, loadError in
             if loadError != nil {
               // Handle the error
             } else {
                 // Present the form. You can also hold on to the reference to present
                 // later.
-                if UMPConsentInformation.sharedInstance.consentStatus == UMPConsentStatus.required {
+                if ConsentInformation.shared.consentStatus == ConsentStatus.required {
                     form?.present(
-                        from: UIApplication.shared.lastViewController!,
+                        from: lvc,
                         completionHandler: { dismissError in
-                            if UMPConsentInformation.sharedInstance.consentStatus == UMPConsentStatus.obtained {
-                                // App can start requesting ads.
+                            switch ConsentInformation.shared.consentStatus {
+                                case .obtained:
+                                    // App can start requesting ads.
+                                    break
+                                default:
+                                    // Handle dismissal by reloading form.
+                                    break
                             }
-                            // Handle dismissal by reloading form.
-                            loadForm();
                         })
-                    return
                 } else {
-                    complete()
+                    // Keep the form available for changes to user consent.
                 }
-                
             }
-            complete()
         }
     }
     
     #if DEBUG
-    UMPConsentInformation.sharedInstance.reset()
+    ConsentInformation.shared.reset()
     #endif
 
     // Create a UMPRequestParameters object.
-    let parameters = UMPRequestParameters()
+    let parameters = RequestParameters()
     // Set tag for under age of consent. Here false means users are not under age.
-    parameters.tagForUnderAgeOfConsent = false
+    parameters.isTaggedForUnderAgeOfConsent = false
     #if DEBUG
-    let debugSettings = UMPDebugSettings()
+    let debugSettings = DebugSettings()
 //        debugSettings.testDeviceIdentifiers = ["78ce88aff302a5f4dfa5226a766c0b5a"]
-    debugSettings.geography = UMPDebugGeography.EEA
+    debugSettings.geography = DebugGeography.EEA
     parameters.debugSettings = debugSettings
     #endif
-    UMPConsentInformation.sharedInstance.requestConsentInfoUpdate(
+    ConsentInformation.shared.requestConsentInfoUpdate(
         with: parameters,
         completionHandler: { error in
             if error != nil {
                 // Handle the error.
                 print(error!.localizedDescription)
             } else {
-                let formStatus = UMPConsentInformation.sharedInstance.formStatus
-                if formStatus == UMPFormStatus.available {
+                let formStatus = ConsentInformation.shared.formStatus
+                if formStatus == FormStatus.available {
                   loadForm()
                 }
             }
             complete()
         })
 }
-
-fileprivate func avRequest(complete:@escaping()->Void) {
-    switch AVCaptureDevice.authorizationStatus(for: .video) {
-    case .notDetermined:
-        AVCaptureDevice.requestAccess(for: .video) { sucess in
-            complete()
-        }
-    default:
-        complete()
-    }
-}
 /** 구글 AD 사용 위한 권한 등 프롬프트 요청..*/
 struct GoogleAdPrompt {
     static func promptWithDelay(complete:@escaping()->Void) {
         // contentView.init 등에서 호출할 때 1초 딜레이를 주어야 알람창이 뜬다.
-        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2)) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) {
             requestTrackingAuthorization {
                 userMessagePlatformPrompt {
+                    complete()
                 }
-                complete()
             }
         }
     }

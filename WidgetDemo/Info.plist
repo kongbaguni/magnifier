@@ -4,8 +4,10 @@
 <dict>
 	<key>GADApplicationIdentifier</key>
 	<string>ca-app-pub-7714069006629518~3545823029</string>
-	<key>ITSAppUsesNonExemptEncryption</key>
-	<false/>
+	<key>NSUserActivityTypes</key>
+	<array>
+		<string>ConfigurationIntent</string>
+	</array>
 	<key>SKAdNetworkItems</key>
 	<array>
 		<dict>

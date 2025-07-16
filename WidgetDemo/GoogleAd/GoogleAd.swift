@@ -23,7 +23,7 @@ fileprivate let bannerGaId = "ca-app-pub-7714069006629518/9265370795" // real ga
 
 class GoogleAd : NSObject {
     
-    var interstitial:GADRewardedAd? = nil
+    var interstitial:RewardedAd? = nil
     func requestTrackingAuthorization(complete:@escaping()->Void) {
         ATTrackingManager.requestTrackingAuthorization { status in
             print("google ad tracking status : \(status)")
@@ -32,9 +32,9 @@ class GoogleAd : NSObject {
     }
     
     private func loadAd(complete:@escaping(_ isSucess:Bool)->Void) {
-        let request = GADRequest()
+        let request = Request()
         requestTrackingAuthorization {
-            GADRewardedAd.load(withAdUnitID: rewardedid, request: request) { [weak self] ad, error in
+            RewardedAd.load(with: rewardedid, request: request) { [weak self] ad, error in
                 if let err = error {
                     print("google ad load error : \(err.localizedDescription)")
                 }
@@ -61,7 +61,7 @@ class GoogleAd : NSObject {
             UserDefaults.standard.lastAdWatchTime = Date()
                         
             if let vc = UIApplication.shared.lastViewController {
-                self?.interstitial?.present(fromRootViewController: vc, userDidEarnRewardHandler: {
+                self?.interstitial?.present(from: vc, userDidEarnRewardHandler: {
                     
                 })
             }
@@ -70,24 +70,24 @@ class GoogleAd : NSObject {
     
 }
 
-extension GoogleAd : GADFullScreenContentDelegate {
+extension GoogleAd : FullScreenContentDelegate {
     //광고 실패
-    func ad(_ ad: GADFullScreenPresentingAd, didFailToPresentFullScreenContentWithError error: Error) {
+    func ad(_ ad: FullScreenPresentingAd, didFailToPresentFullScreenContentWithError error: Error) {
         print("google ad \(#function)")
         print(error.localizedDescription)
         DispatchQueue.main.async {
             self.callback(true, nil)
         }
     }
-    func adDidRecordClick(_ ad: GADFullScreenPresentingAd) {
+    func adDidRecordClick(_ ad: FullScreenPresentingAd) {
         print("google ad \(#function)")
     }
     //광고시작
-    func adDidRecordImpression(_ ad: GADFullScreenPresentingAd) {
+    func adDidRecordImpression(_ ad: FullScreenPresentingAd) {
         print("google ad \(#function)")
     }
     //광고 종료
-    func adDidDismissFullScreenContent(_ ad: GADFullScreenPresentingAd) {
+    func adDidDismissFullScreenContent(_ ad: FullScreenPresentingAd) {
         print("google ad \(#function)")        
         DispatchQueue.main.async {
             self.callback(true, nil)
@@ -99,27 +99,27 @@ struct GoogleAdBannerView: UIViewRepresentable {
     let type:BannerAdView.SizeType
     let delegate = GoogleAdBannerViewDelegate()
     @State var isRegObserver = false
-    func makeUIView(context: Context) -> GADBannerView {
-        let bannerView:GADBannerView = .makeView(sizeType: type)
+    func makeUIView(context: Context) -> BannerView {
+        let bannerView:BannerView = .makeView(sizeType: type)
         bannerView.adUnitID = bannerGaId
         bannerView.rootViewController = UIApplication.shared.lastViewController
         return bannerView
     }
   
-    func updateUIView(_ uiView: GADBannerView, context: Context) {
-        uiView.load(GADRequest())
+    func updateUIView(_ uiView: BannerView, context: Context) {
+        uiView.load(Request())
         print("GADBannerViewDelegate \(#function) \(#line)")
         NotificationCenter.default.post(name: .adBannerLoadingStart, object: nil)
         uiView.delegate = delegate
         if isRegObserver == false  {
             NotificationCenter.default.addObserver(forName: .adBannerLoadingFail, object: nil, queue: nil) { noti in
                 DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(10)) {
-                    uiView.load(GADRequest())
+                    uiView.load(Request())
                     NotificationCenter.default.post(name: .adBannerLoadingStart, object: nil)
                 }
             }
             NotificationCenter.default.addObserver(forName: UIApplication.willEnterForegroundNotification, object: nil, queue: nil) { noti in
-                uiView.load(GADRequest())
+                uiView.load(Request())
                 NotificationCenter.default.post(name: .adBannerLoadingStart, object: nil)
             }
             DispatchQueue.main.async {
@@ -129,8 +129,8 @@ struct GoogleAdBannerView: UIViewRepresentable {
     }
 }
 
-class GoogleAdBannerViewDelegate : NSObject, GADBannerViewDelegate {
-    func bannerViewDidReceiveAd(_ bannerView: GADBannerView) {
+class GoogleAdBannerViewDelegate : NSObject, BannerViewDelegate {
+    func bannerViewDidReceiveAd(_ bannerView: BannerView) {
         print("GADBannerViewDelegate \(#function) \(#line)")
         NotificationCenter.default.post(name: .adBannerLoadingFinish, object: nil)
     }
@@ -149,7 +149,7 @@ class GoogleAdBannerViewDelegate : NSObject, GADBannerViewDelegate {
 //    func bannerViewDidRecordImpression(_ bannerView: GADBannerView) {
 //
 //    }
-    func bannerView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: Error) {
+    func bannerView(_ bannerView: BannerView, didFailToReceiveAdWithError error: Error) {
         print("GADBannerViewDelegate \(#function) \(#line)")
         NotificationCenter.default.post(name: .adBannerLoadingFail, object: error)
     }

@@ -36,7 +36,12 @@ struct ImageView: View {
                                         .stroke(lineWidth: 2.5)
                                         .foregroundColor(.white)
                                 }
+                                .background {
+                                    Circle()
+                                        .fill(.black.opacity(0.5))
+                                }
                                 .shadow(radius: 20)
+                                
                         }
 
                     }
