@@ -29,8 +29,8 @@ struct ContentView: View {
     @State var longPressBeganDate:Date? = nil
     @State var isLoading = false
     @State var adAlertConfirm = false
-    @State var adAlertTitle:Text = Text("")
-    @State var adAlertMsg:Text = Text("")
+    @State var adAlertTitle:Text = Text("adAlertTitle")
+    @State var adAlertMsg:Text = Text("adAlertMsg")
     @State var adAlertDesc:Text? = nil
     @State var adAlertAfterAction:AdAlertAfterAction? = nil
     

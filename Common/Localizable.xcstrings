@@ -1,0 +1,161 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "%@x" : {
+      "shouldTranslate" : false
+    },
+    "adAlertMsg" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Watch ads and get 100 points"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "광고를 시청하고 100포인트를 받으세요."
+          }
+        }
+      }
+    },
+    "adAlertTitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "point charge"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "포인트 충전"
+          }
+        }
+      }
+    },
+    "Bottom" : {
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "하단"
+          }
+        }
+      },
+      "shouldTranslate" : false
+    },
+    "Camera Access Denind Title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Access Denined"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "접근권한 없음"
+          }
+        }
+      }
+    },
+    "Camera Access Denine desc" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You do not have permission to access the camera.\\nPlease set camera access permission."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "카메라에 접근할 수 있는 권한이 없습니다.\n카메라 엑세스 접근 권한을 설정하십시오."
+          }
+        }
+      }
+    },
+    "confirm" : {
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "확인"
+          }
+        }
+      }
+    },
+    "Go to Setting" : {
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "설정으로 이동"
+          }
+        }
+      }
+    },
+    "Hello" : {
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "안녕"
+          }
+        }
+      }
+    },
+    "L" : {
+      "shouldTranslate" : false
+    },
+    "Leading" : {
+      "shouldTranslate" : false
+    },
+    "Min" : {
+      "shouldTranslate" : false
+    },
+    "T" : {
+      "shouldTranslate" : false
+    },
+    "Trailing" : {
+      "shouldTranslate" : false
+    },
+    "widget-description" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You can preview pictures taken with Magnifying Glass."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "돋보기 로 촬영한 사진을 미리 볼 수 있습니다."
+          }
+        }
+      }
+    },
+    "widget-title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "magnifier Widget"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "돋보기 위젯"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}
