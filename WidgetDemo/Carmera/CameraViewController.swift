@@ -43,6 +43,10 @@ class CameraViewController: UIViewController {
                 
         view.layer.addSublayer(previewLayer)
         
+        let gesture = UIPinchGestureRecognizer(target: self, action: #selector(self.pinchGesture(sender:)))
+        view.addGestureRecognizer(gesture)
+        
+        
         DispatchQueue.global().async {[weak self] in
             self?.captureSession?.startRunning()
         }
@@ -99,7 +103,38 @@ class CameraViewController: UIViewController {
     
     func capturePhoto() {
         let settings = AVCapturePhotoSettings()
+        
         photoOutput.capturePhoto(with: settings, delegate: self)
+    }
+    
+    var initialZoomFactor:CGFloat = 1.0
+    var currentZoomFactor:CGFloat = 1.0 {
+        didSet {
+            if(oldValue != currentZoomFactor) {
+//                setZoomFactor(currentZoomFactor)
+                Log.debug("currentZoomFactor:",currentZoomFactor)
+                NotificationCenter.default.post(name: .cameraSettingChange, object: nil, userInfo: [
+                    "zoom" : Float(currentZoomFactor),
+                ])
+
+            }
+        }
+    }
+    
+    @objc func pinchGesture(sender:UIPinchGestureRecognizer) {
+        print(sender.scale)
+//        self.updateZoomScale()
+        switch sender.state {
+        case .began:
+            initialZoomFactor = captureDevice?.videoZoomFactor ?? 1.0
+            currentZoomFactor = initialZoomFactor
+        case .changed:
+            let zoomFector = initialZoomFactor * sender.scale
+//            setZoomFactor(zoomFector)
+            currentZoomFactor = zoomFector
+        default:
+            break
+        }
     }
 }
 

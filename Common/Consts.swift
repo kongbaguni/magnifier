@@ -8,5 +8,7 @@
 import Foundation
 struct Consts {
     static let AppGroupID = "group.net.kongbaguni.readingGlasses"
-    static let SaveTempImageName = "sharedImage.jpg"
+    static let SaveTempImageSmall = "sharedImage1.jpg"
+    static let SaveTempImageMedium = "sharedImage2.jpg"
+    static let SaveTempImageLarge = "sharedImage3.jpg"
 }

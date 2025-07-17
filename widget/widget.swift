@@ -15,7 +15,7 @@ struct Provider: IntentTimelineProvider {
     }
 
     func getSnapshot(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (SimpleEntry) -> ()) {
-        let entry = SimpleEntry(date: Date(), image:AppGroup.savedImage, configuration: configuration)
+        let entry = SimpleEntry(date: Date(), image:AppGroup.getSavedImage(imageSize: .small), configuration: configuration)
         completion(entry)
     }
 
@@ -26,7 +26,7 @@ struct Provider: IntentTimelineProvider {
         let currentDate = Date()
         for hourOffset in 0 ..< 5 {
             let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
-            let image = AppGroup.savedImage
+            let image = AppGroup.getSavedImage(imageSize: .small)
             
             let entry = SimpleEntry(date: entryDate,image: image, configuration: configuration)
             entries.append(entry)
@@ -45,7 +45,6 @@ struct SimpleEntry: TimelineEntry {
 
 struct widgetEntryView : View {
     var entry: Provider.Entry
-
     var currentImage: Image {
         entry.image ?? Image("cat")
     }
@@ -98,7 +97,7 @@ struct widget: Widget {
 
 struct widget_Previews: PreviewProvider {
     static var previews: some View {
-        widgetEntryView(entry: SimpleEntry(date: Date(), image: AppGroup.savedImage, configuration: ConfigurationIntent()))
+        widgetEntryView(entry: SimpleEntry(date: Date(), image: AppGroup.getSavedImage(imageSize: .small), configuration: ConfigurationIntent()))
             .previewContext(WidgetPreviewContext(family: .systemSmall))
     }
 }

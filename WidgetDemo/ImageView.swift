@@ -9,7 +9,7 @@ import SwiftUI
 import ActivityView
 
 struct ImageView: View {
-    @State var image:Image = AppGroup.savedImage ?? Image("cat")
+    @State var image:Image = AppGroup.getSavedImage(imageSize: .small) ?? Image("cat")
     @State var activityItem:ActivityItem? = nil
     
     var imageView : some View {

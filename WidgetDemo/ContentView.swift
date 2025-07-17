@@ -74,7 +74,7 @@ struct ContentView: View {
             isHaveCarmeraPermission = status == .authorized
 
             MobileAds.shared.start(completionHandler: nil)
-            image = AppGroup.savedImage ?? Image("cat")
+            image = AppGroup.getSavedImage(imageSize: .small) ?? Image("cat")
             GoogleAdPrompt.promptWithDelay {
             }
         }

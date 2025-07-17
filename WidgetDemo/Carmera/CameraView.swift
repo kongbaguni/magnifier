@@ -24,7 +24,7 @@ extension Notification.Name {
         
 }
 
-struct _CameraView: UIViewControllerRepresentable {
+fileprivate struct _CameraView: UIViewControllerRepresentable {
     let onCapture: (UIImage) -> Void
     func makeUIViewController(context: Context) -> CameraViewController {
         let vc = CameraViewController()
@@ -49,32 +49,36 @@ struct CameraView : View {
     @AppStorage("whiteBalance_red") var whiteBalance_red:Double = 1.5
     @AppStorage("whiteBalance_green") var whiteBalance_green:Double = 1.0
     @AppStorage("whiteBalance_blue") var whiteBalance_blue:Double = 3.0
-    @State var images:[Image] = [] {
+    @State var images:[UIImage] = [] {
         didSet {
             animate.toggle()
+        }
+    }
+    
+    var imageViews:[Image] {
+        images.map { image in
+            return .init(uiImage: image)
         }
     }
     @State var presentImage:Bool = false
     
     @State var animate:Bool = false
     @AppStorage("isExtend") var isExtend:Bool = true
-    func saveImage(image:Image, present:Bool) {
-        if let img = image.getUIImage(newSize: .init(width:300 * 3, height:400 * 3)) {
-            AppGroup.saveImage(image: img)
-            if present {
-                presentImage = true
-            }
+    func saveImage(image:UIImage, present:Bool) {
+        AppGroup.saveImage(image: image)
+        if present {
+            presentImage = true
         }
     }
     
     var imageScrollView: some View {
         ScrollView(.horizontal) {
             HStack {
-                ForEach(0..<images.count, id:\.self) { idx in
+                ForEach(0..<imageViews.count, id:\.self) { idx in
                     Button {
                         saveImage(image: images[idx], present: true)
                     } label: {
-                        images[idx]
+                        imageViews[idx]
                             .resizable()
                             .scaledToFit()
                             .frame(height:60)
@@ -95,18 +99,6 @@ struct CameraView : View {
     var sliders : some View {
         Group {
             HStack {
-                Image(systemName: "camera.metering.center.weighted")
-                Slider(value: $focus, in:0.0...1.0)
-                    .onChange(of: focus) {  newValue in
-                        print(newValue)
-                        NotificationCenter.default.post(name: .cameraSettingChange , object: nil, userInfo: [
-                            "focus" : newValue
-                        ])
-                    }
-            }
-
-            
-            HStack {
                 Image(systemName: "plus.magnifyingglass")
                 
                 Slider(value: $zoom, in:0.5...20.0)
@@ -117,6 +109,18 @@ struct CameraView : View {
                         ])
                     }
             }
+            
+            HStack {
+                Image(systemName: "camera.metering.center.weighted")
+                Slider(value: $focus, in:0.0...1.0)
+                    .onChange(of: focus) {  newValue in
+                        print(newValue)
+                        NotificationCenter.default.post(name: .cameraSettingChange , object: nil, userInfo: [
+                            "focus" : newValue
+                        ])
+                    }
+            }
+
             if isExtend {
                 HStack {
                     Image(systemName: "camera.aperture")
@@ -197,8 +201,8 @@ struct CameraView : View {
                 VStack {
 
                     _CameraView { image in
-                        images.append(.init(uiImage: image))
-                        saveImage(image: .init(uiImage: image), present: false)
+                        images.append(image)
+                        saveImage(image: image, present: false)
                     }
                     .frame(width: w, height: h)
                     .background(Color.gray)
@@ -248,6 +252,15 @@ struct CameraView : View {
                 ]
             ])
         })
+        .onReceive(NotificationCenter.default.publisher(for: .cameraSettingChange)) { output in
+            if let userInfo = output.userInfo as? [String : Any] {
+                if let zoom = userInfo["zoom"] as? Float {
+                    if self.zoom != zoom {
+                        self.zoom = zoom
+                    }
+                }
+            }
+        }
        
         
     }
