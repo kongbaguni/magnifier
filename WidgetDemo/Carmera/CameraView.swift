@@ -39,7 +39,14 @@ fileprivate struct _CameraView: UIViewControllerRepresentable {
 }
 
 struct CameraView : View {
-    
+    enum SliderType : CaseIterable {
+        case zoom
+        case fucus
+        case exporse
+        case whiteBalance_red
+        case whiteBalance_green
+        case whiteBalance_blue
+    }
     
     let onCapture: (UIImage) -> Void
     @State var image: UIImage? = nil
@@ -51,9 +58,19 @@ struct CameraView : View {
     @AppStorage("whiteBalance_red") var whiteBalance_red:Double = 1.5
     @AppStorage("whiteBalance_green") var whiteBalance_green:Double = 1.0
     @AppStorage("whiteBalance_blue") var whiteBalance_blue:Double = 3.0
+    @AppStorage("isExtend") var isExtend:Bool = true
+
     @State var images:[UIImage] = [] {
         didSet {
             animate.toggle()
+        }
+    }
+        
+    var sliderTypes:[SliderType] {
+        if isExtend {
+            return SliderType.allCases
+        } else {
+            return [ .zoom, .fucus ]
         }
     }
     
@@ -65,7 +82,7 @@ struct CameraView : View {
     @State var presentImage:Bool = false
     
     @State var animate:Bool = false
-    @AppStorage("isExtend") var isExtend:Bool = true
+    
     func saveImage(image:UIImage, present:Bool) {
         AppGroup.saveImage(image: image)
         if present {
@@ -93,14 +110,21 @@ struct CameraView : View {
                             .padding(10)
                     }
                 }
+                if images.count > 0 {
+                    Button {
+                        images.removeAll()
+                    } label: {
+                        Image(systemName: "trash")
+                    }
+                }
             }
         }
     }
     
-    
-    var sliders : some View {
-        Group {
-            HStack {
+    func makeSlider(type:SliderType) -> some View {
+        HStack {
+            switch type {
+            case .zoom:
                 Image(systemName: "plus.magnifyingglass")
                 
                 Slider(value: $zoom, in:0.5...20.0)
@@ -110,9 +134,7 @@ struct CameraView : View {
                             "zoom" : newValue
                         ])
                     }
-            }
-            
-            HStack {
+            case .fucus:
                 Image(systemName: "camera.metering.center.weighted")
                 Slider(value: $focus, in:0.0...1.0)
                     .onChange(of: focus) {  newValue in
@@ -121,67 +143,67 @@ struct CameraView : View {
                             "focus" : newValue
                         ])
                     }
-            }
-            
-            if isExtend {
-                HStack {
-                    Image(systemName: "camera.aperture")
-                    
-                    Slider(value: $exporse, in:-3.0...3.0)
-                        .onChange(of: exporse) {  newValue in
-                            print(newValue)
-                            NotificationCenter.default.post(name: .cameraSettingChange, object: nil, userInfo: [
-                                "exporse" : newValue
-                            ])
-                        }
-                }
+            case .exporse:
+                Image(systemName: "camera.aperture")
                 
-                HStack {
-                    Image(systemName: "camera.filters")
-                        .foregroundColor(Color.red)
-                    Slider(value: $whiteBalance_red, in:1.0...4.0)
-                        .onChange(of: whiteBalance_red) { newValue in
-                            NotificationCenter.default.post(name: .cameraSettingChange, object: nil, userInfo: [
-                                "whiteBalence" : [
-                                    "red" : Float(whiteBalance_red),
-                                    "green" : Float(whiteBalance_green),
-                                    "blue" : Float(whiteBalance_blue)
-                                ]
-                            ])
-                        }
-                }
-                HStack {
-                    Image(systemName: "camera.filters")
-                        .foregroundColor(Color.green)
-                    Slider(value: $whiteBalance_green, in:1.0...4.0)
-                        .onChange(of: whiteBalance_green) { newValue in
-                            NotificationCenter.default.post(name: .cameraSettingChange, object: nil, userInfo: [
-                                "whiteBalence" : [
-                                    "red" : Float(whiteBalance_red),
-                                    "green" : Float(whiteBalance_green),
-                                    "blue" : Float(whiteBalance_blue)
-                                ]
-                            ])
-                        }
-                }
-                HStack {
-                    Image(systemName: "camera.filters")
-                        .foregroundColor(Color.blue)
-                    Slider(value: $whiteBalance_blue, in:1.0...4.0)
-                        .onChange(of: whiteBalance_blue) { newValue in
-                            NotificationCenter.default.post(name: .cameraSettingChange, object: nil, userInfo: [
-                                "whiteBalence" : [
-                                    "red" : Float(whiteBalance_red),
-                                    "green" : Float(whiteBalance_green),
-                                    "blue" : Float(whiteBalance_blue)
-                                ]
-                            ])
-                        }
-                }
+                Slider(value: $exporse, in:-3.0...3.0)
+                    .onChange(of: exporse) {  newValue in
+                        print(newValue)
+                        NotificationCenter.default.post(name: .cameraSettingChange, object: nil, userInfo: [
+                            "exporse" : newValue
+                        ])
+                    }
+            case .whiteBalance_red:
+                Image(systemName: "camera.filters")
+                    .foregroundColor(Color.red)
+                Slider(value: $whiteBalance_red, in:1.0...4.0)
+                    .onChange(of: whiteBalance_red) { newValue in
+                        NotificationCenter.default.post(name: .cameraSettingChange, object: nil, userInfo: [
+                            "whiteBalence" : [
+                                "red" : Float(whiteBalance_red),
+                                "green" : Float(whiteBalance_green),
+                                "blue" : Float(whiteBalance_blue)
+                            ]
+                        ])
+                    }
+            case .whiteBalance_blue:
+                Image(systemName: "camera.filters")
+                    .foregroundColor(Color.green)
+                Slider(value: $whiteBalance_green, in:1.0...4.0)
+                    .onChange(of: whiteBalance_green) { newValue in
+                        NotificationCenter.default.post(name: .cameraSettingChange, object: nil, userInfo: [
+                            "whiteBalence" : [
+                                "red" : Float(whiteBalance_red),
+                                "green" : Float(whiteBalance_green),
+                                "blue" : Float(whiteBalance_blue)
+                            ]
+                        ])
+                    }
+            case .whiteBalance_green:
+                Image(systemName: "camera.filters")
+                    .foregroundColor(Color.blue)
+                Slider(value: $whiteBalance_blue, in:1.0...4.0)
+                    .onChange(of: whiteBalance_blue) { newValue in
+                        NotificationCenter.default.post(name: .cameraSettingChange, object: nil, userInfo: [
+                            "whiteBalence" : [
+                                "red" : Float(whiteBalance_red),
+                                "green" : Float(whiteBalance_green),
+                                "blue" : Float(whiteBalance_blue)
+                            ]
+                        ])
+                    }
             }
-            
         }
     }
+    
+    var sliders : some View {
+        Group {
+            ForEach(sliderTypes, id:\.self) { type in
+                makeSlider(type: type)
+            }
+        }
+    }
+    
     var carmeraPreview: some View {
         VStack {
             _CameraView { image in
