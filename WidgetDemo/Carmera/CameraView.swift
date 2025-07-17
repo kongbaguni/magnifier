@@ -190,32 +190,39 @@ struct CameraView : View {
             }
             .background(Color.gray)
 
-            HStack {
-                Spacer()
-                Button {
-                    NotificationCenter.default.post(name: .cameraCapture, object: nil)
-                } label: {
-                    Image(systemName: "camera.circle.fill")
-                        .resizable()
-                        .frame(width: 30, height: 30)
-                }
-                Toggle(isOn: $isExtend) {
-                    
-                }
-                Spacer()
-            }.frame(height: 40)
             
             VStack {
+                HStack {
+                    Spacer()
+                    Button {
+                        NotificationCenter.default.post(name: .cameraCapture, object: nil)
+                    } label: {
+                        Image(systemName: "camera.circle.fill")
+                            .resizable()
+                            .frame(width: 30, height: 30)
+                    }
+                    Toggle(isOn: $isExtend) {
+                        
+                    }
+                    Spacer()
+                }.frame(height: 40)
+
                 imageScrollView
                 sliders
+
+                #if !DEBUG
+                BannerAdView(sizeType: .AdSizeBanner, padding: .zero)
+                    .background(.clear)
+                    .border(.primary)
+                    .padding(.bottom, .safeAreaInsetBottom + 0.5)
+                #else
+                Spacer().frame(height: .safeAreaInsetBottom)
+                #endif
+
             }
             .padding(10)
             .background(.background.opacity(0.3))
             
-            BannerAdView(sizeType: .AdSizeBanner, padding: .zero)
-                .background(.clear)
-                .border(.primary)
-                .padding(.bottom, .safeAreaInsetBottom + 0.5)
 
         }.background(.background)
         
@@ -223,9 +230,7 @@ struct CameraView : View {
     }
     
     var body: some View {
-        ZStack {
-            carmeraPreview
-        }
+        carmeraPreview
         .animation(.easeInOut, value: animate)
         .sheet(isPresented: $presentImage, content: {
             ImageView()

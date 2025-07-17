@@ -9,11 +9,16 @@ import SwiftUI
 import ActivityView
 
 struct ImageView: View {
-    @State var image:Image = AppGroup.getSavedImage(imageSize: .small) ?? Image("cat")
+    let image:UIImage
+    init(image:UIImage? = nil) {
+        self.image = image ?? AppGroup.getSavedUIImage(imageSize: .small) ?? UIImage(named: "cat")!
+    }
     @State var activityItem:ActivityItem? = nil
+        
     
     var imageView : some View {
-        image.resizable().scaledToFill().clipped()
+        Image(uiImage: image)
+        .resizable().scaledToFill().clipped()
             .ignoresSafeArea()
     }
     
@@ -24,9 +29,7 @@ struct ImageView: View {
                     imageView
                     .toolbar {
                         Button {
-                            if let data = image.getUIImage(newSize: UIScreen.main.bounds.size)?.jpegData(compressionQuality: 7) {
-                                activityItem = .init(itemsArray: [data])
-                            }
+                            activityItem = .init(itemsArray: [image])
                         } label: {
                             Image(systemName: "square.and.arrow.up")
                                 .foregroundColor(.white)
