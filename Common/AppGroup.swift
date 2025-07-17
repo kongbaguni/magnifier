@@ -47,6 +47,9 @@ struct AppGroup {
                     if let data = img.jpegData(compressionQuality: 0.7) {
                         do {
                             try data.write(to: url)
+                            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(100)) {
+                                NotificationCenter.default.post(name: .carmeraTakePhotoSaveFinish, object: nil)
+                            }
                         } catch {
                             print("이미지 저장 실패: \(error)")
                         }

@@ -90,6 +90,9 @@ struct widgetEntryView : View {
                 WidgetCenter.shared.reloadAllTimelines()
             }
             .widgetBackground(backgroundView: backgroundView)
+            .onReceive(NotificationCenter.default.publisher(for: .carmeraTakePhotoSaveFinish)) { _ in
+                WidgetCenter.shared.reloadAllTimelines()
+            }
     }
     
 }
@@ -105,6 +108,7 @@ struct widget: Widget {
         .description("widget-description")
     }
 }
+
 
 struct widget_Previews: PreviewProvider {
     static var previews: some View {
