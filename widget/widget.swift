@@ -23,10 +23,21 @@ struct Provider: IntentTimelineProvider {
         var entries: [SimpleEntry] = []
         
         // Generate a timeline consisting of five entries an hour apart, starting from the current date.
+        var size:AppGroup.ImageSize {
+            let w = context.displaySize.width
+            if w < 200 {
+                return .small
+            }
+            if w < 400 {
+                return .medium
+            }
+            return .large
+        }
+        
         let currentDate = Date()
         for hourOffset in 0 ..< 5 {
             let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
-            let image = AppGroup.getSavedImage(imageSize: .small)
+            let image = AppGroup.getSavedImage(imageSize: size)
             
             let entry = SimpleEntry(date: entryDate,image: image, configuration: configuration)
             entries.append(entry)
