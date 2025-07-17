@@ -21,7 +21,7 @@ extension Notification.Name {
     
     /** 카메라 설정값 조절*/
     static let cameraSettingChange =  Notification.Name("cameraSettingChange")
-        
+    
 }
 
 fileprivate struct _CameraView: UIViewControllerRepresentable {
@@ -33,11 +33,13 @@ fileprivate struct _CameraView: UIViewControllerRepresentable {
         return vc
     }
     
-    func updateUIViewController(_ uiViewController: CameraViewController, context: Context) {}
+    func updateUIViewController(_ uiViewController: CameraViewController, context: Context) {
+        
+    }
 }
 
 struct CameraView : View {
-        
+    
     
     let onCapture: (UIImage) -> Void
     @State var image: UIImage? = nil
@@ -120,7 +122,7 @@ struct CameraView : View {
                         ])
                     }
             }
-
+            
             if isExtend {
                 HStack {
                     Image(systemName: "camera.aperture")
@@ -133,7 +135,7 @@ struct CameraView : View {
                             ])
                         }
                 }
-
+                
                 HStack {
                     Image(systemName: "camera.filters")
                         .foregroundColor(Color.red)
@@ -177,48 +179,44 @@ struct CameraView : View {
                         }
                 }
             }
-
+            
         }
     }
     var carmeraPreview: some View {
-        GeometryReader { geo in
-            var w:CGFloat {
-                geo.size.width
+        VStack {
+            _CameraView { image in
+                images.append(image)
+                saveImage(image: image, present: false)
             }
-            var h:CGFloat {
-                geo.size.width / 3 * 4
-            }
-            VStack {
-                Spacer().frame(height:.safeAreaInsetTop + 1)
-                BannerAdView(sizeType: .AdSizeBanner, padding: .zero)
-                    .background(.clear)
-                    .border(.primary)
-                
-                _CameraView { image in
-                    images.append(image)
-                    saveImage(image: image, present: false)
+            .background(Color.gray)
+
+            HStack {
+                Spacer()
+                Button {
+                    NotificationCenter.default.post(name: .cameraCapture, object: nil)
+                } label: {
+                    Image(systemName: "camera.circle.fill")
+                        .resizable()
+                        .frame(width: 30, height: 30)
                 }
-                .frame(width: w, height: h)
-                .background(Color.gray)
-                HStack {
-                    Spacer()
-                    Button {
-                        NotificationCenter.default.post(name: .cameraCapture, object: nil)
-                    } label: {
-                        Image(systemName: "camera.circle.fill")
-                            .resizable()
-                            .frame(width: 30, height: 30)
-                    }
-                    Toggle(isOn: $isExtend) {
-                        
-                    }
-                    Spacer()
-                }.frame(height: 40)
-                ScrollView {
-                    imageScrollView
-                    sliders
-                }.padding(20)
+                Toggle(isOn: $isExtend) {
+                    
+                }
+                Spacer()
+            }.frame(height: 40)
+            
+            VStack {
+                imageScrollView
+                sliders
             }
+            .padding(10)
+            .background(.background.opacity(0.3))
+            
+            BannerAdView(sizeType: .AdSizeBanner, padding: .zero)
+                .background(.clear)
+                .border(.primary)
+                .padding(.bottom, .safeAreaInsetBottom + 0.5)
+
         }.background(.background)
         
         
@@ -253,7 +251,7 @@ struct CameraView : View {
                 }
             }
         }
-       
+        
         
     }
 }

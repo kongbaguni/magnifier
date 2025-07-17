@@ -36,12 +36,14 @@ class CameraViewController: UIViewController {
         }
         
         let previewLayer = AVCaptureVideoPreviewLayer(session: captureSession!)
-        previewLayer.videoGravity = .resizeAspect
+        previewLayer.videoGravity = .resizeAspectFill
         previewLayer.frame = view.layer.frame
-        previewLayer.frame.size.height = previewLayer.frame.width / 3 * 4
+//        previewLayer.frame.size.height = previewLayer.frame.width / 3 * 4
         previewLayer.frame.origin = .zero
                 
         view.layer.addSublayer(previewLayer)
+        
+                
         
         view.addGestureRecognizer(UIPinchGestureRecognizer(target: self, action: #selector(self.pinchGesture(sender:))))
         view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.tapGesture(sender:))))
