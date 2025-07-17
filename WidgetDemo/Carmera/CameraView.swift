@@ -81,7 +81,7 @@ struct CameraView : View {
                         imageViews[idx]
                             .resizable()
                             .scaledToFit()
-                            .frame(height:60)
+                            .frame(height:50)
                             .padding(5)
                             .background {
                                 RoundedRectangle(cornerRadius: 5)
@@ -181,54 +181,46 @@ struct CameraView : View {
         }
     }
     var carmeraPreview: some View {
-        ZStack {
+        GeometryReader { geo in
+            var w:CGFloat {
+                geo.size.width
+            }
+            var h:CGFloat {
+                geo.size.width / 3 * 4
+            }
             VStack {
                 Spacer().frame(height:.safeAreaInsetTop + 1)
                 BannerAdView(sizeType: .AdSizeBanner, padding: .zero)
                     .background(.clear)
                     .border(.primary)
-                Spacer()
-            }
-            .zIndex(10)
-            
-            GeometryReader { geo in
-                var w:CGFloat {
-                    geo.size.width
+                
+                _CameraView { image in
+                    images.append(image)
+                    saveImage(image: image, present: false)
                 }
-                var h:CGFloat {
-                    geo.size.width / 3 * 4
-                }
-                VStack {
-
-                    _CameraView { image in
-                        images.append(image)
-                        saveImage(image: image, present: false)
+                .frame(width: w, height: h)
+                .background(Color.gray)
+                HStack {
+                    Spacer()
+                    Button {
+                        NotificationCenter.default.post(name: .cameraCapture, object: nil)
+                    } label: {
+                        Image(systemName: "camera.circle.fill")
+                            .resizable()
+                            .frame(width: 30, height: 30)
                     }
-                    .frame(width: w, height: h)
-                    .background(Color.gray)
-                    HStack {
-                        Spacer()
-                        Button {
-                            NotificationCenter.default.post(name: .cameraCapture, object: nil)
-                        } label: {
-                            Image(systemName: "camera.circle.fill")
-                                .resizable()
-                                .frame(width: 30, height: 30)
-                        }
-                        Toggle(isOn: $isExtend) {
-                            
-                        }
-                        Spacer()
-                    }
-                    ScrollView {
-                        imageScrollView
+                    Toggle(isOn: $isExtend) {
                         
-                        sliders
-                    }.padding(20)
-                }
+                    }
+                    Spacer()
+                }.frame(height: 40)
+                ScrollView {
+                    imageScrollView
+                    sliders
+                }.padding(20)
             }
-           
-        }
+        }.background(.background)
+        
         
     }
     

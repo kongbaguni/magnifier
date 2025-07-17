@@ -43,8 +43,8 @@ class CameraViewController: UIViewController {
                 
         view.layer.addSublayer(previewLayer)
         
-        let gesture = UIPinchGestureRecognizer(target: self, action: #selector(self.pinchGesture(sender:)))
-        view.addGestureRecognizer(gesture)
+        view.addGestureRecognizer(UIPinchGestureRecognizer(target: self, action: #selector(self.pinchGesture(sender:))))
+        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.tapGesture(sender:))))
         
         
         DispatchQueue.global().async {[weak self] in
@@ -135,6 +135,10 @@ class CameraViewController: UIViewController {
         default:
             break
         }
+    }
+    
+    @objc func tapGesture(sender:UITapGestureRecognizer) {
+        self.capturePhoto()
     }
 }
 

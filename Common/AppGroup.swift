@@ -36,22 +36,19 @@ struct AppGroup {
             case .large:
                 return appGroupURL?.appendingPathComponent(Consts.SaveTempImageLarge)
             }
-            return nil
         }
     }
     
     static func saveImage(image:UIImage) {
-        if let appGroupURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: Consts.AppGroupID) {
-            for data in ImageSize.allCases {
-                if let url = data.url {
-                    if let img = image.resized(to: data.size ,contentMode: .scaleAspectFill) {
-                        print("\(img.size)")
-                        if let data = img.jpegData(compressionQuality: 0.7) {
-                            do {
-                                try data.write(to: url)
-                            } catch {
-                                print("이미지 저장 실패: \(error)")
-                            }
+        for data in ImageSize.allCases {
+            if let url = data.url {
+                if let img = image.resized(to: data.size ,contentMode: .scaleAspectFill) {
+                    print("\(img.size)")
+                    if let data = img.jpegData(compressionQuality: 0.7) {
+                        do {
+                            try data.write(to: url)
+                        } catch {
+                            print("이미지 저장 실패: \(error)")
                         }
                     }
                 }
