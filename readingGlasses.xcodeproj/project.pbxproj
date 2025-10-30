@@ -188,7 +188,6 @@
 			children = (
 				1B9003072D47C2C900F21975 /* Carmera */,
 				8D6E29F12A612E3F0028396A /* Extensions */,
-				1B8FDABE2A4C04DC007BE5E5 /* String+Extensions.swift */,
 				1B8FDAC02A4C189B007BE5E5 /* WidgetDemo.entitlements */,
 				1B8FDA8D2A4BB1C0007BE5E5 /* WidgetDemoApp.swift */,
 				8D3D9F892A85B0DE00DC9897 /* GoogleAd */,
@@ -275,6 +274,7 @@
 		8D6E29F12A612E3F0028396A /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				1B8FDABE2A4C04DC007BE5E5 /* String+Extensions.swift */,
 				8D6E29EF2A612E270028396A /* UIApplication+Extensions.swift */,
 				8D6E29ED2A612DF60028396A /* Userdefault+Extensions.swift */,
 				8D6D673C2A613AE700AA1765 /* CGFloat+Extensions.swift */,
@@ -644,7 +644,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0.0;
+				MARKETING_VERSION = 2.1.0;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = net.kongbaguni.readingGlasses;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -679,7 +679,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0.0;
+				MARKETING_VERSION = 2.1.0;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = net.kongbaguni.readingGlasses;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -706,7 +706,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.0.0;
+				MARKETING_VERSION = 2.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = net.kongbaguni.readingGlasses.widget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -733,7 +733,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 2.0.0;
+				MARKETING_VERSION = 2.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = net.kongbaguni.readingGlasses.widget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;

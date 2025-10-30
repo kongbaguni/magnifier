@@ -19,8 +19,9 @@ class CameraViewController: UIViewController {
         captureSession = AVCaptureSession()
         captureSession?.sessionPreset = .photo
         
+//        let macroDevice = AVCaptureDevice.default(.builtInUltraWideCamera, for: .video, position: .back)
         
-        guard let backCamera = AVCaptureDevice.default(for: .video),
+        guard let backCamera = AVCaptureDevice.default(.builtInUltraWideCamera, for: .video, position: .back),
               let input = try? AVCaptureDeviceInput(device: backCamera),
               captureSession?.canAddInput(input) == true else {
             Log.error(#function, "Unable to access back camera!")
@@ -28,13 +29,21 @@ class CameraViewController: UIViewController {
         }
         
         captureDevice = backCamera
-        
         captureSession?.addInput(input)
         
         if captureSession?.canAddOutput(photoOutput) == true {
             captureSession?.addOutput(photoOutput)
         }
         
+        do {
+            try captureDevice?.lockForConfiguration()
+            captureDevice?.focusMode = .locked
+            captureDevice?.setFocusModeLocked(lensPosition: 1.0) // 1.0 = 최단거리 (접사)
+            captureDevice?.unlockForConfiguration()
+        } catch {
+            print("Error: \(error)")
+        }
+
         let previewLayer = AVCaptureVideoPreviewLayer(session: captureSession!)
         previewLayer.videoGravity = .resizeAspectFill
         previewLayer.frame = view.layer.frame
@@ -67,6 +76,7 @@ class CameraViewController: UIViewController {
                     self?.captureDevice?.setFocusModeLocked(lensPosition: value, completionHandler: { time in
                         print("초점 조정 완료: \(time)")
                     })
+                    
                 }
                 if let value = noti.userInfo?["zoom"] as? Float {
                     

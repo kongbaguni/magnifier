@@ -204,6 +204,42 @@ struct CameraView : View {
         }
     }
     
+    var controllerView: some View {
+        VStack {
+            HStack {
+                Spacer()
+                Button {
+                    NotificationCenter.default.post(name: .cameraCapture, object: nil)
+                } label: {
+                    Image(systemName: "camera.circle.fill")
+                        .resizable()
+                        .frame(width: 30, height: 30)
+                }
+                Toggle(isOn: $isExtend) {
+                    
+                }
+                Spacer()
+            }.frame(height: 40)
+
+            imageScrollView
+            
+            sliders // Fallback on earlier versions
+
+            #if !DEBUG
+            BannerAdView(sizeType: .AdSizeBanner, padding: .zero)
+                .background(.clear)
+                .border(.primary)
+                .padding(.bottom, .safeAreaInsetBottom + 0.5)
+            #else
+            Spacer().frame(height: .safeAreaInsetBottom)
+            #endif
+
+        }
+        .padding(10)
+        .background(.background.opacity(0.5))
+    }
+//
+    
     var carmeraPreview: some View {
         VStack {
             _CameraView { image in
@@ -213,37 +249,12 @@ struct CameraView : View {
             .background(Color.gray)
 
             
-            VStack {
-                HStack {
-                    Spacer()
-                    Button {
-                        NotificationCenter.default.post(name: .cameraCapture, object: nil)
-                    } label: {
-                        Image(systemName: "camera.circle.fill")
-                            .resizable()
-                            .frame(width: 30, height: 30)
-                    }
-                    Toggle(isOn: $isExtend) {
-                        
-                    }
-                    Spacer()
-                }.frame(height: 40)
-
-                imageScrollView
-                sliders
-
-                #if !DEBUG
-                BannerAdView(sizeType: .AdSizeBanner, padding: .zero)
-                    .background(.clear)
-                    .border(.primary)
-                    .padding(.bottom, .safeAreaInsetBottom + 0.5)
-                #else
-                Spacer().frame(height: .safeAreaInsetBottom)
-                #endif
-
+            if #available(iOS 26.0, *) {
+                controllerView
+                    .glassEffect(.clear, in: .rect(cornerRadius: 0))
+            } else {
+                controllerView // Fallback on earlier versions
             }
-            .padding(10)
-            .background(.background.opacity(0.3))
             
 
         }.background(.background)
