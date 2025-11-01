@@ -55,6 +55,7 @@ struct CameraView : View {
     @State var focus:Float = 0.0
     @State var zoom:Float = 1.0
     
+    @AppStorage("lens_select") var lensSelect:Int = 0
     @AppStorage("whiteBalance_red") var whiteBalance_red:Double = 1.5
     @AppStorage("whiteBalance_green") var whiteBalance_green:Double = 1.0
     @AppStorage("whiteBalance_blue") var whiteBalance_blue:Double = 3.0
@@ -87,6 +88,40 @@ struct CameraView : View {
         AppGroup.saveImage(image: image)
         if present {
             presentImage = true
+        }
+    }
+    
+    private func cameraSelectButton(id:Int)-> some View {
+        Button {
+            lensSelect = id
+        } label: {
+            RoundedRectangle(cornerRadius: 20)
+                .fill(lensSelect == id
+                      ? .orange.opacity(0.8)
+                      : .red.opacity(0.2)
+                )
+                .frame(width: 40, height: 40)
+                .overlay {
+                    Text("\(id)")
+                        .font(.body)
+                }
+                .overlay {
+                    RoundedRectangle(cornerRadius: 20)
+                        .stroke(lensSelect == id ? .primary : Color.clear, lineWidth: 2)
+                }
+        }
+    }
+    
+    var lensSelectView : some View {
+        HStack {
+            ForEach(0..<2, id: \.self) { idx in
+                if #available(iOS 26.0, *) {
+                    cameraSelectButton(id: idx)
+                        .glassEffect(.clear.interactive(), in: .rect(cornerRadius: 20))
+                } else {
+                    cameraSelectButton(id: idx)
+                }
+            }
         }
     }
     
@@ -207,7 +242,6 @@ struct CameraView : View {
     var controllerView: some View {
         VStack {
             HStack {
-                Spacer()
                 Button {
                     NotificationCenter.default.post(name: .cameraCapture, object: nil)
                 } label: {
@@ -215,10 +249,11 @@ struct CameraView : View {
                         .resizable()
                         .frame(width: 30, height: 30)
                 }
+                
+                lensSelectView
                 Toggle(isOn: $isExtend) {
                     
                 }
-                Spacer()
             }.frame(height: 40)
 
             imageScrollView
@@ -268,8 +303,14 @@ struct CameraView : View {
         .sheet(isPresented: $presentImage, content: {
             ImageView()
         })
+        .onChange(of: lensSelect) { newValue in
+            NotificationCenter.default.post(name: .cameraSettingChange, object: nil, userInfo: [
+                "lens" : newValue
+            ])
+        }
         .onAppear(perform: {
             NotificationCenter.default.post(name: .cameraSettingChange, object: nil, userInfo: [
+                "lens" : lensSelect,
                 "focus" : focus,
                 "exporse" : exporse,
                 "zoom" : zoom,
