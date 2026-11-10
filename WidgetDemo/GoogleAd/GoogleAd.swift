@@ -20,50 +20,58 @@ fileprivate let bannerGaId = "ca-app-pub-7714069006629518/9265370795" // real ga
 #endif
 
 
+// The SDK callback returns an ad that is only accessed after a MainActor hop.
+private struct RewardedAdTransfer: @unchecked Sendable {
+    let ad: RewardedAd?
+}
 
+@MainActor
 class GoogleAd : NSObject {
     
     var interstitial:RewardedAd? = nil
-    func requestTrackingAuthorization(complete:@escaping()->Void) {
+    func requestTrackingAuthorization(complete: @escaping @MainActor @Sendable () -> Void) {
         ATTrackingManager.requestTrackingAuthorization { status in
             print("google ad tracking status : \(status)")
-            complete()
-        }
-    }
-    
-    private func loadAd(complete:@escaping(_ isSucess:Bool)->Void) {
-        let request = Request()
-        requestTrackingAuthorization {
-            RewardedAd.load(with: rewardedid, request: request) { [weak self] ad, error in
-                if let err = error {
-                    print("google ad load error : \(err.localizedDescription)")
-                }
-                ad?.fullScreenContentDelegate = self
-                self?.interstitial = ad
-                complete(ad != nil)
+            Task { @MainActor in
+                complete()
             }
         }
     }
     
-    var callback:(_ isSucess:Bool, _ time:TimeInterval?)->Void = { _,_ in}
+    private func loadAd(complete: @escaping @MainActor @Sendable (_ isSucess: Bool) -> Void) {
+        let request = Request()
+        requestTrackingAuthorization { [weak self] in
+            RewardedAd.load(with: rewardedid, request: request) { [weak self] ad, error in
+                let transfer = RewardedAdTransfer(ad: ad)
+                let errorDescription = error?.localizedDescription
+                Task { @MainActor [weak self, transfer] in
+                    guard let self else { return }
+                    if let errorDescription {
+                        print("google ad load error : \(errorDescription)")
+                    }
+                    transfer.ad?.fullScreenContentDelegate = self
+                    self.interstitial = transfer.ad
+                    complete(transfer.ad != nil)
+                }
+            }
+        }
+    }
     
-    func showAd(complete:@escaping(_ isSucess:Bool, _ time:TimeInterval?)->Void) {
+    var callback: @MainActor @Sendable (_ isSucess: Bool, _ time: TimeInterval?) -> Void = { _, _ in }
+    
+    func showAd(complete: @escaping @MainActor @Sendable (_ isSucess: Bool, _ time: TimeInterval?) -> Void) {
         callback = complete
         NotificationCenter.default.post(name: .adLoadingStart, object: nil)
         loadAd { [weak self] isSucess in
             NotificationCenter.default.post(name: .adLoadingFinish, object: nil)
             if isSucess == false {
-                DispatchQueue.main.async {
-                    complete(true,nil)
-                }
+                complete(true, nil)
                 return
             }
             UserDefaults.standard.lastAdWatchTime = Date()
                         
             if let vc = UIApplication.shared.lastViewController {
-                self?.interstitial?.present(from: vc, userDidEarnRewardHandler: {
-                    
-                })
+                self?.interstitial?.present(from: vc, userDidEarnRewardHandler: {})
             }
         }
     }
@@ -72,25 +80,25 @@ class GoogleAd : NSObject {
 
 extension GoogleAd : FullScreenContentDelegate {
     //광고 실패
-    func ad(_ ad: FullScreenPresentingAd, didFailToPresentFullScreenContentWithError error: Error) {
+    nonisolated func ad(_ ad: FullScreenPresentingAd, didFailToPresentFullScreenContentWithError error: Error) {
         print("google ad \(#function)")
         print(error.localizedDescription)
-        DispatchQueue.main.async {
-            self.callback(true, nil)
+        Task { @MainActor [weak self] in
+            self?.callback(true, nil)
         }
     }
-    func adDidRecordClick(_ ad: FullScreenPresentingAd) {
+    nonisolated func adDidRecordClick(_ ad: FullScreenPresentingAd) {
         print("google ad \(#function)")
     }
     //광고시작
-    func adDidRecordImpression(_ ad: FullScreenPresentingAd) {
+    nonisolated func adDidRecordImpression(_ ad: FullScreenPresentingAd) {
         print("google ad \(#function)")
     }
     //광고 종료
-    func adDidDismissFullScreenContent(_ ad: FullScreenPresentingAd) {
-        print("google ad \(#function)")        
-        DispatchQueue.main.async {
-            self.callback(true, nil)
+    nonisolated func adDidDismissFullScreenContent(_ ad: FullScreenPresentingAd) {
+        print("google ad \(#function)")
+        Task { @MainActor [weak self] in
+            self?.callback(true, nil)
         }
     }
 }
@@ -106,25 +114,35 @@ struct GoogleAdBannerView: UIViewRepresentable {
         return bannerView
     }
   
+    @MainActor
     func updateUIView(_ uiView: BannerView, context: Context) {
         uiView.load(Request())
         print("GADBannerViewDelegate \(#function) \(#line)")
         NotificationCenter.default.post(name: .adBannerLoadingStart, object: nil)
         uiView.delegate = delegate
         if isRegObserver == false  {
-            NotificationCenter.default.addObserver(forName: .adBannerLoadingFail, object: nil, queue: nil) { noti in
-                DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(10)) {
+            NotificationCenter.default.addObserver(forName: .adBannerLoadingFail, object: nil, queue: nil) { [weak uiView] _ in
+                Task { @MainActor [weak uiView] in
+                    do {
+                        try await Task.sleep(for: .seconds(10))
+                    } catch {
+                        return
+                    }
+                    guard let uiView else { return }
                     uiView.load(Request())
                     NotificationCenter.default.post(name: .adBannerLoadingStart, object: nil)
                 }
             }
-            NotificationCenter.default.addObserver(forName: UIApplication.willEnterForegroundNotification, object: nil, queue: nil) { noti in
-                uiView.load(Request())
-                NotificationCenter.default.post(name: .adBannerLoadingStart, object: nil)
+            NotificationCenter.default.addObserver(forName: UIApplication.willEnterForegroundNotification, object: nil, queue: nil) { [weak uiView] _ in
+                Task { @MainActor [weak uiView] in
+                    guard let uiView else { return }
+                    uiView.load(Request())
+                    NotificationCenter.default.post(name: .adBannerLoadingStart, object: nil)
+                }
             }
             DispatchQueue.main.async {
                 isRegObserver = true
-            }            
+            }
         }
     }
 }

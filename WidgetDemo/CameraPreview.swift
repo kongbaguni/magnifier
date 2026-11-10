@@ -1,5 +1,5 @@
 import SwiftUI
-import AVFoundation
+@preconcurrency import AVFoundation
 
 struct CameraPreview: UIViewRepresentable {
     func makeUIView(context: Context) -> UIView {
@@ -20,7 +20,6 @@ struct CameraPreview: UIViewRepresentable {
 class CameraPreviewView: UIView {
     private var permissionGranted = false // Flag for permission
     private let captureSession:AVCaptureSession = AVCaptureSession()
-    private let sessionQueue = DispatchQueue(label: "sessionQueue")
     var previewLayer = AVCaptureVideoPreviewLayer()
     var captureDevice : AVCaptureDevice? = nil
     var photoOutput: AVCapturePhotoOutput? = nil
@@ -39,51 +38,48 @@ class CameraPreviewView: UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
         previewLayer.frame = self.frame
-        var newOrientation:AVCaptureVideoOrientation {
-            switch UIDevice.current.orientation {
-            case .portrait:
-                return .portrait
-            case .portraitUpsideDown:
-                return .portraitUpsideDown
-            case .landscapeLeft:
-                return .landscapeRight
-            case .landscapeRight:
-                return .landscapeLeft
-            default:
-                return .portrait
-            }
+        let newRotationAngle: CGFloat
+        switch UIDevice.current.orientation {
+        case .portrait:
+            newRotationAngle = 90
+        case .portraitUpsideDown:
+            newRotationAngle = 270
+        case .landscapeLeft:
+            newRotationAngle = 0
+        case .landscapeRight:
+            newRotationAngle = 180
+        default:
+            newRotationAngle = 90
         }
-        if(newOrientation != previewLayer.connection?.videoOrientation) {
-            previewLayer.connection?.videoOrientation = newOrientation
+        if let connection = previewLayer.connection,
+           connection.isVideoRotationAngleSupported(newRotationAngle) {
+            connection.videoRotationAngle = newRotationAngle
         }
-        
     }
     
     private func setupCamera() {
         "setupCamera".sendLog()
         checkPermission()
-        sessionQueue.async { [unowned self] in
-            guard permissionGranted else { return }
-            self.setupCaptureSession()
-            self.captureSession.startRunning()
-        }
         
         NotificationCenter.default.addObserver(forName: .carmeraSettingChange, object: nil, queue: nil) {[weak self] noti in
-            if let info = noti.userInfo {
-                if let isOn = info["isOnExposureManual"] as? Bool {
-                    self?.setExposureMode(isManual: isOn)
+            let isManual = noti.userInfo?["isOnExposureManual"] as? Bool
+            let exposureValue = noti.userInfo?["exposureManualValue"] as? Double
+            Task { @MainActor [weak self] in
+                if let isManual {
+                    self?.setExposureMode(isManual: isManual)
                 }
-                if let value = info["exposureManualValue"] as? Double {
-                    
-                    self?.setExposureValue(value: Int64(value * 10))
+                if let exposureValue {
+                    self?.setExposureValue(value: Int64(exposureValue * 10))
                 }
             }
         }
         NotificationCenter.default.addObserver(forName: .carmeraZoomChangedWithZoomController, object: nil, queue: nil) { [weak self] noti in
-            if let zoom = noti.object as? CGFloat {
-                self?.setZoomFactor(zoom)
+            let zoom = noti.object as? CGFloat
+            Task { @MainActor [weak self] in
+                if let zoom {
+                    self?.setZoomFactor(zoom)
+                }
             }
-            
         }
     }
     
@@ -134,6 +130,7 @@ class CameraPreviewView: UIView {
         case .authorized:
             "checkPermission : authorized".sendLog()
             permissionGranted = true
+            configureAndStartCaptureSession()
             
             // Permission has not been requested yet
         case .notDetermined:
@@ -148,15 +145,27 @@ class CameraPreviewView: UIView {
     
     private func requestPermission() {
         "\(#function) \(#line)".sendLog()
-        sessionQueue.suspend()
-        AVCaptureDevice.requestAccess(for: .video) { [unowned self] granted in
-            self.permissionGranted = granted
-            self.sessionQueue.resume()
-            DispatchQueue.main.async {
+        AVCaptureDevice.requestAccess(for: .video) { [weak self] granted in
+            Task { @MainActor [weak self] in
+                guard let self else { return }
+                self.permissionGranted = granted
                 NotificationCenter.default.post(name: .cameraRequestPermissionGetResult, object: granted)
+                if granted {
+                    self.configureAndStartCaptureSession()
+                }
             }
         }
     }
+
+    private func configureAndStartCaptureSession() {
+        guard permissionGranted else { return }
+        setupCaptureSession()
+        let session = captureSession
+        DispatchQueue.global(qos: .userInitiated).async {
+            session.startRunning()
+        }
+    }
+
     private var currentVideoDevice:AVCaptureDevice? {
         return AVCaptureDevice.default(.builtInTripleCamera, for: .video, position: .back) ??
         AVCaptureDevice.default(.builtInDualCamera, for: .video, position: .back) ??
@@ -181,22 +190,19 @@ class CameraPreviewView: UIView {
         
         guard captureSession.canAddInput(videoDeviceInput) else { return }
         captureSession.addInput(videoDeviceInput)
-        // TODO: Add preview layer
-        DispatchQueue.main.async {[weak self] in
-            guard let s = self else {
-                return
-            }
-            s.screenRect = s.layer.frame
-            s.previewLayer = AVCaptureVideoPreviewLayer(session: s.captureSession)
-            s.previewLayer.frame = CGRect(x: 0, y: 0, width: s.screenRect.size.width, height: s.screenRect.size.height)
-            s.previewLayer.videoGravity = .resizeAspectFill // Fill screen
-            s.previewLayer.connection?.videoOrientation = .portrait
-            s.layer.masksToBounds = true;
-            s.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-            s.layer.addSublayer(s.previewLayer)
-            let gesture = UIPinchGestureRecognizer(target: s, action: #selector(s.pinchGesture(sender:)))
-            s.addGestureRecognizer(gesture)
+        screenRect = layer.frame
+        previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
+        previewLayer.frame = CGRect(x: 0, y: 0, width: screenRect.size.width, height: screenRect.size.height)
+        previewLayer.videoGravity = .resizeAspectFill
+        if let connection = previewLayer.connection,
+           connection.isVideoRotationAngleSupported(90) {
+            connection.videoRotationAngle = 90
         }
+        layer.masksToBounds = true
+        autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        layer.addSublayer(previewLayer)
+        let gesture = UIPinchGestureRecognizer(target: self, action: #selector(pinchGesture(sender:)))
+        addGestureRecognizer(gesture)
         
         photoOutput = AVCapturePhotoOutput()
         if let photoOutput = photoOutput {
@@ -206,15 +212,14 @@ class CameraPreviewView: UIView {
         }
         
         NotificationCenter.default.addObserver(forName: .carmeraCtlZoom, object: nil, queue: nil) { [weak self] noti in
-            guard let s = self else {
-                return;
-            }
             let zoomScale = noti.object as? CGFloat ?? 1.0
-            s.currentZoomFactor = zoomScale
+            Task { @MainActor [weak self] in
+                self?.currentZoomFactor = zoomScale
+            }
         }
         
         NotificationCenter.default.addObserver(forName: .carmeraTakePhoto, object: nil, queue: nil) { [weak self] noti in
-            DispatchQueue.main.async {
+            Task { @MainActor [weak self] in
                 self?.takePhoto()
             }
         }
@@ -318,14 +323,16 @@ class CameraPreviewView: UIView {
 
 
 extension CameraPreviewView : AVCapturePhotoCaptureDelegate {
-    func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
-        guard let imageData = photo.fileDataRepresentation(), let image = UIImage(data: imageData) else {
-            return
+    nonisolated func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
+        guard let imageData = photo.fileDataRepresentation() else { return }
+        Task { @MainActor [weak self] in
+            guard let self, let image = UIImage(data: imageData) else {
+                return
+            }
+            NotificationCenter.default.post(name: .carmeraPhotoOutput, object: image)
+            "\(#function):\(#line)".sendLog()
+            self.saveImageToAppGroup(image: image)
         }
-        
-        NotificationCenter.default.post(name: .carmeraPhotoOutput, object: image)
-        "\(#function):\(#line)".sendLog()
-        self.saveImageToAppGroup(image: image)
     }
 }
 

@@ -9,48 +9,57 @@ import Foundation
 import UIKit
 import UserMessagingPlatform
 import AppTrackingTransparency
-fileprivate func requestTrackingAuthorization(complete:@escaping()->Void) {
+
+// The SDK callback returns a UI-bound object that is only accessed after a MainActor hop.
+private struct ConsentFormTransfer: @unchecked Sendable {
+    let form: ConsentForm?
+}
+
+@MainActor
+fileprivate func requestTrackingAuthorization(complete: @escaping @MainActor @Sendable () -> Void) {
     ATTrackingManager.requestTrackingAuthorization { status in
         print("google ad tracking status : \(status)")
-        complete()
+        Task { @MainActor in
+            complete()
+        }
     }
 }
 
-fileprivate func userMessagePlatformPrompt(complete:@escaping()->Void) {
-    func loadForm() {
-        guard let lvc = UIApplication.shared.lastViewController else {
-            DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) {
-                loadForm()
+@MainActor
+fileprivate func loadUserMessageForm() {
+    guard let viewController = UIApplication.shared.lastViewController else {
+        Task { @MainActor in
+            do {
+                try await Task.sleep(for: .seconds(1))
+            } catch {
+                return
             }
+            loadUserMessageForm()
+        }
+        return
+    }
+
+    ConsentForm.load { form, loadError in
+        if let loadError {
+            print("Consent form load error: \(loadError.localizedDescription)")
             return
         }
-        
-      // Loads a consent form. Must be called on the main thread.
-        ConsentForm.load { form, loadError in
-            if loadError != nil {
-              // Handle the error
-            } else {
-                // Present the form. You can also hold on to the reference to present
-                // later.
-                if ConsentInformation.shared.consentStatus == ConsentStatus.required {
-                    form?.present(
-                        from: lvc,
-                        completionHandler: { dismissError in
-                            switch ConsentInformation.shared.consentStatus {
-                                case .obtained:
-                                    // App can start requesting ads.
-                                    break
-                                default:
-                                    // Handle dismissal by reloading form.
-                                    break
-                            }
-                        })
-                } else {
-                    // Keep the form available for changes to user consent.
+        let transfer = ConsentFormTransfer(form: form)
+        Task { @MainActor [transfer] in
+            if ConsentInformation.shared.consentStatus == ConsentStatus.required,
+               let form = transfer.form {
+                do {
+                    try await form.present(from: viewController)
+                } catch {
+                    print("Consent form presentation error: \(error.localizedDescription)")
                 }
             }
         }
     }
+}
+
+@MainActor
+fileprivate func userMessagePlatformPrompt(complete: @escaping @MainActor @Sendable () -> Void) {
     
     #if DEBUG
     ConsentInformation.shared.reset()
@@ -69,23 +78,31 @@ fileprivate func userMessagePlatformPrompt(complete:@escaping()->Void) {
     ConsentInformation.shared.requestConsentInfoUpdate(
         with: parameters,
         completionHandler: { error in
-            if error != nil {
-                // Handle the error.
-                print(error!.localizedDescription)
-            } else {
-                let formStatus = ConsentInformation.shared.formStatus
-                if formStatus == FormStatus.available {
-                  loadForm()
+            let errorDescription = error?.localizedDescription
+            Task { @MainActor in
+                if let errorDescription {
+                    print(errorDescription)
+                } else {
+                    let formStatus = ConsentInformation.shared.formStatus
+                    if formStatus == FormStatus.available {
+                        loadUserMessageForm()
+                    }
                 }
+                complete()
             }
-            complete()
         })
 }
 /** 구글 AD 사용 위한 권한 등 프롬프트 요청..*/
 struct GoogleAdPrompt {
-    static func promptWithDelay(complete:@escaping()->Void) {
+    @MainActor
+    static func promptWithDelay(complete: @escaping @MainActor @Sendable () -> Void) {
         // contentView.init 등에서 호출할 때 1초 딜레이를 주어야 알람창이 뜬다.
-        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) {
+        Task { @MainActor in
+            do {
+                try await Task.sleep(for: .seconds(1))
+            } catch {
+                return
+            }
             requestTrackingAuthorization {
                 userMessagePlatformPrompt {
                     complete()
@@ -94,4 +111,3 @@ struct GoogleAdPrompt {
         }
     }
 }
-

@@ -5,7 +5,7 @@
 //  Created by Changyeol Seo on 10/29/24.
 //
 import UIKit
-import AVFoundation
+@preconcurrency import AVFoundation
 
 
 class CameraViewController: UIViewController {
@@ -75,70 +75,76 @@ class CameraViewController: UIViewController {
         view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.tapGesture(sender:))))
         
         
-        DispatchQueue.global().async {[weak self] in
-            self?.captureSession?.startRunning()
+        if let captureSession {
+            DispatchQueue.global(qos: .userInitiated).async {
+                captureSession.startRunning()
+            }
         }
         
         NotificationCenter.default.addObserver(forName: .cameraCapture, object: nil, queue: nil) { [weak self] noti in
-            self?.capturePhoto()
+            Task { @MainActor [weak self] in
+                self?.capturePhoto()
+            }
         }
         
         NotificationCenter.default.addObserver(forName: .cameraSettingChange, object: nil, queue: nil) {[weak self] noti in
-            do {
-                guard let captureDevice = self?.captureDevice else {
-                    return
-                }
-                if let value = noti.userInfo?["lens"] as? Int {
-                    switch value {
-                    case 0:
-                        self?.initCaptureDevice(deviceType: .builtInUltraWideCamera)
-                    default:
-                        self?.initCaptureDevice(deviceType: nil)
+            let lens = noti.userInfo?["lens"] as? Int
+            let exposure = noti.userInfo?["exporse"] as? Float
+            let focus = noti.userInfo?["focus"] as? Float
+            let zoom = noti.userInfo?["zoom"] as? Float
+            let whiteBalance = noti.userInfo?["whiteBalence"] as? [String: Float]
+            Task { @MainActor [weak self] in
+                guard let self else { return }
+                do {
+                    if let lens {
+                        switch lens {
+                        case 0:
+                            self.initCaptureDevice(deviceType: .builtInUltraWideCamera)
+                        default:
+                            self.initCaptureDevice(deviceType: nil)
+                        }
                     }
-                }
 
-                try captureDevice.lockForConfiguration()
-                if let value = noti.userInfo?["exporse"] as? Float {
-                    captureDevice.setExposureTargetBias(value)
-                }
-                if let value = noti.userInfo?["focus"] as? Float {
-                    captureDevice.setFocusModeLocked(lensPosition: value, completionHandler: { time in
-                        print("초점 조정 완료: \(time)")
-                    })
-                    
-                }
-                
-                if let value = noti.userInfo?["zoom"] as? Float {
-                    
-                    let min = Float(self?.captureDevice?.minAvailableVideoZoomFactor ?? 0)
-                    let max = Float(self?.captureDevice?.maxAvailableVideoZoomFactor ?? 0)
-                    if min <= value && value <= max {
-                        captureDevice.videoZoomFactor = CGFloat(value)
+                    guard let captureDevice = self.captureDevice else { return }
+                    try captureDevice.lockForConfiguration()
+                    defer { captureDevice.unlockForConfiguration() }
+                    if let exposure {
+                        captureDevice.setExposureTargetBias(exposure)
                     }
-                    else {
-                        print("out of range : \(value)")
+                    if let focus {
+                        captureDevice.setFocusModeLocked(lensPosition: focus, completionHandler: { time in
+                            print("초점 조정 완료: \(time)")
+                        })
                     }
-                }
-                                
-                if let dic = noti.userInfo?["whiteBalence"] as? [String:Float] {
-                    if let r = dic["red"], let g = dic["green"], let b = dic["blue"] {
-                        let max = self?.captureDevice?.maxWhiteBalanceGain ?? 0
+                    if let zoom {
+                        let min = Float(captureDevice.minAvailableVideoZoomFactor)
+                        let max = Float(captureDevice.maxAvailableVideoZoomFactor)
+                        if min <= zoom && zoom <= max {
+                            captureDevice.videoZoomFactor = CGFloat(zoom)
+                        } else {
+                            print("out of range : \(zoom)")
+                        }
+                    }
+                    if let whiteBalance,
+                       let r = whiteBalance["red"],
+                       let g = whiteBalance["green"],
+                       let b = whiteBalance["blue"] {
+                        let max = captureDevice.maxWhiteBalanceGain
                         if r > max || g > max || b > max {
                             print("out of range : r \(r) g \(g) b \(b) max : \(max)")
                             return
                         }
-                        
-                        captureDevice.setWhiteBalanceModeLocked(with: AVCaptureDevice.WhiteBalanceGains.init(redGain: r, greenGain: g, blueGain: b), completionHandler: { time in
-                            print("화이트밸런스 조절 완료")
-                        })
+                        captureDevice.setWhiteBalanceModeLocked(
+                            with: AVCaptureDevice.WhiteBalanceGains(redGain: r, greenGain: g, blueGain: b),
+                            completionHandler: { _ in
+                                print("화이트밸런스 조절 완료")
+                            }
+                        )
                     }
+                } catch {
+                    print("error : " + error.localizedDescription)
                 }
-                captureDevice.unlockForConfiguration()
-                                
-            } catch {
-                print("error : " + error.localizedDescription)
             }
-            
         }
         
     }
@@ -185,16 +191,18 @@ class CameraViewController: UIViewController {
 }
 
 extension CameraViewController: AVCapturePhotoCaptureDelegate {
-    func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
-        if let error = error {
-            Log.error(#function, "carmera error:", error.localizedDescription)
+    nonisolated func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
+        let errorDescription = error?.localizedDescription
+        let imageData = photo.fileDataRepresentation()
+        Task { @MainActor [weak self] in
+            if let errorDescription {
+                Log.error(#function, "carmera error:", errorDescription)
+            }
+            guard let imageData, let image = UIImage(data: imageData) else {
+                Log.error(#function, "Error capturing photo.")
+                return
+            }
+            self?.onCapture(image)
         }
-        guard let imageData = photo.fileDataRepresentation(),
-              let image = UIImage(data: imageData) else {
-            Log.error(#function, "Error capturing photo.")
-            return
-        }
-        
-        onCapture(image)
     }
 }

@@ -163,7 +163,7 @@ struct CameraView : View {
                 Image(systemName: "plus.magnifyingglass")
                 
                 Slider(value: $zoom, in:0.5...20.0)
-                    .onChange(of: zoom) {  newValue in
+                    .onChange(of: zoom) { _, newValue in
                         print(newValue)
                         NotificationCenter.default.post(name: .cameraSettingChange, object: nil, userInfo: [
                             "zoom" : newValue
@@ -172,7 +172,7 @@ struct CameraView : View {
             case .fucus:
                 Image(systemName: "camera.metering.center.weighted")
                 Slider(value: $focus, in:0.0...1.0)
-                    .onChange(of: focus) {  newValue in
+                    .onChange(of: focus) { _, newValue in
                         print(newValue)
                         NotificationCenter.default.post(name: .cameraSettingChange , object: nil, userInfo: [
                             "focus" : newValue
@@ -182,7 +182,7 @@ struct CameraView : View {
                 Image(systemName: "camera.aperture")
                 
                 Slider(value: $exporse, in:-3.0...3.0)
-                    .onChange(of: exporse) {  newValue in
+                    .onChange(of: exporse) { _, newValue in
                         print(newValue)
                         NotificationCenter.default.post(name: .cameraSettingChange, object: nil, userInfo: [
                             "exporse" : newValue
@@ -192,7 +192,7 @@ struct CameraView : View {
                 Image(systemName: "camera.filters")
                     .foregroundColor(Color.red)
                 Slider(value: $whiteBalance_red, in:1.0...4.0)
-                    .onChange(of: whiteBalance_red) { newValue in
+                    .onChange(of: whiteBalance_red) { _, newValue in
                         NotificationCenter.default.post(name: .cameraSettingChange, object: nil, userInfo: [
                             "whiteBalence" : [
                                 "red" : Float(whiteBalance_red),
@@ -205,7 +205,7 @@ struct CameraView : View {
                 Image(systemName: "camera.filters")
                     .foregroundColor(Color.green)
                 Slider(value: $whiteBalance_green, in:1.0...4.0)
-                    .onChange(of: whiteBalance_green) { newValue in
+                    .onChange(of: whiteBalance_green) { _, newValue in
                         NotificationCenter.default.post(name: .cameraSettingChange, object: nil, userInfo: [
                             "whiteBalence" : [
                                 "red" : Float(whiteBalance_red),
@@ -218,7 +218,7 @@ struct CameraView : View {
                 Image(systemName: "camera.filters")
                     .foregroundColor(Color.blue)
                 Slider(value: $whiteBalance_blue, in:1.0...4.0)
-                    .onChange(of: whiteBalance_blue) { newValue in
+                    .onChange(of: whiteBalance_blue) { _, newValue in
                         NotificationCenter.default.post(name: .cameraSettingChange, object: nil, userInfo: [
                             "whiteBalence" : [
                                 "red" : Float(whiteBalance_red),
@@ -303,7 +303,7 @@ struct CameraView : View {
         .sheet(isPresented: $presentImage, content: {
             ImageView()
         })
-        .onChange(of: lensSelect) { newValue in
+        .onChange(of: lensSelect) { _, newValue in
             NotificationCenter.default.post(name: .cameraSettingChange, object: nil, userInfo: [
                 "lens" : newValue
             ])

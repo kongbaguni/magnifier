@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 
+@MainActor
 extension UIApplication {
    
     var rootViewController:UIViewController? {

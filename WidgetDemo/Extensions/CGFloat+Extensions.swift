@@ -9,6 +9,7 @@ import Foundation
 import SwiftUI
 import UIKit
 
+@MainActor
 extension CGFloat {
     static var safeAreaInsetTop: CGFloat {
         return (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first?.safeAreaInsets.top ?? 0
