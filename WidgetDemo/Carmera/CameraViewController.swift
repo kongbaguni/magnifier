@@ -72,7 +72,9 @@ class CameraViewController: UIViewController {
         
         
         view.addGestureRecognizer(UIPinchGestureRecognizer(target: self, action: #selector(self.pinchGesture(sender:))))
-        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.tapGesture(sender:))))
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.tapGesture(sender:)))
+        tapGesture.cancelsTouchesInView = false
+        view.addGestureRecognizer(tapGesture)
         
         
         if let captureSession {

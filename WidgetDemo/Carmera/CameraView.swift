@@ -8,7 +8,6 @@
 import SwiftUI
 import AVFoundation
 
-
 extension Notification.Name {
     /** 카메라 호출 */
     static let callCamera = Notification.Name("callCamera")
@@ -18,124 +17,58 @@ extension Notification.Name {
     static let cropdone = Notification.Name("cropdone")
     /** 사진 업로드 완료 */
     static let photoUploadFinished = Notification.Name("photoUploadFinished")
-    
+
     /** 카메라 설정값 조절*/
-    static let cameraSettingChange =  Notification.Name("cameraSettingChange")
-    
+    static let cameraSettingChange = Notification.Name("cameraSettingChange")
 }
 
 fileprivate struct _CameraView: UIViewControllerRepresentable {
     let onCapture: (UIImage) -> Void
+
     func makeUIViewController(context: Context) -> CameraViewController {
-        let vc = CameraViewController()
-        vc.setupCamera(onCapture: onCapture)
-        
-        return vc
+        let viewController = CameraViewController()
+        viewController.setupCamera(onCapture: onCapture)
+        return viewController
     }
-    
-    func updateUIViewController(_ uiViewController: CameraViewController, context: Context) {
-        
-    }
+
+    func updateUIViewController(_ uiViewController: CameraViewController, context: Context) {}
 }
 
-struct CameraView : View {
-    enum SliderType : CaseIterable {
-        case zoom
-        case fucus
-        case exporse
-        case whiteBalance_red
-        case whiteBalance_green
-        case whiteBalance_blue
-    }
-    
-    let onCapture: (UIImage) -> Void
-    @State var image: UIImage? = nil
-    
-    @State var exporse:Float = 0.0
-    @State var focus:Float = 0.0
-    @State var zoom:Float = 1.0
-    
-    @AppStorage("lens_select") var lensSelect:Int = 0
-    @AppStorage("whiteBalance_red") var whiteBalance_red:Double = 1.5
-    @AppStorage("whiteBalance_green") var whiteBalance_green:Double = 1.0
-    @AppStorage("whiteBalance_blue") var whiteBalance_blue:Double = 3.0
-    @AppStorage("isExtend") var isExtend:Bool = true
+struct CameraView: View {
+    @StateObject private var viewModel: CameraViewModel
 
-    @State var images:[UIImage] = [] {
-        didSet {
-            animate.toggle()
-        }
+    init(onCapture: @escaping (UIImage) -> Void) {
+        _viewModel = StateObject(
+            wrappedValue: CameraViewModel(onCapture: onCapture)
+        )
     }
-        
-    var sliderTypes:[SliderType] {
-        if isExtend {
-            return SliderType.allCases
-        } else {
-            return [ .zoom, .fucus ]
-        }
-    }
-    
-    var imageViews:[Image] {
-        images.map { image in
-            return .init(uiImage: image)
-        }
-    }
-    @State var presentImage:Bool = false
-    
-    @State var animate:Bool = false
-    
-    func saveImage(image:UIImage, present:Bool) {
-        AppGroup.saveImage(image: image)
-        if present {
-            presentImage = true
-        }
-    }
-    
-    private func cameraSelectButton(id:Int)-> some View {
-        Button {
-            lensSelect = id
-        } label: {
-            RoundedRectangle(cornerRadius: 20)
-                .fill(lensSelect == id
-                      ? .orange.opacity(0.8)
-                      : .red.opacity(0.2)
-                )
-                .frame(width: 40, height: 40)
-                .overlay {
-                    Text("\(id)")
-                        .font(.body)
-                }
-                .overlay {
-                    RoundedRectangle(cornerRadius: 20)
-                        .stroke(lensSelect == id ? .primary : Color.clear, lineWidth: 2)
-                }
-        }
-    }
-    
-    var lensSelectView : some View {
+
+   
+
+    @ViewBuilder
+    private var lensSelectView: some View {
         HStack {
-            ForEach(0..<2, id: \.self) { idx in
-                if #available(iOS 26.0, *) {
-                    cameraSelectButton(id: idx)
-                        .glassEffect(.clear.interactive(), in: .rect(cornerRadius: 20))
-                } else {
-                    cameraSelectButton(id: idx)
-                }
+            if #available(iOS 26.0, *) {
+                LensSelectView(viewModel: viewModel)
+                    .glassEffect(.clear.interactive(), in: .rect(cornerRadius: 20))
+            } else {
+                LensSelectView(viewModel: viewModel)
             }
         }
     }
-    
-    var imageScrollView: some View {
+
+    @ViewBuilder
+    private var imageScrollView: some View {
         ScrollView(.horizontal) {
             HStack {
-                ForEach(0..<imageViews.count, id:\.self) { idx in
+                ForEach(viewModel.images, id: \.self) { image in
                     Button {
-                        saveImage(image: images[idx], present: true)
+                        viewModel.showImage(image)
                     } label: {
-                        imageViews[idx]
+                        Image(uiImage: image)
                             .resizable()
                             .scaledToFit()
-                            .frame(height:50)
+                            .frame(height: 50)
                             .padding(5)
                             .background {
                                 RoundedRectangle(cornerRadius: 5)
@@ -145,120 +78,65 @@ struct CameraView : View {
                             .padding(10)
                     }
                 }
-                if images.count > 0 {
-                    Button {
-                        images.removeAll()
-                    } label: {
+
+                if !viewModel.images.isEmpty {
+                    Button(action: viewModel.clearImages) {
                         Image(systemName: "trash")
                     }
                 }
             }
         }
     }
-    
-    func makeSlider(type:SliderType) -> some View {
+
+    @ViewBuilder
+    private func makeSlider(type: CameraViewModel.SliderType) -> some View {
         HStack {
             switch type {
             case .zoom:
                 Image(systemName: "plus.magnifyingglass")
-                
-                Slider(value: $zoom, in:0.5...20.0)
-                    .onChange(of: zoom) { _, newValue in
-                        print(newValue)
-                        NotificationCenter.default.post(name: .cameraSettingChange, object: nil, userInfo: [
-                            "zoom" : newValue
-                        ])
-                    }
-            case .fucus:
+                Slider(value: $viewModel.zoom, in: 0.5...20.0)
+            case .focus:
                 Image(systemName: "camera.metering.center.weighted")
-                Slider(value: $focus, in:0.0...1.0)
-                    .onChange(of: focus) { _, newValue in
-                        print(newValue)
-                        NotificationCenter.default.post(name: .cameraSettingChange , object: nil, userInfo: [
-                            "focus" : newValue
-                        ])
-                    }
-            case .exporse:
+                Slider(value: $viewModel.focus, in: 0.0...1.0)
+            case .exposure:
                 Image(systemName: "camera.aperture")
-                
-                Slider(value: $exporse, in:-3.0...3.0)
-                    .onChange(of: exporse) { _, newValue in
-                        print(newValue)
-                        NotificationCenter.default.post(name: .cameraSettingChange, object: nil, userInfo: [
-                            "exporse" : newValue
-                        ])
-                    }
-            case .whiteBalance_red:
+                Slider(value: $viewModel.exposure, in: -3.0...3.0)
+            case .whiteBalanceRed:
                 Image(systemName: "camera.filters")
-                    .foregroundColor(Color.red)
-                Slider(value: $whiteBalance_red, in:1.0...4.0)
-                    .onChange(of: whiteBalance_red) { _, newValue in
-                        NotificationCenter.default.post(name: .cameraSettingChange, object: nil, userInfo: [
-                            "whiteBalence" : [
-                                "red" : Float(whiteBalance_red),
-                                "green" : Float(whiteBalance_green),
-                                "blue" : Float(whiteBalance_blue)
-                            ]
-                        ])
-                    }
-            case .whiteBalance_blue:
+                    .foregroundColor(.red)
+                Slider(value: $viewModel.whiteBalanceRed, in: 1.0...4.0)
+            case .whiteBalanceGreen:
                 Image(systemName: "camera.filters")
-                    .foregroundColor(Color.green)
-                Slider(value: $whiteBalance_green, in:1.0...4.0)
-                    .onChange(of: whiteBalance_green) { _, newValue in
-                        NotificationCenter.default.post(name: .cameraSettingChange, object: nil, userInfo: [
-                            "whiteBalence" : [
-                                "red" : Float(whiteBalance_red),
-                                "green" : Float(whiteBalance_green),
-                                "blue" : Float(whiteBalance_blue)
-                            ]
-                        ])
-                    }
-            case .whiteBalance_green:
+                    .foregroundColor(.green)
+                Slider(value: $viewModel.whiteBalanceGreen, in: 1.0...4.0)
+            case .whiteBalanceBlue:
                 Image(systemName: "camera.filters")
-                    .foregroundColor(Color.blue)
-                Slider(value: $whiteBalance_blue, in:1.0...4.0)
-                    .onChange(of: whiteBalance_blue) { _, newValue in
-                        NotificationCenter.default.post(name: .cameraSettingChange, object: nil, userInfo: [
-                            "whiteBalence" : [
-                                "red" : Float(whiteBalance_red),
-                                "green" : Float(whiteBalance_green),
-                                "blue" : Float(whiteBalance_blue)
-                            ]
-                        ])
-                    }
+                    .foregroundColor(.blue)
+                Slider(value: $viewModel.whiteBalanceBlue, in: 1.0...4.0)
             }
         }
     }
     
-    var sliders : some View {
-        Group {
-            ForEach(sliderTypes, id:\.self) { type in
-                makeSlider(type: type)
-            }
-        }
-    }
+   
     
-    var controllerView: some View {
+    @ViewBuilder
+    private var controllerView: some View {
         VStack {
             HStack {
-                Button {
-                    NotificationCenter.default.post(name: .cameraCapture, object: nil)
-                } label: {
+                Button(action: viewModel.capturePhoto) {
                     Image(systemName: "camera.circle.fill")
                         .resizable()
                         .frame(width: 30, height: 30)
                 }
-                
+
                 lensSelectView
-                Toggle(isOn: $isExtend) {
-                    
-                }
-            }.frame(height: 40)
+                Toggle(isOn: $viewModel.isExtended) {}
+            }
+            .frame(height: 40)
 
             imageScrollView
-            
-            sliders // Fallback on earlier versions
+
+            SliderSectionView(viewModel: viewModel)
 
             #if !DEBUG
             BannerAdView(sizeType: .AdSizeBanner, padding: .zero)
@@ -268,76 +146,43 @@ struct CameraView : View {
             #else
             Spacer().frame(height: .safeAreaInsetBottom)
             #endif
-
         }
         .padding(10)
         .background(.background.opacity(0.5))
     }
-//
-    
-    var carmeraPreview: some View {
+
+    @ViewBuilder
+    private var cameraPreview: some View {
         VStack {
             _CameraView { image in
-                images.append(image)
-                saveImage(image: image, present: false)
+                viewModel.handleCapturedImage(image)
             }
             .background(Color.gray)
 
-            
             if #available(iOS 26.0, *) {
                 controllerView
                     .glassEffect(.clear, in: .rect(cornerRadius: 0))
             } else {
-                controllerView // Fallback on earlier versions
+                controllerView
             }
-            
-
-        }.background(.background)
-        
-        
+        }
+        .background(.background)
     }
-    
+
+    @ViewBuilder
     var body: some View {
-        carmeraPreview
-        .animation(.easeInOut, value: animate)
-        .sheet(isPresented: $presentImage, content: {
-            ImageView()
-        })
-        .onChange(of: lensSelect) { _, newValue in
-            NotificationCenter.default.post(name: .cameraSettingChange, object: nil, userInfo: [
-                "lens" : newValue
-            ])
-        }
-        .onAppear(perform: {
-            NotificationCenter.default.post(name: .cameraSettingChange, object: nil, userInfo: [
-                "lens" : lensSelect,
-                "focus" : focus,
-                "exporse" : exporse,
-                "zoom" : zoom,
-                "whiteBalence" : [
-                    "red" : whiteBalance_red,
-                    "green" : whiteBalance_green,
-                    "blue" : whiteBalance_blue
-                ]
-            ])
-        })
-        .onReceive(NotificationCenter.default.publisher(for: .cameraSettingChange)) { output in
-            if let userInfo = output.userInfo as? [String : Any] {
-                if let zoom = userInfo["zoom"] as? Float {
-                    if self.zoom != zoom {
-                        self.zoom = zoom
-                    }
-                }
+        cameraPreview
+            .animation(.easeInOut, value: viewModel.images.count)
+            .sheet(isPresented: $viewModel.isPresentingImage) {
+                ImageView()
             }
-        }
-        
-        
+            .onAppear(perform: viewModel.configureCamera)
+            .onReceive(NotificationCenter.default.publisher(for: .cameraSettingChange)) {
+                viewModel.handleCameraSettingChange($0)
+            }
     }
 }
 
-
-
 #Preview {
-    CameraView{ image in
-    }
+    CameraView { _ in }
 }

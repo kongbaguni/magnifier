@@ -43,7 +43,10 @@ struct ContentView: View {
                 }
                 else {
                     CameraView(onCapture: { image in
-                        self.image = Image(uiImage: image)
+                        Task { @MainActor in
+                            self.image = Image(uiImage: image)
+                            isPresentedImageView = true
+                        }
                     })
                     .frame(width: proxy.size.width, height: proxy.size.height)
                     .border(borderColor, width: 5)
