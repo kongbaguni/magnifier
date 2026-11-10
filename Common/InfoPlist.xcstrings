@@ -13,7 +13,7 @@
         },
         "ko" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "돋보기"
           }
         }
@@ -31,11 +31,19 @@
         },
         "ko" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "돋보기"
           }
         }
       }
+    },
+    "Configuration" : {
+      "extractionState" : "manual",
+      "shouldTranslate" : false
+    },
+    "Key" : {
+      "extractionState" : "manual",
+      "shouldTranslate" : false
     },
     "NSCameraUsageDescription" : {
       "comment" : "Privacy - Camera Usage Description",
@@ -49,7 +57,7 @@
         },
         "ko" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "카메라는 돋보기 앱이 확대하여 보고자 하는 것을 사용자의 아이폰 화면에 비추기 위해 사용됩니다."
           }
         }
@@ -67,7 +75,7 @@
         },
         "ko" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "kongbaguni.net"
           }
         }
