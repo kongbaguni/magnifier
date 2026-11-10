@@ -57,36 +57,7 @@ struct CameraView: View {
         }
     }
 
-    @ViewBuilder
-    private var imageScrollView: some View {
-        ScrollView(.horizontal) {
-            HStack {
-                ForEach(viewModel.images, id: \.self) { image in
-                    Button {
-                        viewModel.showImage(image)
-                    } label: {
-                        Image(uiImage: image)
-                            .resizable()
-                            .scaledToFit()
-                            .frame(height: 50)
-                            .padding(5)
-                            .background {
-                                RoundedRectangle(cornerRadius: 5)
-                                    .fill(.white)
-                            }
-                            .shadow(radius: 5)
-                            .padding(10)
-                    }
-                }
-
-                if !viewModel.images.isEmpty {
-                    Button(action: viewModel.clearImages) {
-                        Image(systemName: "trash")
-                    }
-                }
-            }
-        }
-    }
+    
 
     @ViewBuilder
     private func makeSlider(type: CameraViewModel.SliderType) -> some View {
@@ -134,7 +105,8 @@ struct CameraView: View {
             }
             .frame(height: 40)
 
-            imageScrollView
+
+            ImageScrollView(viewModel: viewModel)
 
             SliderSectionView(viewModel: viewModel)
 
