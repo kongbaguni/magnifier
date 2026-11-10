@@ -45,7 +45,7 @@ struct ContentView: View {
                     CameraView(onCapture: { image in
                         Task { @MainActor in
                             self.image = Image(uiImage: image)                            
-                            isPresentedImageView = true
+//                            isPresentedImageView = true
                         }
                     })
                     .frame(width: proxy.size.width, height: proxy.size.height)
