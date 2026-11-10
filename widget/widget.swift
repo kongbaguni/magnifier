@@ -7,23 +7,22 @@
 
 import WidgetKit
 import SwiftUI
-import Intents
 
-struct Provider: IntentTimelineProvider {
+struct Provider: TimelineProvider {
     func placeholder(in context: Context) -> SimpleEntry {
-        SimpleEntry(date: Date(), image:nil, configuration: ConfigurationIntent())
+        SimpleEntry(date: Date(), image: nil)
     }
 
-    func getSnapshot(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (SimpleEntry) -> ()) {
-        let entry = SimpleEntry(date: Date(), image:AppGroup.getSavedImage(imageSize: .small), configuration: configuration)
+    func getSnapshot(in context: Context, completion: @escaping (SimpleEntry) -> ()) {
+        let entry = SimpleEntry(date: Date(), image: AppGroup.getSavedImage(imageSize: .small))
         completion(entry)
     }
 
-    func getTimeline(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
+    func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
         var entries: [SimpleEntry] = []
         
         // Generate a timeline consisting of five entries an hour apart, starting from the current date.
-        var size:AppGroup.ImageSize {
+        var size: AppGroup.ImageSize {
             let w = context.displaySize.width
             if w < 200 {
                 return .small
@@ -39,11 +38,11 @@ struct Provider: IntentTimelineProvider {
             let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
             let image = AppGroup.getSavedImage(imageSize: size)
             
-            let entry = SimpleEntry(date: entryDate,image: image, configuration: configuration)
+            let entry = SimpleEntry(date: entryDate, image: image)
             entries.append(entry)
         }
 
-        let timeline = Timeline(entries: entries, policy: .atEnd)
+        let timeline = Timeline(entries: entries, policy: .never)
         completion(timeline)
     }
 }
@@ -51,7 +50,6 @@ struct Provider: IntentTimelineProvider {
 struct SimpleEntry: TimelineEntry {
     let date: Date
     let image: Image?
-    let configuration: ConfigurationIntent
 }
 
 struct widgetEntryView : View {
@@ -86,9 +84,6 @@ struct widgetEntryView : View {
     var body: some View {
         imageView
             .shadow(radius: 20)
-            .onAppear {
-                WidgetCenter.shared.reloadAllTimelines()
-            }
             .widgetBackground(backgroundView: backgroundView)
             .onReceive(NotificationCenter.default.publisher(for: .carmeraTakePhotoSaveFinish)) { _ in
                 WidgetCenter.shared.reloadAllTimelines()
@@ -101,7 +96,7 @@ struct widget: Widget {
     let kind: String = "app-title"
 
     var body: some WidgetConfiguration {
-        IntentConfiguration(kind: kind, intent: ConfigurationIntent.self, provider: Provider()) { entry in
+        StaticConfiguration(kind: kind, provider: Provider()) { entry in
             widgetEntryView(entry: entry)
         }
         .configurationDisplayName("widget-title")
@@ -112,7 +107,8 @@ struct widget: Widget {
 
 struct widget_Previews: PreviewProvider {
     static var previews: some View {
-        widgetEntryView(entry: SimpleEntry(date: Date(), image: AppGroup.getSavedImage(imageSize: .small), configuration: ConfigurationIntent()))
+        widgetEntryView(entry: SimpleEntry(date: Date(), image: AppGroup.getSavedImage(imageSize: .small)))
             .previewContext(WidgetPreviewContext(family: .systemSmall))
     }
 }
+

@@ -9,11 +9,11 @@
 	<key>INIntentDefinitionNamespace</key>
 	<string>88xZPY</string>
 	<key>INIntentDefinitionSystemVersion</key>
-	<string>24F74</string>
+	<string>26A434</string>
 	<key>INIntentDefinitionToolsBuildVersion</key>
-	<string>16F6</string>
+	<string>27A9275</string>
 	<key>INIntentDefinitionToolsVersion</key>
-	<string>16.4</string>
+	<string>27.1</string>
 	<key>INIntents</key>
 	<array>
 		<dict>
@@ -28,7 +28,7 @@
 			<key>INIntentLastParameterTag</key>
 			<integer>2</integer>
 			<key>INIntentName</key>
-			<string>Configuration</string>
+			<string>ReadingGlassesWidget</string>
 			<key>INIntentResponse</key>
 			<dict>
 				<key>INIntentResponseCodes</key>
@@ -46,7 +46,7 @@
 				</array>
 			</dict>
 			<key>INIntentTitle</key>
-			<string>Configuration</string>
+			<string>readingGlassesWidget</string>
 			<key>INIntentTitleID</key>
 			<string>gpCwrM</string>
 			<key>INIntentType</key>
