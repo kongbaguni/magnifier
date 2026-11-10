@@ -44,7 +44,7 @@ struct ContentView: View {
                 else {
                     CameraView(onCapture: { image in
                         Task { @MainActor in
-                            self.image = Image(uiImage: image)
+                            self.image = Image(uiImage: image)                            
                             isPresentedImageView = true
                         }
                     })

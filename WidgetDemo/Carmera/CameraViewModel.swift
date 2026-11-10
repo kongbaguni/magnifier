@@ -119,6 +119,7 @@ final class CameraViewModel: ObservableObject {
         NotificationCenter.default.post(name: .cameraCapture, object: nil)
     }
 
+    
     func handleCapturedImage(_ image: UIImage) {
         Task { @MainActor in
             images.append(image)

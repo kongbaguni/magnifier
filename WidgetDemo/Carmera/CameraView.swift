@@ -153,17 +153,24 @@ struct CameraView: View {
 
     @ViewBuilder
     private var cameraPreview: some View {
-        VStack {
+        GeometryReader { proxy in
+            ZStack (alignment: .bottomTrailing) {
             _CameraView { image in
                 viewModel.handleCapturedImage(image)
             }
             .background(Color.gray)
 
-            if #available(iOS 26.0, *) {
-                controllerView
-                    .glassEffect(.clear, in: .rect(cornerRadius: 0))
-            } else {
-                controllerView
+                
+                Group {
+                    if #available(iOS 26.0, *) {
+                        controllerView
+                            .glassEffect(.clear, in: .rect(cornerRadius: 0))
+                    } else {
+                        controllerView
+                    }
+                }.frame(
+                    width: proxy.size.width > proxy.size.height ? proxy.size
+                        .width / 2 : proxy.size.width)
             }
         }
         .background(.background)
